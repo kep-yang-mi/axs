@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="9월 22일 경영지원실 실장 보고용 AXS 업무 아키텍처, 후보 과제와 팀장 커뮤니케이션 계획" />
+  <title>AXS Business Loop · 공개용 자료</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23071320'/%3E%3Cpath d='M19 25a16 16 0 0 1 27-3l4-4v13H37l5-5a10 10 0 1 0 0 13' fill='none' stroke='%2345e0c2' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='19' cy='42' r='4' fill='%23ffbd5c'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --ink: #071320;
+      --ink-2: #102235;
+      --paper: #f5f8fb;
+      --surface: #ffffff;
+      --line: #dce5ec;
+      --muted: #627284;
+      --teal: #087f75;
+      --teal-soft: #d8f5ef;
+      --cyan: #45e0c2;
+      --amber: #bd6d08;
+      --amber-soft: #fff0d7;
+      --blue: #2868d8;
+      --blue-soft: #e7efff;
+      --shadow: 0 12px 34px rgba(7, 19, 32, .09);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.58;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .shell { min-height: 100vh; display: grid; grid-template-columns: 258px minmax(0, 1fr); }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; overflow-y: auto;
+      padding: 28px 20px; background: var(--ink); color: white;
+      display: flex; flex-direction: column; gap: 28px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; background: #102c3b; border: 1px solid #24506a; }
+    .brand strong { display: block; font-size: 1.02rem; letter-spacing: -.02em; }
+    .brand small { color: #9fb4c5; font-size: .76rem; }
+    nav { display: grid; gap: 6px; }
+    nav a { color: #abc0cf; text-decoration: none; padding: 10px 12px; border-radius: 10px; font-size: .92rem; transition: .18s ease; }
+    nav a:hover, nav a.active { color: white; background: #142b3c; }
+    nav a.active { box-shadow: inset 3px 0 var(--cyan); }
+    .sidebar-note { margin-top: auto; padding: 15px; border-radius: 12px; background: #102638; color: #bed0dc; font-size: .8rem; }
+    .sidebar-note strong { color: white; display: block; margin-bottom: 4px; }
+    main { min-width: 0; padding: 30px clamp(20px, 4vw, 58px) 70px; }
+    .topbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 22px; margin-bottom: 24px; }
+    .eyebrow { margin: 0 0 5px; color: var(--teal); font-weight: 750; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.65rem); line-height: 1.15; letter-spacing: -.045em; }
+    .topbar p:last-child { margin: 8px 0 0; color: var(--muted); }
+    .version { flex: none; padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--muted); font-size: .78rem; }
+    .summary-grid { display: grid; grid-template-columns: 1.45fr repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 17px; box-shadow: var(--shadow); }
+    .mission { padding: 22px; background: linear-gradient(140deg, #0d2537, #0b3f48); color: white; border: 0; position: relative; overflow: hidden; }
+    .mission::after { content: ""; position: absolute; width: 160px; height: 160px; border: 25px solid rgba(69,224,194,.12); border-radius: 50%; right: -55px; bottom: -78px; }
+    .mission span { color: var(--cyan); font-size: .75rem; font-weight: 750; letter-spacing: .09em; }
+    .mission p { margin: 10px 0 0; max-width: 52ch; font-size: 1.08rem; line-height: 1.55; }
+    .metric { padding: 19px; }
+    .metric b { display: block; font-size: 1.65rem; line-height: 1; margin: 7px 0 9px; letter-spacing: -.04em; }
+    .metric span, .metric small { color: var(--muted); }
+    .metric small { font-size: .78rem; }
+    section { scroll-margin-top: 22px; margin-top: 34px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 14px; }
+    h2 { margin: 0; font-size: 1.35rem; letter-spacing: -.035em; }
+    .section-head p { margin: 0; color: var(--muted); font-size: .88rem; }
+    .loop-card { padding: 24px; display: grid; grid-template-columns: 1fr 310px; gap: 28px; align-items: center; }
+    .loop-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; align-items: stretch; }
+    .loop-step { position: relative; min-height: 126px; padding: 17px 14px; border: 1px solid var(--line); border-radius: 14px; background: #f9fbfd; }
+    .loop-step:not(:last-child)::after { content: "→"; position: absolute; right: -13px; top: 46px; z-index: 2; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: white; font-size: .8rem; }
+    .step-no { color: var(--teal); font-weight: 800; font-size: .74rem; }
+    .loop-step strong { display: block; margin: 8px 0 4px; }
+    .loop-step p { margin: 0; color: var(--muted); font-size: .8rem; line-height: 1.5; }
+    .loop-note { padding-left: 23px; border-left: 1px solid var(--line); }
+    .loop-note blockquote { margin: 0; font-size: 1.04rem; font-weight: 700; line-height: 1.55; letter-spacing: -.015em; }
+    .loop-note p { margin: 12px 0 0; color: var(--muted); font-size: .84rem; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .filter { padding: 7px 11px; border: 1px solid var(--line); background: white; border-radius: 999px; color: var(--muted); font-size: .8rem; }
+    .filter.active { background: var(--ink); border-color: var(--ink); color: white; }
+    .registry { overflow: hidden; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 900px; }
+    th { padding: 12px 15px; background: #f3f7fa; color: var(--muted); text-align: left; font-size: .75rem; letter-spacing: .03em; }
+    td { padding: 15px; border-top: 1px solid var(--line); vertical-align: top; font-size: .87rem; }
+    td strong { display: block; margin-bottom: 3px; }
+    td small { color: var(--muted); font-size: .76rem; }
+    .status { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: .76rem; font-weight: 750; padding: 5px 8px; border-radius: 999px; }
+    .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .status.progress { color: var(--blue); background: var(--blue-soft); }
+    .status.review { color: var(--amber); background: var(--amber-soft); }
+    .status.active { color: var(--teal); background: var(--teal-soft); }
+    .status.hold { color: #725785; background: #f0e8f5; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .panel { padding: 22px; }
+    .panel h3 { margin: 0 0 15px; font-size: 1rem; }
+    .principles { display: grid; gap: 10px; }
+    .principle { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+    .principle:last-child { border-bottom: 0; padding-bottom: 0; }
+    .principle i { width: 26px; height: 26px; border-radius: 8px; background: var(--teal-soft); color: var(--teal); font-style: normal; font-weight: 800; display: grid; place-items: center; font-size: .76rem; }
+    .principle p { margin: 2px 0 0; font-size: .86rem; }
+    .maturity { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .phase { padding: 14px; background: #f6f9fb; border: 1px solid var(--line); border-radius: 12px; }
+    .phase b { color: var(--teal); font-size: .78rem; }
+    .phase strong { display: block; margin: 5px 0; }
+    .phase p { margin: 0; color: var(--muted); font-size: .78rem; }
+    .score-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+    .score { padding: 20px; border-top: 4px solid var(--teal); }
+    .score:nth-child(2) { border-top-color: var(--blue); }
+    .score:nth-child(3) { border-top-color: var(--amber); }
+    .score span { color: var(--muted); font-size: .75rem; letter-spacing: .08em; }
+    .score h3 { margin: 7px 0; font-size: 1.08rem; }
+    .score p { margin: 0; color: var(--muted); font-size: .84rem; }
+    .report-banner { margin-bottom: 22px; padding: 20px 22px; background: #eaf6f5; border: 1px solid #bde7df; border-left: 5px solid var(--teal); border-radius: 15px; }
+    .report-banner strong { display: block; font-size: 1rem; margin-bottom: 5px; }
+    .report-banner p { margin: 0; color: #315b61; font-size: .9rem; }
+    .architecture { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; }
+    .arch-stage { padding: 17px; background: white; border: 1px solid var(--line); border-top: 4px solid var(--teal); border-radius: 13px; }
+    .arch-stage:nth-child(2) { border-top-color: #20a89a; }
+    .arch-stage:nth-child(3) { border-top-color: var(--blue); }
+    .arch-stage:nth-child(4) { border-top-color: #7357a1; }
+    .arch-stage:nth-child(5) { border-top-color: var(--amber); }
+    .arch-stage span { color: var(--muted); font-size: .75rem; font-weight: 750; }
+    .arch-stage h3 { margin: 8px 0 6px; font-size: .95rem; line-height: 1.35; }
+    .arch-stage p { margin: 0; color: var(--muted); font-size: .82rem; }
+    .guardrail { margin-top: 12px; padding: 15px 18px; background: #fff; border: 1px solid var(--line); border-radius: 13px; color: #374c5e; font-size: .88rem; }
+    .guardrail strong { color: var(--ink); }
+    .source-link { color: var(--teal); text-underline-offset: 3px; font-size: .84rem; font-weight: 700; }
+    .countline { color: var(--muted); font-size: .84rem; margin: 12px 0; }
+    .task-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .task-item { padding: 15px 17px; background: white; border: 1px solid var(--line); border-radius: 13px; }
+    .task-item small { display: block; color: var(--teal); font-size: .77rem; font-weight: 750; }
+    .task-item strong { display: block; margin: 5px 0; font-size: .9rem; line-height: 1.4; }
+    .task-item p { margin: 0; color: var(--muted); font-size: .8rem; }
+    .task-item a { color: var(--blue); font-size: .77rem; }
+    .phase-plan { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .phase-plan article { padding: 19px; background: white; border: 1px solid var(--line); border-radius: 14px; }
+    .phase-plan h3 { margin: 6px 0; font-size: 1rem; }
+    .phase-plan p { margin: 0; color: var(--muted); font-size: .84rem; }
+    .phase-plan b { font-size: .76rem; color: var(--teal); }
+    .alignment { padding: 22px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 22px; }
+    .alignment h3 { margin: 0 0 8px; }
+    .alignment p { margin: 0 0 10px; color: #354b5e; font-size: .9rem; }
+    .alignment ul { margin: 0; padding-left: 20px; color: #354b5e; font-size: .86rem; }
+    .alignment li { margin: 4px 0; }
+    .alignment .message { background: #f2f8f9; padding: 16px; border-radius: 12px; }
+    .tf-members { min-width: 640px; }
+    .tf-members td:first-child, .tf-members td:last-child { white-space: nowrap; }
+    .decision-list { display: grid; gap: 8px; }
+    .decision-list div { padding: 10px 12px; border-radius: 9px; background: #f7f9fb; font-size: .84rem; }
+    .source-note { margin: 10px 0 0; color: var(--muted); font-size: .8rem; }
+    .content-block { margin-top: 16px; padding: 22px; }
+    .content-block h3 { margin: 0 0 10px; font-size: 1.05rem; }
+    #ssot-appendix h3 { margin-top: 26px; }
+    #education-roadmap h3 { margin-top: 26px; }
+    #education-roadmap .source-paragraph { white-space: normal; overflow-wrap: anywhere; line-height: inherit; }
+    #education-roadmap .source-document > .source-paragraph:first-child { margin-top: 0; }
+    #education-roadmap .source-paragraph img { display: block; max-width: 100%; height: auto; margin: 18px auto; }
+    #education-roadmap .source-table { min-width: 0; width: 100%; border: 1px solid var(--line); }
+    #education-roadmap .source-table td { padding: 18px; }
+    #education-roadmap .source-paragraph strong { display: inline; margin: 0; }
+    #education-roadmap h4 { font-size: 1rem; margin: 22px 0 12px; }
+    #ssot-appendix table { min-width: 720px; }
+    #ssot-appendix td, #ssot-appendix th { word-break: keep-all; overflow-wrap: anywhere; }
+    #ssot-appendix td:first-child, #ssot-appendix th:first-child { width: 19%; }
+    .content-block p, .content-block li { color: #354b5e; font-size: .9rem; }
+    .content-block p:last-child { margin-bottom: 0; }
+    .content-block ol { padding-left: 22px; margin-bottom: 0; }
+    .content-block li { padding: 5px 0; }
+    .content-block details { border-top: 1px solid var(--line); padding: 13px 0; }
+    .content-block summary { cursor: pointer; font-weight: 700; }
+    .content-block details p { margin: 10px 0 0; }
+    .phase-plan p + p { margin-top: 12px; }
+    .reading-link { display: inline-block; margin-top: 12px; }
+    .report-card { padding: 22px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; align-items: start; }
+    .report-card pre { white-space: pre-wrap; margin: 0; font: inherit; color: #253747; font-size: .88rem; line-height: 1.65; }
+    .copy-btn { border: 0; border-radius: 11px; background: var(--ink); color: white; padding: 10px 14px; font-weight: 750; font-size: .82rem; white-space: nowrap; }
+    .copy-btn:hover { background: #17364c; }
+    .footer { margin-top: 34px; color: var(--muted); font-size: .76rem; text-align: right; }
+    .hidden { display: none; }
+    @media (max-width: 1050px) {
+      .summary-grid { grid-template-columns: 1fr 1fr; }
+      .mission { grid-column: 1 / -1; }
+      .loop-card { grid-template-columns: 1fr; }
+      .loop-note { border-left: 0; border-top: 1px solid var(--line); padding: 18px 0 0; }
+      .architecture { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .alignment { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .shell { display: block; }
+      .sidebar { position: relative; height: auto; padding: 17px 18px; flex-direction: row; align-items: center; gap: 14px; overflow-x: auto; }
+      .brand { flex: none; }
+      nav { display: flex; }
+      nav a { white-space: nowrap; }
+      .sidebar-note { display: none; }
+      main { padding: 25px 16px 55px; }
+      .topbar { display: block; }
+      .version { display: inline-block; margin-top: 15px; }
+      .summary-grid, .split, .score-grid { grid-template-columns: 1fr; }
+      .architecture, .phase-plan, .task-list { grid-template-columns: 1fr; }
+      .loop-flow { grid-template-columns: 1fr; }
+      .loop-step:not(:last-child)::after { content: "↓"; left: 22px; right: auto; top: auto; bottom: -17px; }
+      .report-card { grid-template-columns: 1fr; }
+      .copy-btn { width: 100%; }
+      .section-head { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="27" height="27" viewBox="0 0 64 64"><path d="M19 25a16 16 0 0 1 27-3l4-4v13H37l5-5a10 10 0 1 0 0 13" fill="none" stroke="#45e0c2" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="19" cy="42" r="4" fill="#ffbd5c"/></svg>
+        </div>
+        <div><strong>AXS Control Room</strong><small>경영지원실 업무 SSOT</small></div>
+      </div>
+      <nav aria-label="주요 섹션">
+        <a class="active" href="#overview">개요</a>
+        <a href="#business-loop">Business Loop</a>
+        <a href="#architecture">업무 아키텍처</a>
+        <a href="#workloads">후보 과제 19건</a>
+        <a href="#alignment">AXS TF 공감대</a>
+        <a href="#leadership-alignment">경영지원실 팀장 공감대</a>
+        <a href="#education-roadmap">향후 AXS 교육 로드맵</a>
+        <a href="#operations">운영 체계</a>
+        <a href="#metrics">평가 지표</a>
+        <a href="#weekly">9/22 보고</a>
+        <a href="#ssot-appendix">Appendix · SSOT</a>
+      </nav>
+      <div class="sidebar-note"><strong>공개용 자료 · 개인정보 제외</strong>9/22 보고 초안 · 과제 목록은 원본 Sheet의 후보 제안이며, 확정된 실행 상태가 아닙니다.</div>
+    </aside>
+
+    <main>
+      <header class="topbar" id="overview">
+        <div>
+          <p class="eyebrow">KEP · Management Support AXS</p>
+          <h1>Business Loop를 실행하는<br />업무 아키텍처</h1>
+          <p>9월 22일 실장 보고 · 업무의 형상부터 데이터와 연결, 에이전트 실행까지 한 단계 깊게 설계합니다.</p>
+        </div>
+        <span class="version">9/22 보고 초안 · 교육 로드맵 반영</span>
+      </header>
+
+      <div class="report-banner"><strong>이번 보고의 핵심 제안</strong><p>Business Loop를 실제 업무에 적용하기 위해, 담당자가 보는 자료·판단 기준·작업 도구·결과 확인 위치를 하나의 업무 명세로 연결합니다. 첫 과제는 현행 결과와 비교할 수 있는 작은 구간으로 선정하고, 품질과 담당자 부담을 확인한 후 적용 범위를 넓힙니다.</p><a class="source-link reading-link" href="./9월22일_실장보고_본문_검토안.md" download>실장 보고 본문 검토안 내려받기 ↓</a></div>
+
+      <div class="summary-grid" aria-label="전략 요약">
+        <article class="card mission"><span>MISSION</span><p>AI를 업무 전반에 활용해 일하는 방식을 개선하고, 사용자에게 전달하는 가치를 높인다.</p></article>
+        <article class="card metric"><span>후보 과제</span><b>19건</b><small>5개 조직 · 원본 Sheet 기준</small></article>
+        <article class="card metric"><span>우선 산출물</span><b>업무 형상</b><small>신호·규칙·책임·완료조건</small></article>
+        <article class="card metric"><span>첫 대화</span><b>AXS TF 공감대</b><small>TF 구성원 6명 · 추진 방향 공통 이해</small></article>
+      </div>
+
+      <section id="business-loop">
+        <div class="section-head"><div><p class="eyebrow">Operating Model</p><h2>Business Loop</h2></div><p>입력에서 학습까지, 결과가 다시 다음 업무의 맥락이 됩니다.</p></div>
+        <article class="card loop-card">
+          <div class="loop-flow">
+            <div class="loop-step"><span class="step-no">01 · SIGNAL</span><strong>입력</strong><p>사실, 요청, 사건과 상태 변화를 읽습니다.</p></div>
+            <div class="loop-step"><span class="step-no">02 · DECIDE</span><strong>판단</strong><p>SSOT와 운영 규칙으로 계획을 만듭니다.</p></div>
+            <div class="loop-step"><span class="step-no">03 · ACT</span><strong>실행</strong><p>승인된 범위를 실제 시스템에 반영합니다.</p></div>
+            <div class="loop-step"><span class="step-no">04 · LEARN</span><strong>학습</strong><p>결과를 검증하고 원장에 기록합니다.</p></div>
+          </div>
+          <div class="loop-note"><blockquote>“업무처리”가 아니라 “업무대화”. 살아 있는 업무는 입력을 먹고 출력물을 만들며 계속 진화한다.</blockquote><p>Birth → Growth → Differentiation → Metabolism → Death / Archive</p></div>
+        </article>
+      </section>
+
+      <section id="architecture">
+        <div class="section-head"><div><p class="eyebrow">One Level Deeper</p><h2>에이전트가 실제 업무에서 일하는 구조</h2></div><p>Business Loop를 실행 가능하게 만드는 다섯 층</p></div>
+        <div class="architecture">
+          <article class="arch-stage"><span>01 · WORK SHAPE</span><h3>업무 형상 정의</h3><p>업무가 시작되는 신호, 대상, 판단 규칙, 책임자, 승인점, 결과와 완료조건을 명시</p></article>
+          <article class="arch-stage"><span>02 · TRUSTED DATA</span><h3>데이터 기준 구축</h3><p>SSOT·소유자·갱신주기·최신성·정확성 검증 방법을 정해 신뢰 가능한 맥락 확보</p></article>
+          <article class="arch-stage"><span>03 · AGENT WORK</span><h3>에이전트 업무 수행</h3><p>현재 상태를 읽고, 계획을 만들고, 승인된 범위에서 작업하며 예외를 사람에게 전달</p></article>
+          <article class="arch-stage"><span>04 · TOOLS &amp; API</span><h3>시스템 연결</h3><p>Google·GAM·Claude Admin 등 실제 업무 시스템의 조회·반영 API와 권한을 설계</p></article>
+          <article class="arch-stage"><span>05 · VERIFY &amp; LEARN</span><h3>검증·원장 기록</h3><p>실행 뒤 대상 시스템을 재조회하고 차이를 검증해 원장과 다음 업무 입력으로 환류</p></article>
+        </div>
+        <div class="guardrail"><strong>PoC의 최소 설계 문서:</strong> ① 업무 1장 설명 ② SSOT·갱신 책임 ③ Agent가 할 일과 Human 승인점 ④ 도구/API 연결표 ⑤ 실패·예외 처리 ⑥ 완료 판정과 결과 기록.</div>
+        <article class="card content-block">
+          <h3>업무 표면: 담당자가 일하는 곳에 에이전트를 연결</h3>
+          <p>Sheet에서 대상자를 확인하고 메신저로 안내하는 업무라면, 에이전트가 읽을 범위·초안을 남길 위치·담당자의 승인 방법·발송 결과 확인 위치를 이어야 합니다. 과제별로 실제 사용 시스템을 확인해 연결 대상을 정합니다. Google·GAM·Claude Admin은 기존 아웃라인의 예시이며, 필요한 기능에 따라 구성합니다.</p>
+          <h3>최신성과 신뢰성: 항목별 정본과 사용 조건을 정의</h3>
+          <p>재직 여부, 정산 여부, 연락처는 같은 직원에 관한 정보라도 정본이 다를 수 있습니다. 각 항목의 원천·갱신 책임·기준 시각·허용 가능한 지연을 명시하고, 값이 충돌할 때 적용할 우선순위를 정합니다. 오래되거나 서로 맞지 않는 데이터는 확인 대상으로 돌리고, 기준을 충족한 값으로 처리 계획을 만듭니다.</p>
+          <p>도구 연결표에는 필요한 조회·변경 기능과 권한, 시험 결과를 남깁니다. API 제공 여부와 접근 권한은 과제별 확인 대상이며, 연결이 확인된 기능부터 검증 범위에 포함합니다.</p>
+        </article>
+        <article class="card content-block">
+          <p class="eyebrow">실제 업무로 풀어 쓴 설계 예시 · 총무파트 확인 전 제안</p>
+          <h3>웰포인트 미정산 안내는 어떻게 달라지는가</h3>
+          <ol>
+            <li><strong>대상 조회:</strong> 정산 마감 기준에 맞춰 후보 내역을 읽고, 원천의 기준 시각과 추출 범위를 기록합니다.</li>
+            <li><strong>대상 판단:</strong> 직원 식별자와 정산 상태를 연결해 마감·제외·재안내 규칙을 적용합니다. 불명확한 값은 사유와 함께 예외 목록으로 보냅니다.</li>
+            <li><strong>담당자 검토:</strong> 에이전트가 대상 목록·판단 근거·안내 문안을 만들고, 담당자가 수정 사항과 발송 범위를 승인합니다. 첫 시험은 초안 생성까지로 제안합니다.</li>
+            <li><strong>승인된 실행:</strong> 발송 연동 단계에서는 정산 상태가 승인 후 바뀌었는지 다시 확인하고, 승인된 대상에게 안내합니다.</li>
+            <li><strong>결과 검증:</strong> 발송 요청과 전달 확인을 구분해 기록합니다. 미확인 결과는 담당자에게 넘기고 동일 대상·기간·안내 유형의 중복 처리를 방지합니다.</li>
+            <li><strong>다음 회차 개선:</strong> 담당자가 고친 이유를 업무 규칙에 반영합니다. 승인 대상의 처리 결과와 남은 예외를 설명할 수 있어야 완료입니다.</li>
+          </ol>
+          <p><strong>검증 방법:</strong> 같은 기간의 수작업 대상 목록과 비교해 누락·불필요한 포함, 목록 작성 시간, 담당자 수정 건수와 중복 안내를 확인합니다. 목표치는 현행 기준선을 측정한 뒤 현업과 합의합니다.</p>
+        </article>
+      </section>
+
+      <section id="workloads">
+        <div class="section-head">
+          <div><p class="eyebrow">Candidate Backlog</p><h2>경영부문 후보 과제 19건</h2></div>
+          <span class="source-note">내부 원문 링크 비공개</span>
+        </div>
+        <div class="toolbar" role="group" aria-label="조직별 과제 필터">
+          <button class="filter active" data-filter="all">전체 19</button>
+          <button class="filter" data-filter="hr">인사 3</button>
+          <button class="filter" data-filter="ga">총무 2</button>
+          <button class="filter" data-filter="safety">안전보건 5</button>
+          <button class="filter" data-filter="legal">법무 3</button>
+          <button class="filter" data-filter="comm">커뮤니케이션 6</button>
+        </div>
+        <p class="countline" id="taskCount">19개 후보 과제 표시 · 아래의 ‘접근 제안’은 9/22 논의를 위한 초안이며 실행 승인·진행 상태가 아닙니다.</p>
+        <div class="task-list">
+          <article class="task-item" data-org="hr"><small>인사팀 · HR-01</small><strong>실시간 인원 통계·예측 리포트</strong><p>접근 제안: 기존 GWS 데이터 가공·보고 자동화를 먼저 검증</p></article>
+          <article class="task-item" data-org="hr"><small>인사팀 · HR-02</small><strong>조직별 인건비·초과근무 리포트</strong><p>접근 제안: 인원 리포트 이후 데이터 정의와 권한 검증</p></article>
+          <article class="task-item" data-org="hr"><small>인사팀 · HR-03</small><strong>근태 규칙 위반·이상 감지</strong><p>접근 제안: 인사 규칙과 예외·설명 절차를 먼저 확정</p></article>
+
+          <article class="task-item" data-org="ga"><small>총무파트 · GA-01</small><strong>웰포인트 과세·공제 자동 산출</strong><p>접근 제안: SAP·복지카드·HR 데이터의 정본과 대사 규칙 확인</p></article>
+          <article class="task-item" data-org="ga"><small>총무파트 · GA-02</small><strong>웰포인트 미정산 자동 안내</strong><p>접근 제안: ERP 추출·마감 규칙·메신저 발송 승인점 정의</p></article>
+
+          <article class="task-item" data-org="safety"><small>안전보건TF · SH-01</small><strong>안전·법령 이슈 수집·공유</strong><p>접근 제안: 뉴스 수집 공통 기반과 출처 검증 규칙 활용</p></article>
+          <article class="task-item" data-org="safety"><small>안전보건TF · SH-02</small><strong>적격수급인 평가·계약 누락 방지</strong><p>선행 확인: 아지트 데이터 접근 및 평가 기준·유효기간</p></article>
+          <article class="task-item" data-org="safety"><small>안전보건TF · SH-03</small><strong>맞춤형 건강검진 코스·병원 추천</strong><p>선행 확인: 민감 건강정보 처리 범위와 전문가 검토</p></article>
+          <article class="task-item" data-org="safety"><small>안전보건TF · SH-04</small><strong>외부 대행기관 입·퇴사 명부 연동</strong><p>접근 제안: HR 정본·발송 승인·업체 회신 검증을 분리</p></article>
+          <article class="task-item" data-org="safety"><small>안전보건TF · SH-05</small><strong>건강검진 대상·사후관리 대시보드</strong><p>선행 확인: 대상·유소견 기준, 개인정보 권한·보관 정책</p></article>
+
+          <article class="task-item" data-org="legal"><small>법무팀 · LG-01</small><strong>계약 검토본·최종 날인본 동일성 검증</strong><p>선행 확인: 높은 정확도와 최종 법무 승인 체계</p></article>
+          <article class="task-item" data-org="legal"><small>법무팀 · LG-02</small><strong>계약 리스크 조항 사전 스크리닝</strong><p>선행 확인: 표준양식 Diff·오탐·누락 검증 및 법무 판단</p></article>
+          <article class="task-item" data-org="legal"><small>법무팀 · LG-03</small><strong>과거 법무검토 의견 검색</strong><p>접근 제안: 제한된 범위의 검색·요약부터 검증</p></article>
+
+          <article class="task-item" data-org="comm"><small>커뮤니케이션팀 · CM-01</small><strong>일별·주별 뉴스 수집·공유</strong><p>원본 검토 의견: 기술기획팀과 별도로 최종 테스트 중</p></article>
+          <article class="task-item" data-org="comm"><small>커뮤니케이션팀 · CM-02</small><strong>블로그 기반 카드뉴스·쇼츠 제작</strong><p>접근 제안: 메시지 승인·저작권·브랜드 검수 기준 정의</p></article>
+          <article class="task-item" data-org="comm"><small>커뮤니케이션팀 · CM-03</small><strong>언론사 인사·부고 기사 알림</strong><p>접근 제안: 뉴스 수집 공통 기반 재사용</p></article>
+          <article class="task-item" data-org="comm"><small>커뮤니케이션팀 · CM-04</small><strong>데이터센터 전력 사용량 취합·입력</strong><p>접근 제안: 센터별 원본·합산 규칙·제출값 대사</p></article>
+          <article class="task-item" data-org="comm"><small>커뮤니케이션팀 · CM-05</small><strong>자사·경쟁사 키워드 뉴스 모니터링</strong><p>접근 제안: 공통 뉴스 수집 기반의 키워드 확장</p></article>
+          <article class="task-item" data-org="comm"><small>커뮤니케이션팀 · CM-06</small><strong>정부·공공기관 인사 변동 모니터링</strong><p>접근 제안: 원문 출처 확인 후 공통 수집 기반에 연결</p></article>
+        </div>
+        <p class="source-note">원본 Sheet의 인사팀 8행 ‘중책예산 사용 내역 알람’은 내용·번호·조건이 미기재되어 19건 집계에서 제외했습니다. 과제 목록은 9/21 조회한 정적 스냅샷이며 자동 동기화되지 않습니다.</p>
+      </section>
+
+      <section id="priorities">
+        <div class="section-head"><div><p class="eyebrow">Proposed Sequencing</p><h2>착수 순서 제안</h2></div><p>팀장 합의 전 가설 · 확정 우선순위 아님</p></div>
+        <div class="phase-plan">
+          <article><b>후보 A · 집계 결과 검증</b><h3>HR 인원 리포트</h3><p><strong>첫 범위:</strong> 한 기준일의 재직 인원을 조직별로 집계하고 원천과 대조합니다. 예측 기능은 별도로 검증합니다.</p><p><strong>필요 조건:</strong> 재직·조직 정의, 기준일과 정본, 데이터 접근 권한.</p><p><strong>다음 단계:</strong> 현행 집계와 모든 차이를 설명하고 담당자가 결과를 수용하면 주기적 보고로 확장합니다.</p></article>
+          <article><b>후보 B · 규칙과 대상 검증</b><h3>웰포인트 미정산 안내</h3><p><strong>첫 범위:</strong> 한 정산 기간의 대상 목록, 제외 사유와 안내 초안을 만듭니다.</p><p><strong>필요 조건:</strong> 정산 반영 시점, 마감 규칙, 직원 식별자와 연락처 정본.</p><p><strong>다음 단계:</strong> 수작업 목록과 대사하고 담당자의 수정 사유를 확인한 뒤 발송 연동 여부를 판단합니다.</p></article>
+          <article><b>후보 C · 기존 구현 활용</b><h3>뉴스 수집·공유</h3><p><strong>첫 범위:</strong> 기존 구현 상태를 확인한 뒤 한 주제의 출처 포함 요약과 검토 목록을 평가합니다.</p><p><strong>필요 조건:</strong> 운영 주체, 실제 테스트 결과, 수집 범위와 공유 기준.</p><p><strong>다음 단계:</strong> 누락·중복·검토 시간을 비교하고 다른 뉴스 과제에 공통 기능을 사용할 수 있는지 확인합니다.</p></article>
+        </div>
+        <div class="guardrail"><strong>선정 방식:</strong> 팀장 대화에서 사용자 가치·데이터 준비도·담당자 검증 여력을 확인해 첫 과제를 고릅니다. 세 후보의 동시 착수를 전제하지 않습니다. 법무·건강정보 과제는 검색·비교·근거 제시 등 전문가 검토를 돕는 범위를 먼저 구체화합니다.</div>
+        <article class="card content-block">
+          <h3>19개 요청에서 공통으로 만들 수 있는 것</h3>
+          <div class="table-wrap"><table>
+            <thead><tr><th scope="col">처리 유형</th><th scope="col">해당 과제</th><th scope="col">공통 설계 내용</th></tr></thead>
+            <tbody>
+              <tr><td><strong>수집·선별·공유 5건</strong></td><td>안전·법령, 일·주간 뉴스, 언론사 인사·부고, 자사·경쟁사, 정부·공공기관 인사</td><td>출처·게시 시점, 중복 제거, 주제 선별과 공유 전 검토</td></tr>
+              <tr><td><strong>집계·대사·리포트 4건</strong></td><td>인원, 인건비·초과근무, 웰포인트 과세·공제, 전력 사용량</td><td>항목 정의, 기준일과 원본·결과 합계 대사</td></tr>
+              <tr><td><strong>상태 확인·누락 안내 5건</strong></td><td>근태, 미정산, 적격수급인, 외부기관 명부, 검진 대상·사후관리</td><td>대상·기한·상태 규칙, 예외와 전달·회신 기록</td></tr>
+              <tr><td><strong>전문 판단 지원·콘텐츠 5건</strong></td><td>검진 추천, 계약 동일성, 조항 검토, 법무 의견 검색, 카드뉴스·쇼츠</td><td>근거 추적, 원문 비교와 전문가·브랜드 검수</td></tr>
+            </tbody>
+          </table></div>
+          <p class="source-note">공통 기능을 찾기 위한 재분류 제안입니다. 데이터 접근 범위는 업무별로 정합니다. 원본의 ‘뉴스 최종 테스트’ 등 검토 의견은 작성 시점과 이후 변경 여부를 확인해야 합니다.</p>
+        </article>
+      </section>
+
+      <section id="alignment">
+        <div class="section-head"><div><p class="eyebrow">AXS TF Alignment</p><h2>AXS TF 구성원 공감대 형성 자료</h2></div><span class="source-note">내부 원문 링크 비공개</span></div>
+        <p class="source-note">「KEP_AXS_Outline_NonTech_v2」 기반 핵심 요약 · 기존 팀장 설명자료를 AXS TF 구성원 대상 공감대 형성 자료로 활용</p>
+        <article class="card content-block">
+          <h3>활용 목적과 참여 구성원</h3>
+          <p>Business Loop 추진 방향과 SSOT·하네스의 공통 이해 형성 · 사람과 Agent의 역할 구분 · TF 내 과제·협업 방식 논의를 위한 사전 공유</p>
+          <p>공개용 자료 · 구성원 이름·계정·소속별 직책·근무시간 제외</p>
+          <p class="source-note">AXS TF 구성원 6명 · 공개본에서는 개인별 명단 제외 · TF 내 개별 담당 과제·역할은 별도 협의</p>
+        </article>
+        <article class="card alignment">
+          <div>
+            <h3>1. 목적과 전략 · Business Loop로 운영 전환</h3>
+            <p class="message">AI를 활용한 일하는 방식 개선과 사용자 가치 향상<br />한 가지 업무에서 시작하는 Business Loop</p>
+            <ul>
+              <li>도구 도입 자체보다 해결할 업무 문제와 사용자 가치에 집중</li>
+              <li>일회성 업무 처리에서 신호 → 판단 → 실행 → 학습의 반복으로 전환</li>
+              <li>업무 종료 시 남긴 학습을 다음 업무의 Context로 재사용</li>
+            </ul>
+          </div>
+          <div>
+            <h3>2. 실행 기반 · SSOT · 하네스 · 파일 체계</h3>
+            <div class="decision-list">
+              <div><strong>SSOT</strong> · 데이터 정의·고유 식별자, 현재 기준값·상태, 관리 책임자, 갱신 주기·규칙, 원본 위치 명시</div>
+              <div><strong>하네스</strong> · 현재 조회 → 문제 정의 → 변경 계획 → 승인 범위 실행 → 결과 재조회·검증</div>
+              <div><strong>파일 체계</strong> · 상세 기획(.DOC), 정의·규칙(.MD), 운영 원장(.CSV), 관계도(MAP), 변경 이력(GIT) 관리</div>
+            </div>
+            <p class="source-note">Agent 실행에 필요한 최신 기준과 업무 맥락의 준비·관리 · <a href="#ssot-appendix">SSOT 필수 항목 Appendix 확인</a></p>
+          </div>
+        </article>
+        <article class="card content-block">
+          <h3>3. 역할 분담 · 사람의 정의·승인·검증, Agent의 조회·실행</h3>
+          <div class="split">
+            <div><h4>Human · 최종 판단과 책임</h4><ul>
+              <li>문제·목표·완료 조건과 도메인 규칙 정의</li>
+              <li>영향 범위·승인 지점 합의 및 실행 범위 통제</li>
+              <li>도구 선정·조직 예산 운영, 인증·민감 정보 분리 관리</li>
+              <li>협의용 Sheet 교차 검토, 실행 결과 최종 검증, 원장·변경 이력·학습 갱신</li>
+            </ul></div>
+            <div><h4>Agent · Skill 기반 실행</h4><ul>
+              <li>프로젝트 SSOT의 계획과 기준값 확인</li>
+              <li>GAM·Google·Claude 등 대상 시스템 조회 및 승인된 계획 반영</li>
+              <li>처리 결과 재조회·검증과 운영 원장 기록</li>
+              <li>협의용 Sheet를 통한 사람의 검토 지원</li>
+            </ul></div>
+          </div>
+          <p class="source-note">Agent의 실행 후 재조회·검증과 사람의 최종 검토를 함께 적용</p>
+        </article>
+        <article class="card content-block">
+          <h3>4. 도구 운영 · 팀별 선택과 단계적 조정</h3>
+          <p>팀장·해당 팀의 도구 선정 · 조직당 월 100만 원 AI Pack · 실제 Task 수행과 주간보고 · 매주 화요일 Help Desk</p>
+          <div class="maturity">
+            <div class="phase"><b>M+1 · 생성기</b><strong>폭넓은 시도</strong><p>Claude·Codex·Gemini Enterprise 제공 및 선택</p></div>
+            <div class="phase"><b>M+2 · 조정기</b><strong>이용량 기반 조정</strong><p>사용량 분포와 토큰 집중도 확인</p></div>
+            <div class="phase"><b>M+3~ · 안정기</b><strong>조직별 최적화</strong><p>업무 방식·성과에 맞춘 도구 조합 정착</p></div>
+          </div>
+          <p class="source-note">발표자료에 제시된 운영 정책 요약 · 예산 집행·지원 일정의 실제 확정 여부와 별도 구분</p>
+        </article>
+        <article class="card content-block">
+          <h3>5. 운영 원칙과 성과 판단</h3>
+          <p><strong>운영 원칙</strong> · AI 결과물에 대한 책임 · 사용자 가치 대비 비용 효율 · 직접 개발 전 협업 · 역할 확장과 전문가 승인 · 정보 보호·라이선스 준수</p>
+          <div class="decision-list">
+            <div><strong>Task</strong> · 시간이 지날수록 줄어드는 업무 개입과 수작업 부담</div>
+            <div><strong>Loop</strong> · 모델 성능 향상과 함께 개선 가능한 업무 설계</div>
+            <div><strong>Krew</strong> · 즐거움·고마움·신기함으로 체감하는 AI 경험</div>
+          </div>
+          <p><strong>최종 평가</strong> · 조직 건강도(역량·동기부여·혁신과 학습·외부지향성), 크루 경험 EX(경력개발·웰빙·개인적 목적), AI 준비도(업무 변화·효율 향상 사례·활용 팁)</p>
+          <p class="source-note">단순 도구 사용량보다 시간이 흐른 뒤 남는 업무 변화와 사용자 가치 확인</p>
+          <a class="source-link reading-link" href="./AXS_TF_공감대_형성_자료.md" download>AXS TF 공감대 형성 자료 내려받기 ↓</a>
+        </article>
+      </section>
+
+      <section id="leadership-alignment">
+        <div class="section-head"><div><p class="eyebrow">Leadership Alignment</p><h2>경영지원실 팀장 공감대</h2></div><span class="source-note">내부 원문 링크 비공개</span></div>
+        <p class="source-note">AXS TF의 실행 방향 공유와 별도로, 경영지원실 팀장 대상 업무 우선순위·판단 기준·현업 참여 방식 합의</p>
+        <article class="card alignment">
+          <div>
+            <h3>팀장 대상 핵심 메시지</h3>
+            <p class="message">팀의 반복 업무 개선과 사용자 가치 향상<br />한 업무의 작은 반복 구간부터 검증 후 확장</p>
+            <ul>
+              <li>기존 후보 과제에서 팀에 가장 가치 있는 문제 우선 선정</li>
+              <li>실제 자료·판단 규칙·예외를 기준으로 업무 명세와 SSOT 정리</li>
+              <li>Agent의 조회·초안 작성·승인 범위 실행과 현업의 최종 검토 분리</li>
+              <li>현행 결과와 비교해 품질·총 투입 시간·검토 부담 확인</li>
+            </ul>
+          </div>
+          <div>
+            <h3>팀장과 합의할 세 가지</h3>
+            <div class="decision-list">
+              <div><strong>① 우선 과제</strong> · 시간이 많이 들거나 누락 위험이 큰 업무 1개와 기대 효과</div>
+              <div><strong>② 업무 기준</strong> · 정본 시스템·데이터, 갱신 책임, 주요 규칙·예외와 완료 조건</div>
+              <div><strong>③ 현업 참여</strong> · 현업 책임자·검증자·승인자와 참여 범위</div>
+            </div>
+            <p class="source-note">팀장 명단·미팅 일정·개별 과제는 추후 협의 · TF 구성원 명단과 구분</p>
+          </div>
+        </article>
+        <article class="card content-block">
+          <h3>공감대 형성 진행안</h3>
+          <p>공통 발표자료·해당 팀 후보 과제 사전 공유 → 실제 업무 사례 확인 → 정본·예외·승인점 확인 → 첫 검증 범위와 참여 방식 합의</p>
+          <p><strong>남길 결과</strong> · 후보 1건 · 현업 책임자 · 정본 후보 · 검증 범위·완료 기준 · 추가 확인사항</p>
+          <p><strong>후속 판단</strong> · 현행 대비 품질·시간·수정 부담 확인 후 확대·수정·중단 검토</p>
+          <p class="source-note">공통 발표자료의 방향을 팀장 협의에 적용한 진행 제안 · 확정 일정이나 과제 승인으로 간주하지 않음</p>
+          <a class="source-link reading-link" href="./경영지원실_팀장_공감대_형성_자료.md" download>경영지원실 팀장 공감대 자료 내려받기 ↓</a>
+        </article>
+      </section>
+
+      <section id="education-roadmap">
+        <div class="section-head"><div><p class="eyebrow">AXS Learning Roadmap</p><h2>향후 AXS 교육 로드맵</h2></div><span class="source-note">내부 원문 링크 비공개</span></div>
+        <article class="card content-block source-document">
+
+<h3 class="source-paragraph" data-source-index="752">1. AX 교육 운영 방향성<strong>
+</strong></h3>
+<div class="source-table-wrap"><table class="source-table"><tbody><tr><td><p class="source-paragraph" data-source-index="771"><strong>[공통]
+</strong></p>
+<p class="source-paragraph" data-source-index="776">전 직군 공통 운영안: 직군별 희망자·추천자 기반의 선도 그룹 구성
+</p>
+<p class="source-paragraph" data-source-index="839">희망자·팀 추천자 모집 → 소규모 선도 그룹 구성 → 집중 교육 → 실제 업무 PoC → 검증 → 확산
+</p>
+<p class="source-paragraph" data-source-index="910">
+</p>
+<p class="source-paragraph" data-source-index="911"><strong>[차이점]
+</strong></p>
+<p class="source-paragraph" data-source-index="917">직군별 업무 특성에 따른 교육 내용·PoC 과제 분리 · 공통 AX 방향성 유지 및 교육 도구·강사 유형의 직군별 차등 설계
+</p>
+<p class="source-paragraph" data-source-index="1018">
+</p>
+<p class="source-paragraph" data-source-index="1019"><strong>•Tech 직군 = 하네스 심화형
+</strong></p>
+<p class="source-paragraph" data-source-index="1038">Claude Code 등 코딩 에이전트의 높은 활용도 · Skill·Agent·Orchestrator·코드 리뷰·장애 분석 등 하네스 구성요소의 심화 수요 확인 → 하네스 엔지니어링 심화 교육 제안
+</p>
+<p class="source-paragraph" data-source-index="1169">
+</p>
+<p class="source-paragraph" data-source-index="1170">
+</p>
+<p class="source-paragraph" data-source-index="1171"><strong>•PM 직군 = 기획 산출물 검증·협업 Workflow형
+</strong></p>
+<p class="source-paragraph" data-source-index="1203">문서 작성·PRD 정리·QA·검수·와이어프레임·아이디어 구상 등 기획 산출물 중심의 병목·효과 기대 확인 → Claude·ChatGPT·Gemini 기반 PRD/QA 검증 Assistant, 팀 공용 Prompt/Template, 협업 Workflow 구축 교육 제안
+</p>
+<p class="source-paragraph" data-source-index="1394"><strong>• Staff·Business 직군</strong> = <strong>문서·리서치·데이터 정리 자동화형
+</strong></p>
+<p class="source-paragraph" data-source-index="1435">보고서 작성·자료 조사·데이터 취합·반복 업무 자동화·업무 Assistant 구축 수요 확인 → Gemini·Claude·ChatGPT·NotebookLM 기반 문서·리서치·데이터 정리·회의·보고 자동화 실무 교육 제안
+</p>
+<p class="source-paragraph" data-source-index="1623"><img src="./assets/education-roadmap/original-5.png" alt="원문 도표" loading="lazy" />
+</p>
+<p class="source-paragraph" data-source-index="1625">희망자·추천자 기반 선도 그룹 운영의 주요 근거
+</p>
+<p class="source-paragraph" data-source-index="1687">1️⃣ 직군별 AI 활용 수준·수요의 차이
+</p>
+<p class="source-paragraph" data-source-index="1717">Tech: 높은 AI 활용 빈도와 심화 수요 · Staff·Business: 기초 활용·업무 자동화 수요 → 동일 교육 일괄 제공 시 난이도·실무 적합성 저하 가능
+</p>
+<p class="source-paragraph" data-source-index="1836">
+</p>
+<p class="source-paragraph" data-source-index="1837">2️⃣ 실제 업무 적용 경험 중심의 AX 전환
+</p>
+<p class="source-paragraph" data-source-index="1876">Hands-on 실습·팀 단위 워크샵·실제 업무 기반 프로젝트형 교육 선호 → 관심·적용 의지가 있는 참여자 중심의 업무 PoC 운영 제안
+</p>
+<p class="source-paragraph" data-source-index="1993">
+</p>
+<p class="source-paragraph" data-source-index="1994">3️⃣ 초기 성공 사례 확보를 통한 확산
+</p>
+<p class="source-paragraph" data-source-index="2028">주요 확산 장애요인: 실무 성공 사례 부족·적용 방법 불명확 → 선도 그룹의 사례 확보와 Before/After 검증을 통한 타 팀 확산 기반 마련
+</p>
+<p class="source-paragraph" data-source-index="2134">
+</p>
+<p class="source-paragraph" data-source-index="2135">4️⃣ AI Tool 예산·라이선스 등 운영 자원 제약
+</p>
+<p class="source-paragraph" data-source-index="2172">PoC 가능성이 높은 그룹에 집중 지원 → 효과 검증 후 지원 범위 확대
+</p>
+<p class="source-paragraph" data-source-index="2250">
+</p>
+<p class="source-paragraph" data-source-index="2251">희망자·추천자 기반 선도 그룹 운영 → 제한된 자원으로 실질적 성공 사례 확보 → 조직 전체 확산
+</p></td></tr></tbody></table></div>
+<p class="source-paragraph" data-source-index="2337"><strong>
+</strong></p>
+<p class="source-paragraph" data-source-index="2338">
+</p>
+<h3 class="source-paragraph" data-source-index="2339">2. 직군별 상세 로드맵:
+</h3>
+<h3 class="source-paragraph" data-source-index="2354">1) Tech 트랙
+</h3>
+<p class="source-paragraph" data-source-index="2365"><img src="./assets/education-roadmap/original-4.png" alt="원문 도표" loading="lazy" />
+</p>
+<p class="source-paragraph" data-source-index="2367">
+</p>
+<h4 class="source-paragraph" data-source-index="2368"><strong>[ Tech 교육 로드맵 운영 방향성 ]
+</strong></h4>
+<p class="source-paragraph" data-source-index="2391">대상: Claude Code·Codex 등 개발 보조 도구 활용 경험과 AI 활용 빈도가 높은 직군 · 교육 방향: Agent/Skill 구조 설계, Orchestrator, 코드 리뷰·기술 문서화·장애 대응 자동화를 통한 개발·운영 Workflow 내 AI 내재화
+</p>
+<p class="source-paragraph" data-source-index="2591">반복 구현·코드 리뷰·기술 문서화: 현재 활용도와 효과 기대 모두 높음 · 장애 분석: 높은 병목·효과 기대 대비 낮은 현재 활용도 → 우선 PoC 후보 검토, 참여 희망자·조직에 따라 최종 선정
+</p>
+<p class="source-paragraph" data-source-index="2726"><strong>[1단계]</strong> 희망자·팀 추천자 모집 및 현재 업무 병목·AI 적용 가능 과제 진단
+</p>
+<p class="source-paragraph" data-source-index="2784"><strong>[2단계]</strong> Claude Code·Skill·Agent·Orchestrator 실무 집중 교육을 통한 PoC 수행 최소 역량 확보
+</p>
+<p class="source-paragraph" data-source-index="2875"><strong>[3단계]</strong> 실제 과제 운영을 위한 PoC 참가자 선정 및 장애 분석·코드 리뷰·기술 문서화·반복 구현 자동화의 업무 적용
+</p>
+<p class="source-paragraph" data-source-index="2966"><strong>[4단계]</strong> 적용 전후 리드타임·품질·재작업 감소·문서화 효율 등 Before/After 지표 확인
+</p>
+<p class="source-paragraph" data-source-index="3029"><strong>[5단계]</strong> 효과가 확인된 과제의 공통 Skill·Template·Workflow 정리 및 타 팀 확산
+</p>
+<p class="source-paragraph" data-source-index="3098">
+</p>
+<p class="source-paragraph" data-source-index="3099">------------------------------------------------------------------------------------------------------------------------
+</p>
+<p class="source-paragraph" data-source-index="3220">
+</p>
+<p class="source-paragraph" data-source-index="3221">
+</p>
+<h3 class="source-paragraph" data-source-index="3222">2) PM 트랙
+</h3>
+<p class="source-paragraph" data-source-index="3231"><img src="./assets/education-roadmap/original-3.png" alt="원문 도표" loading="lazy" />
+</p>
+<h4 class="source-paragraph" data-source-index="3233"><strong>[ PM 교육 로드맵 운영 방향성 ]
+</strong></h4>
+<p class="source-paragraph" data-source-index="3254">PM 트랙 설계 방향: 기획 산출물 품질·협업 효율 향상
+</p>
+<p class="source-paragraph" data-source-index="3304">주요 병목: 문서 작성·와이어프레임·아이디어 구상 · 높은 AI 효과 기대 영역: PRD 정리·QA·검수
+</p>
+<p class="source-paragraph" data-source-index="3388">교육 구성: 팀 공용 Prompt/Template, PRD 요구사항 정리, QA 체크리스트 자동화, 기획 산출물 검증 Assistant
+</p>
+<p class="source-paragraph" data-source-index="3503">
+</p>
+<p class="source-paragraph" data-source-index="3504"><strong>[1단계]</strong> 희망자·서비스/프로젝트 담당 PM 모집 및 기획 업무 병목·AI 적용 가능 과제 진단
+</p>
+<p class="source-paragraph" data-source-index="3574"><strong>[2단계]</strong> 팀 공용 Prompt/Template 구축·PRD 정리·문서 작성 보조·AI 기반 MVP 설계 실무 교육
+</p>
+<p class="source-paragraph" data-source-index="3663"><strong>[3단계]</strong> PoC 참가자 선정 및 PRD 요구사항 정합성 검토·QA 체크리스트 자동화·기획 문서 개선 제안·회의·프로젝트 운영 자동화의 업무 적용
+</p>
+<p class="source-paragraph" data-source-index="3766"><strong>[4단계]</strong> 적용 전후 문서 작성 시간·요구사항 누락 감소·QA 검수 효율·커뮤니케이션 재작업 감소 등 Before/After 지표 확인
+</p>
+<p class="source-paragraph" data-source-index="3850"><strong>[5단계]</strong> 효과가 확인된 과제의 팀 공용 Prompt·기획 Template·PRD/QA 검증 Workflow 정리 및 다른 PM·유관 조직 확산
+</p>
+<p class="source-paragraph" data-source-index="3945">
+</p>
+<p class="source-paragraph" data-source-index="3946">--------------------------------------------------------------------------------------------------------
+</p>
+<p class="source-paragraph" data-source-index="4051">
+</p>
+<h3 class="source-paragraph" data-source-index="4052">3) Staff·Business 트랙
+</h3>
+<p class="source-paragraph" data-source-index="4073"><img src="./assets/education-roadmap/original-1.png" alt="원문 도표" loading="lazy" />
+</p>
+<h4 class="source-paragraph" data-source-index="4075"><strong>[ Staff·Business 교육 로드맵 운영 방향성 ]
+</strong></h4>
+<p class="source-paragraph" data-source-index="4108">설계 대상: 반복성과 산출물 구조가 명확한 보고서 작성·자료 조사·데이터 취합 업무 · 설문상 현재 AI 활용·업무 병목·효과 기대가 높게 겹치는 즉시 적용 후보 영역
+</p>
+<p class="source-paragraph" data-source-index="4267">교육 구성: 업무 Assistant 구축, 보고서·리서치 자동화, 데이터 정리·분석 자동화, 팀 공용 템플릿 운영
+</p>
+<p class="source-paragraph" data-source-index="4379"><strong>[1단계]</strong> 희망자·팀 추천자 모집, 보고서 작성·자료 조사·데이터 취합 등 반복·병목 업무 진단 및 우선 적용 과제 선정
+</p>
+<p class="source-paragraph" data-source-index="4460"><strong>[2단계]</strong> 업무 Assistant 활용·보고서·자료 조사 자동화·데이터 정리·분석 자동화·AI 활용 가이드·보안 유의사항 실무 교육
+</p>
+<p class="source-paragraph" data-source-index="4551"><strong>[3단계]</strong> PoC 참가자 선정 및 보고서 작성 Assistant·자료 조사·요약 Assistant·데이터 취합 자동화·회의록·문서 정리 자동화의 업무 적용
+</p>
+<p class="source-paragraph" data-source-index="4659"><strong>[4단계]</strong> 적용 전후 업무 소요 시간·자료 정리 정확도·보고서 작성 리드타임·반복 업무 감소 정도 등 Before/After 지표 확인
+</p>
+<p class="source-paragraph" data-source-index="4743"><strong>[5단계]</strong> 효과가 확인된 과제의 공통 Prompt·보고서 Template·리서치 Workflow·업무 Assistant 가이드 정리 및 Staff·Business 조직 전반 확산
+</p>
+<p class="source-paragraph" data-source-index="4855">
+</p>
+<p class="source-paragraph" data-source-index="4856">
+</p>
+<p class="source-paragraph" data-source-index="4857">------------------------------------------------------------------------------------------------------------------------
+</p>
+<p class="source-paragraph" data-source-index="4978">
+</p>
+<p class="source-paragraph" data-source-index="4979">
+</p>
+<h3 class="source-paragraph" data-source-index="4980">3. 통합 로드맵
+</h3>
+<p class="source-paragraph" data-source-index="4990"><img src="./assets/education-roadmap/original-2.png" alt="원문 도표" loading="lazy" />
+</p>
+<p class="source-paragraph" data-source-index="4992">전사 AX 교육 추진 단계: 공통 기반 구축 → 직군별 트랙 운영 → 실제 업무 PoC → 성과 검증·확산
+</p>
+<p class="source-paragraph" data-source-index="5092">2026년 6월 작성 시점 기준, 7월 내 준비 단계 제안: 교육 대상·우선 PoC 과제 선정 및 도구·라이선스·보안 가이드 등 운영 기반 정비
+</p>
+<p class="source-paragraph" data-source-index="5200">
+</p>
+<p class="source-paragraph" data-source-index="5201"><strong>[2026년 8~9월]: 
+</strong></p>
+<p class="source-paragraph" data-source-index="5216">전 직군 공통 교육: AI 활용 가이드·보안·데이터 유의사항·Prompt/Template 기초 · 병행 운영: Tech·PM·Staff/Business별 기본 교육
+</p>
+<p class="source-paragraph" data-source-index="5327">
+</p>
+<p class="source-paragraph" data-source-index="5328"><strong>[2026년 10~12월]:
+</strong></p>
+<p class="source-paragraph" data-source-index="5344">직군별 심화 트랙 전환 · Tech: Agent/Skill·개발·운영 자동화 · PM: PRD/QA 검증 · Staff·Business: 업무 Assistant·문서·리서치 자동화
+</p>
+<p class="source-paragraph" data-source-index="5462">
+</p>
+<p class="source-paragraph" data-source-index="5463"><strong>[2027년 1~3월]
+</strong></p>
+<p class="source-paragraph" data-source-index="5476">교육 참여자 중 실제 업무 PoC 적용 선도 그룹 중심의 Before/After 효과 검증
+</p>
+<p class="source-paragraph" data-source-index="5540">
+</p>
+<p class="source-paragraph" data-source-index="5541"><strong>[2027년 4~6월]
+</strong></p>
+<p class="source-paragraph" data-source-index="5554">검증 사례의 공통 Prompt·Skill·Template·Workflow Library 정리 · 우수 사례 공유·운영 KPI 기반의 조직 전체 확산
+</p>
+<p class="source-paragraph" data-source-index="5658">교육 → 직군별 실무 PoC → 조직 공통 자산화의 연속적 운영
+</p>
+<p class="source-paragraph" data-source-index="5714">개인 단위 AI 활용 → 팀 단위 Workflow 확장 → 조직의 AI Native/AX 실행 체계 정착
+</p>
+<p class="source-paragraph" data-source-index="5802">
+</p>
+<h4 class="source-paragraph" data-source-index="5803">&lt; 마치며 &gt;
+</h4>
+<p class="source-paragraph" data-source-index="5811">하네스 엔지니어링 교육 후기·AX 교육 수요조사 종합
+</p>
+<p class="source-paragraph" data-source-index="5855">AI 활용 필요성에 대한 구성원 인식 확보 · 실제 업무 적용을 위한 방법론·도구 환경·실무 사례·공통 가이드 지원 필요
+</p>
+<p class="source-paragraph" data-source-index="5953">
+</p>
+<p class="source-paragraph" data-source-index="5954">향후 AX 교육 운영 방향: 직군별 실습형 교육 → 실제 업무 PoC → 성과 검증 → 공통 자산화
+</p>
+<p class="source-paragraph" data-source-index="6058">
+</p>
+<p class="source-paragraph" data-source-index="6059">직군별 운영 유형: Tech — 하네스 심화형 / PM — 기획 산출물 검증·협업 Workflow형 / Staff·Business — 문서·리서치·데이터 정리 자동화형 · 기대 효과: 교육 효과·현업 적용 가능성 향상
+</p>
+<p class="source-paragraph" data-source-index="6189">
+</p>
+<p class="source-paragraph" data-source-index="6190">설문 데이터 기반의 초기 로드맵 제안
+</p>
+<p class="source-paragraph" data-source-index="6224">실제 추진 전 구체화 항목: 직군별 희망자 모집, 팀별 적용 가능 과제, 도구·라이선스 지원 범위, 보안·데이터 활용 기준, 성과 측정 지표
+</p>
+<p class="source-paragraph" data-source-index="6319">
+</p>
+<p class="source-paragraph" data-source-index="6320">선도 그룹의 검증 사례 축적 → 공통 Prompt·Skill·Template·Workflow Library 확산 → 팀 단위 AX 실행 체계로 발전 기대
+</p>
+<p class="source-paragraph" data-source-index="6455">
+</p>
+<p class="source-paragraph" data-source-index="6456">
+</p>
+<p class="source-paragraph" data-source-index="6463">
+</p>
+        </article>
+        <a class="source-link reading-link" href="./향후_AXS_교육_로드맵.md" download>향후 AXS 교육 로드맵 내려받기 ↓</a>
+      </section>
+
+
+      <section id="operations">
+        <div class="section-head"><div><p class="eyebrow">Operating System</p><h2>사람과 Agent의 실행 구조</h2></div></div>
+        <div class="split">
+          <article class="card panel"><h3>운영 원칙</h3><div class="principles">
+            <div class="principle"><i>1</i><p>AI가 만든 결과물에 책임을 집니다.</p></div>
+            <div class="principle"><i>2</i><p>사용자 가치에 대해 비용을 효율적으로 사용합니다.</p></div>
+            <div class="principle"><i>3</i><p>직접 만들기 전에 협업을 먼저 시도합니다.</p></div>
+            <div class="principle"><i>4</i><p>역할의 경계를 넓히되 전문가의 승인을 받습니다.</p></div>
+            <div class="principle"><i>5</i><p>정보 보호와 라이선스 정책을 존중합니다.</p></div>
+          </div></article>
+          <article class="card panel"><h3>도구 지급 Lifecycle</h3><div class="maturity">
+            <div class="phase"><b>M+1</b><strong>생성기</strong><p>Claude, Codex, Gemini Enterprise를 두려움 없이 탐색</p></div>
+            <div class="phase"><b>M+2</b><strong>조정기</strong><p>이용량과 집중도를 확인해 조직별 구성을 조정</p></div>
+            <div class="phase"><b>M+3~</b><strong>안정기</strong><p>조직별 최적 도구와 운영 방식으로 정착</p></div>
+          </div></article>
+        </div>
+      </section>
+
+      <section id="metrics">
+        <div class="section-head"><div><p class="eyebrow">Evaluation</p><h2>AI 활용 평가 지표</h2></div><p>효율만이 아니라 설계의 적응력과 크루의 체감까지 봅니다.</p></div>
+        <div class="score-grid">
+          <article class="card score"><span>TASK</span><h3>손이 덜 가는가?</h3><p>업무 1회당 담당자의 총 투입 시간과 수정·개입 횟수를 비교합니다. AI 처리 뒤 검토 시간이 늘었는지도 포함합니다.</p></article>
+          <article class="card score"><span>LOOP</span><h3>함께 좋아지는가?</h3><p>같은 사례와 완료 기준으로 모델·도구 변경 전후의 결과 품질, 처리 시간과 비용을 비교합니다.</p></article>
+          <article class="card score"><span>KREW</span><h3>좋은 체감이 있는가?</h3><p>담당자에게 실제로 덜 번거로워졌는지, 결과를 믿고 다시 사용할 수 있는지 묻고 이유를 기록합니다.</p></article>
+        </div>
+      </section>
+
+      <section id="weekly">
+        <div class="section-head"><div><p class="eyebrow">Director Brief · Sep 22</p><h2>9/22 실장 보고 초안</h2></div><p>보고용 제안 문구 · 확정 성과로 표현하지 않았습니다.</p></div>
+        <article class="card report-card">
+          <pre id="weeklyText">[경영지원실 AXS · 9월 22일 실장 보고 본문 검토안]
+
+9월 11일 공유한 AXS 방향을 바탕으로, 이번에는 Business Loop를 실제 업무에 적용하기 위한 업무 아키텍처를 구체화하려고 합니다. 담당자가 사용하는 자료, 판단 규칙, 작업 도구와 결과 확인 위치를 연결해 에이전트가 현업의 반복 업무를 수행할 수 있는 환경을 만드는 것이 핵심입니다.
+
+첫째, 업무의 형상을 정의하겠습니다. 실제 사례 한 건을 따라 시작 신호, 처리 대상, 상태 변화, 예외, 담당자 승인과 완료 조건을 명세하겠습니다. 에이전트는 이 명세를 기준으로 현재 상태를 읽고, 처리 계획을 작성하고, 허용된 작업을 수행한 뒤 결과를 확인하고 기록하도록 설계합니다.
+
+둘째, 데이터의 최신성과 신뢰성을 업무 기준으로 관리하겠습니다. 재직 여부·정산 여부·연락처처럼 판단에 필요한 항목별 정본과 갱신 책임을 정하고, 기준 시각과 허용 지연을 확인하겠습니다. 값이 오래되거나 원천 간에 충돌하면 확인 대상으로 돌립니다. 도구와 API는 과제에 필요한 조회·변경 기능, 권한과 오류 처리 방식을 확인해 연결하겠습니다.
+
+예를 들어 웰포인트 미정산 안내는 정산 내역 조회, 마감·제외 규칙 적용, 대상 목록과 문안 작성, 담당자 승인, 발송, 결과 확인으로 구성할 수 있습니다. 첫 시험은 한 정산 기간의 대상 목록과 안내 초안까지로 제한해 현행 수작업 결과와 비교하겠습니다. 이후 발송 기능을 연결할 때는 승인 후 상태 변경과 중복 안내를 확인하고 처리 결과를 원장에 남기겠습니다. 이는 총무파트와 구체 조건을 확인할 설계 제안입니다.
+
+기존 요청 시트에서 확인한 후보는 5개 조직 19건입니다. 공통 처리 방식으로 보면 수집·선별·공유 5건, 집계·대사·리포트 4건, 상태 확인·누락 안내 5건, 전문 판단 지원·콘텐츠 5건으로 묶을 수 있습니다. 뉴스 수집이나 데이터 대사처럼 재사용할 기능을 함께 검토하되, 업무별 데이터와 판단 기준은 현업과 정하겠습니다. 원본에 기록된 뉴스 최종 테스트 등 진행 정보는 담당자에게 현재 상태를 재확인하겠습니다.
+
+초기 후보로 HR 인원 집계, 웰포인트 미정산 안내, 뉴스 수집·공유를 검토하겠습니다. 세 과제를 동시에 시작하는 계획은 아니며, 데이터 준비도와 현업 검증 여력을 확인해 첫 과제를 선정하겠습니다. 각각 한 기준일의 집계, 한 정산 기간의 대상 목록, 한 주제의 뉴스 요약처럼 결과를 대조할 수 있는 범위에서 시작하겠습니다. 법무·건강정보 과제는 전문가가 검토할 근거와 비교 결과를 제공하는 범위를 먼저 구체화하겠습니다.
+
+이를 위해 기존 팀장 설명자료를 AXS TF 구성원 6명 대상 공감대 형성 자료로 활용하려고 합니다. 발표자료를 사전 공유해 Business Loop의 방향과 SSOT·하네스, 사람과 Agent의 역할에 대한 공통 이해를 형성하고 TF 내 과제와 협업 방식을 논의하겠습니다. 이후 각 팀과 후보 과제, 현업 책임자, 정본 후보와 추가 확인사항을 협의하겠습니다. TF 내 개별 담당 과제와 역할은 별도로 정할 사항입니다.
+
+효과는 업무 1회당 총 투입 시간과 수정·개입 횟수, 결과의 누락·오류, 담당자의 신뢰와 재사용 의향으로 확인하겠습니다. 현재 개선 수치는 확보되지 않았으므로 시험 전 기준선을 측정하고 목표를 합의하겠습니다. 모델이나 도구가 바뀔 때도 같은 사례로 다시 비교해 설계가 함께 개선되는지 확인하겠습니다.
+
+실장님께는 업무 아키텍처 중심의 초기 검증 방향, 팀별 후보와 책임자를 정하기 위한 팀장 협의 지원, 데이터·도구 연결 담당과 현업 검증 역할에 대한 협조를 요청드립니다. 예산·완료일·수치 목표는 첫 과제의 범위와 연결 가능성을 확인한 뒤 제시하겠습니다.
+
+※ 사용자 제공 방향과 9/21 원본 조회를 바탕으로 작성한 추진안입니다. 9/11 이후의 실제 협의·연동 결과·확정 일정은 추가 반영이 필요합니다.</pre>
+          <button class="copy-btn" id="copyWeekly" type="button">보고문 복사</button>
+        </article>
+      </section>
+
+      <section id="ssot-appendix">
+        <div class="section-head"><div><p class="eyebrow">Appendix A · SSOT</p><h2>SSOT에 반드시 포함할 내용</h2></div><p>공통 필수 9개 · 에이전트 실행 시 추가 3개</p></div>
+        <article class="card content-block">
+          <p><strong>적용 기준 제안 · 9/22 추가</strong> SSOT(Single Source of Truth)는 업무의 사실·규칙을 판단하고 갱신할 때 참조하는 정본이다. 실무자가 바뀌거나 에이전트가 참여해도 <strong>같은 대상을 같은 기준으로 판단할 수 있어야 한다.</strong> 아래는 경영지원실 AXS에 적용하기 위한 작성 기준 제안이며, 확정된 사내 정책은 아니다.</p>
+<p>모든 데이터를 하나의 파일에 모을 필요는 없다. 직원의 재직 상태는 HR 시스템, 정산 상태는 정산 시스템처럼 <strong>항목별로 정본과 적용 범위를 하나로 지정</strong>하고, SSOT 문서에서 정확한 위치를 안내한다. 리뷰용 Sheet와 보고서는 해당 정본을 참조하며, 그 자체가 정본인지는 별도로 명시한다.</p>
+<h3>A-1. 모든 업무에 공통으로 필요한 9개 항목</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">필수 항목</th><th scope="col">반드시 작성할 내용</th><th scope="col">작성 완료를 판단할 질문</th></tr></thead><tbody><tr><td>1. 목적·적용 범위</td><td>업무명·업무 ID, 사용자, 해결할 문제와 목표 상태, 포함·제외 대상, 산출물</td><td>어떤 업무와 어떤 판단에 쓰는 기준인지 알 수 있는가?</td></tr><tr><td>2. 정본 위치·우선순위</td><td>항목별 정본 시스템·문서 링크, 정확한 테이블·탭·필드·범위, 원천과 사본 구분, 값 충돌 시 우선순위</td><td>같은 값이 여러 곳에 있을 때 무엇을 따라야 하는가?</td></tr><tr><td>3. 용어·데이터 구조</td><td>용어와 상태 정의, 필수 필드, 형식·단위·시간대, 고유 식별자, 대상 간 관계와 연결 기준</td><td>같은 이름·값을 사람과 에이전트가 동일하게 해석할 수 있는가?</td></tr><tr><td>4. 소유자·갱신 책임</td><td>업무 책임자, 데이터 갱신 담당, 규칙 변경 승인자, 확인 요청 경로</td><td>오류가 나거나 기준이 바뀌면 누가 결정하고 고치는가?</td></tr><tr><td>5. 최신성·유효기간</td><td>데이터 기준 시점, 원천 최종 변경 시각과 조회 시각, 갱신 주기·계기, 허용 지연, 기한 초과 시 처리</td><td>지금 판단에 써도 되는 값인가? 방금 조회했다는 이유만으로 최신으로 보지 않는가?</td></tr><tr><td>6. 판단 규칙·예외</td><td>대상 포함·제외 조건, 계산·상태 전환 규칙, 규칙의 근거와 적용일, 예외와 충돌 해결 절차</td><td>같은 입력으로 같은 판단을 내리고 그 이유를 설명할 수 있는가?</td></tr><tr><td>7. 신뢰성 검증·근거</td><td>필수값·중복·범위 검사, 원천 대사 방법, 반드시 유지할 조건, 허용 오차, 불일치 처리와 근거 위치</td><td>누락·오류·충돌을 어떻게 발견하고 해결하는가?</td></tr><tr><td>8. 접근·정보 관리</td><td>조회·수정 가능한 역할, 에이전트 허용 범위, 정보 분류, 보관·삭제 기준, 인증정보의 별도 관리 위치</td><td>누가 어떤 정보에 접근하고 변경할 수 있는가?</td></tr><tr><td>9. 버전·변경 이력</td><td>현재 유효 버전·상태, 시행일, 변경자·변경 이유·승인 근거, 이전 버전과 보관 위치</td><td>현재 기준이 무엇이며, 과거 판단에 사용한 기준을 다시 확인할 수 있는가?</td></tr></tbody></table></div>
+<p>정확한 값을 아직 모르면 ‘확인 필요’와 확인 책임자·예정일을 함께 적는다. 업무 판단에 영향을 주는 필수 기준이 미확정이면 해당 판단과 후속 실행은 보류하고, 확인 가능한 범위의 검토부터 진행한다. 적용되지 않는 항목은 공란 대신 ‘해당 없음’과 이유를 남긴다.</p>
+<h3>A-2. 에이전트가 실행에 참여할 때 추가할 3개 항목</h3>
+<p>SSOT가 업무 판단의 기준을 제공한다면, 연결된 실행 명세는 그 기준을 실제 시스템에 적용하는 방법을 정한다. 아래 내용을 SSOT에 포함하거나, 정본으로 지정한 실행 명세를 링크한다.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">추가 필수 항목</th><th scope="col">반드시 작성할 내용</th></tr></thead><tbody><tr><td>10. 도구·시스템 연결</td><td>조회·변경 대상 시스템과 필드, 사용할 도구/API, 인증 주체와 권한 범위, 입력·출력의 연결 규칙, 연결 확인 상태. 비밀번호·토큰·인증키는 본문에 저장하지 않는다.</td></tr><tr><td>11. 사람·에이전트의 역할</td><td>에이전트가 조회·작성·실행할 범위, 사람의 판단·승인 지점, 승인 대상과 유효 범위, 중단·재시도·담당자 전달 조건</td></tr><tr><td>12. 완료 기준·결과 기록</td><td>완료로 인정할 상태, 실행 후 원천 재조회 방법, 중복 처리 방지 기준, 실패·부분 완료 처리, 운영 원장 위치와 기록 항목</td></tr></tbody></table></div>
+<p>운영 원장에는 <strong>실행 ID, 대상 ID, 사용한 원천의 기준 시점과 규칙 버전, 판단 근거, 승인 내역, 실행 시각·결과, 재조회 검증, 예외·후속 조치</strong>를 남긴다. 요청 성공만으로 업무 완료를 확정하지 않고 업무별 완료 조건과 대조한다.</p>
+<h3>A-3. 작성 예시 — 웰포인트 미정산 안내</h3>
+<p>아래는 작성 형태를 보여주는 예시다. 실제 시스템·담당자·마감일·허용 지연은 총무파트와 확인해야 한다.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">항목</th><th scope="col">기재 예시</th></tr></thead><tbody><tr><td>목적·범위</td><td>특정 정산 기간의 미정산 대상 목록과 안내 초안을 생성. 초기 시험은 담당자 검토까지이며 자동 발송은 범위에서 제외</td></tr><tr><td>정본·식별자</td><td>정산 상태: [확인할 시스템·필드]. 재직 여부: [HR 정본·필드]. 연락처: [정본·필드]. 건별 식별자는 [정산 건 ID], 직원 연결은 [직원 고유 ID] 사용 여부 확인</td></tr><tr><td>책임·최신성</td><td>업무 책임자·갱신 담당·승인자: [각 지정 필요]. 데이터 기준 시각·최종 변경·조회 시각을 기록. 허용 지연: [현업 합의 필요]; 초과하면 해당 대상 확정 보류</td></tr><tr><td>규칙·검증</td><td>대상 기간·마감·정산 상태·제외 조건을 명시. 같은 기준 시점의 수작업 목록과 비교하고 차이의 사유를 기록. 중복·식별 불가·상태 충돌은 확인 목록으로 분리</td></tr><tr><td>접근·변경</td><td>역할별 조회 범위를 지정하고 인증정보는 별도 보관. 규칙의 버전·적용일·변경 이유·승인 근거 기록</td></tr><tr><td>실행·완료</td><td>초기 시험은 대상·제외 사유·초안과 대사 결과를 담당자가 검토하면 완료. 발송 연동 시 승인 범위, 발송 직전 상태 재확인, 중복 발송 방지 기준과 전달 결과 확인을 추가</td></tr></tbody></table></div>
+<h3>A-4. 파일과 시스템을 연결하는 방법</h3>
+<ul><li><strong>업무 기준 문서(Markdown 또는 문서 도구)</strong>: 목적·범위, 용어, 규칙, 책임, 항목별 정본 링크와 현재 유효 버전을 관리한다.</li><li><strong>원천 시스템·데이터</strong>: 실제 값을 갱신하는 위치다. 내려받은 CSV나 복제 Sheet는 정본으로 별도 지정하지 않았다면 조회 시점이 붙은 사본으로 취급한다.</li><li><strong>실행 명세·운영 원장(CSV·Sheet·DB 등)</strong>: 도구 연결, 승인점·완료 기준과 건별 실행·검증 결과를 관리한다. 기준 문서에서 정확한 위치를 연결한다.</li><li><strong>다이어그램·변경 이력</strong>: 자산·조직·배정 관계처럼 관계가 복잡하면 도식으로 보완한다. Git 또는 문서 도구의 이력 기능으로 기준 변경을 추적한다.</li></ul>
+<p>별도 시스템을 먼저 도입할 필요는 없다. 기존 업무 문서를 시작점으로 삼아 위 항목과 원천 링크를 채우고, <strong>담당자와 에이전트가 정답의 위치·적용 조건·갱신 책임을 동일하게 찾을 수 있는 상태</strong>를 만든다.</p>
+
+          <a class="source-link reading-link" href="./Appendix_A_SSOT_필수항목.md" download>Appendix A 내려받기 ↓</a>
+        </article>
+      </section>
+
+
+      <p class="footer">자료 출처: 9/11 KEP 경영지원실 AXS 아웃라인 · 경영부문 AX 요청사항 Sheet(9/21 조회) · 향후 AX 교육 로드맵 제안_2026.06.09(9/22 조회). SSOT Appendix는 9/22 작성한 적용 기준 제안입니다. 이 화면은 개인정보를 제외한 공개용 보고 초안이며 원천 시스템과 자동 동기화되지 않습니다.</p>
+    </main>
+  </div>
+  <script>
+    const filterButtons = document.querySelectorAll('.filter');
+    const workloadRows = document.querySelectorAll('.task-item[data-org]');
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach((item) => item.classList.remove('active'));
+        button.classList.add('active');
+        const target = button.dataset.filter;
+        workloadRows.forEach((row) => row.classList.toggle('hidden', target !== 'all' && row.dataset.org !== target));
+        const count = [...workloadRows].filter((row) => !row.classList.contains('hidden')).length;
+        document.getElementById('taskCount').textContent = `${count}개 후보 과제 표시 · 아래의 ‘접근 제안’은 9/22 논의를 위한 초안이며 실행 승인·진행 상태가 아닙니다.`;
+      });
+    });
+
+    document.getElementById('copyWeekly').addEventListener('click', async (event) => {
+      const button = event.currentTarget;
+      try {
+        await navigator.clipboard.writeText(document.getElementById('weeklyText').innerText);
+        button.textContent = '복사 완료';
+      } catch {
+        button.textContent = '복사 실패';
+      }
+      window.setTimeout(() => { button.textContent = '보고문 복사'; }, 1600);
+    });
+
+    const sections = [...document.querySelectorAll('main section, #overview')];
+    const links = [...document.querySelectorAll('nav a')];
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      links.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === `#${visible.target.id}`));
+    }, { rootMargin: '-18% 0px -68% 0px', threshold: [0, .2, .5] });
+    sections.forEach((section) => observer.observe(section));
+  </script>
+</body>
+</html>
