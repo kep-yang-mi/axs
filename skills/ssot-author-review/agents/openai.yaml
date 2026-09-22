@@ -1,0 +1,4 @@
+interface:
+  display_name: "SSoT 작성·평가"
+  short_description: "업무 SSoT를 작성하고 10개 영역 Rubric으로 근거·모순·개선점을 평가합니다"
+  default_prompt: "$ssot-author-review 를 사용해 이 업무의 SSoT를 작성하고, Rubric 점수와 근거·우선 개선점을 평가해 주세요."
