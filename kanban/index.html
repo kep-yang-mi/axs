@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>경영 AX/자동화 프로젝트 칸반</title>
+<style>
+:root{--bg:#eef1f6;--panel:#fff;--text:#1f2937;--muted:#6b7280;--line:#e5e7eb}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text);padding:26px 30px 44px}
+header h1{font-size:22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.date{font-size:12px;font-weight:600;color:#5f6368;background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px 11px}
+.sub{margin-top:7px;font-size:13px;color:var(--muted)}
+.flow{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:#374151}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 20px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:11px;padding:8px 15px;font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.stat b{font-size:17px;color:var(--text)}
+.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:start;padding-bottom:10px}
+@media (max-width:900px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.board{grid-template-columns:1fr}}
+.column{background:#e4e8ef;border-radius:14px;padding:10px 10px 4px;min-width:0}
+.column.dragover{background:#d9dee8;outline:2px dashed #9aa3b8;outline-offset:-5px}
+.col-head{display:flex;justify-content:space-between;align-items:center;padding:4px 6px 10px;gap:6px}
+.col-head .name{font-weight:700;font-size:14px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
+.col-head .state{font-size:10.5px;color:var(--muted);font-family:ui-monospace,Menlo,monospace}
+.count{font-size:12px;font-weight:700;background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 10px;flex:0 0 auto}
+.card{background:var(--panel);border-radius:11px;padding:12px 13px 11px;margin-bottom:10px;box-shadow:0 1px 2px rgba(16,24,40,.08);border-left:4px solid var(--tc,#9aa3b2);cursor:grab}
+.card:hover{box-shadow:0 5px 14px rgba(16,24,40,.14)}
+.card.dragging{opacity:.4}
+.top{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.id{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;color:var(--muted)}
+.tm{font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.card h3{font-size:13.5px;margin:7px 0 2px;line-height:1.35}
+.bar{height:6px;border-radius:3px;background:#edf0f4;margin:9px 0 5px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--tc,#9aa3b2)}
+.pctrow{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);gap:6px}
+.memo{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.5;border-top:1px dashed var(--line);padding-top:7px}
+h2.sec{font-size:15px;margin:26px 0 10px}
+.infra{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:900px){.infra{grid-template-columns:1fr}}
+.ibox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+.ibox h4{font-size:12.5px;margin-bottom:8px;color:#374151}
+.ibox ul{list-style:none}
+.ibox li{font-size:12px;color:#4b5563;padding:5px 0 5px 14px;position:relative;line-height:1.5}
+.ibox li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%;background:#9aa3b2}
+.ibox.ok li::before{background:#34A853}.ibox.doing li::before{background:#4285F4}
+.rules{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+@media (max-width:900px){.rules{grid-template-columns:1fr}}
+.rules li{font-size:12.5px;color:#4b5563;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 13px;line-height:1.5}
+.rules b{color:var(--text)}
+.toolbar{margin:18px 0 0;display:flex;gap:8px}
+button{font-size:12px;font-weight:600;padding:7px 13px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer;color:#374151}
+button:hover{background:#f3f4f6}
+.note{margin-top:14px;font-size:11.5px;color:var(--muted);line-height:1.6}
+</style>
+</head>
+<body>
+<header>
+  <h1><span id="h-title">칸반</span> <span class="date" id="h-date"></span></h1>
+  <p class="sub">워크플로우 <span class="flow" id="h-flow"></span> · 카드를 드래그하면 컬럼 간 이동이 가능하고, 위치는 이 브라우저에 저장됩니다.</p>
+  <div class="stats" id="stats"></div>
+</header>
+<main class="board" id="board"></main>
+<h2 class="sec">인프라 · 에이전트 시스템 (10-Agent 체계)</h2>
+<div class="infra" id="infra"></div>
+<h2 class="sec">운영 규칙</h2>
+<ul class="rules" id="rules"></ul>
+<div class="toolbar"><button id="btn-reset">카드 위치 초기화</button></div>
+<p class="note" id="foot"></p>
+
+<script>
+var DATA = {"meta":{"title":"경영 AX/자동화 프로젝트 칸반","asOf":"2026-10-06","scenarioNote":"가상 시나리오","flow":"blocked-queue → route-jev → worker → agent-eval → done","footNote":"본 보드는 가상 시나리오 데이터입니다. 평균 진행률은 카드 수치 기준으로 자동 계산되며(추가요청 제외 19건), 카드 위치 변경은 이 브라우저에만 저장됩니다. 담당자 ID는 공개용으로 마스킹되었습니다."},"columns":[{"key":"backlog","name":"대기","state":"blocked-queue","color":"#9aa3b2"},{"key":"worker","name":"진행중","state":"worker","color":"#4285F4"},{"key":"eval","name":"검증","state":"agent-eval / human-review","color":"#F59E0B"},{"key":"done","name":"완료","state":"done","color":"#34A853"}],"teams":{"hr":{"label":"인사팀","color":"#4285F4"},"ga":{"label":"총무파트","color":"#34A853"},"sh":{"label":"안전보건TF","color":"#F59E0B"},"lg":{"label":"법무팀","color":"#EA4335"},"cm":{"label":"컴팀","color":"#9C27B0"}},"cards":[{"key":"hr0","id":"HR-0","team":"hr","title":"중책예산 사용 내역 알림","owner":"A***","pct":0,"col":"backlog","scope":"extra","memo":"원천 데이터 확인 대기 (검토 큐) · 4Q 착수 여부 결정 예정"},{"key":"hr1","id":"HR-1","team":"hr","title":"실시간 HR 리포트 생성","owner":"A***","pct":85,"col":"worker","scope":"task","memo":"운영 중 (매일 10시 자동 생성) · 고도화는 v2로 이관"},{"key":"hr3","id":"HR-3","team":"hr","title":"근태 이상 감지","owner":"A***","pct":60,"col":"worker","scope":"task","memo":"근태룰 12종 확정 후 파일럿 확장 · 셀프체크 봇 v0.9"},{"key":"sh3","id":"SH-3","team":"sh","title":"검진 코스 추천·병원 매칭","owner":"D***","pct":55,"col":"worker","scope":"task","memo":"개인정보 조건부 승인 · 30명 클로즈드 베타 · 11월 전사 오픈 목표"},{"key":"sh4","id":"SH-4","team":"sh","title":"외부 대행기관 인원 명부 연동","owner":"D***","pct":70,"col":"worker","scope":"task","memo":"회신피드백 루프 개발 중 · 업체 표준 양식 협의"},{"key":"sh5","id":"SH-5","team":"sh","title":"건강검진·보건 관리 대시보드","owner":"Y***","pct":65,"col":"worker","scope":"task","memo":"미수검 D-30/D-14 리마인드 운영 · 유소견자 안내 10월 베타"},{"key":"lg2","id":"LG-2","team":"lg","title":"AI 계약 조항 스크리닝","owner":"J***","pct":70,"col":"worker","scope":"task","memo":"비식별화+온프레 LLM 전환 완료 · 룰셋 v2(55룰) 확장 중"},{"key":"lg3","id":"LG-3","team":"lg","title":"RAG 법무 지식 검색","owner":"J***","pct":45,"col":"worker","scope":"task","memo":"1,200/2,300건 벡터화 · 대외비 권한 분류 정리 중"},{"key":"cm2","id":"CM-2","team":"cm","title":"AI 카드뉴스·쇼츠 제작","owner":"C*** · H***","pct":60,"col":"worker","scope":"task","memo":"카드뉴스 파이프라인 12종 · 툴 조합 확정 · 검수 후 게시"},{"key":"hr2","id":"HR-2","team":"hr","title":"조직별 인건비 리포트","owner":"A***","pct":75,"col":"eval","scope":"task","memo":"SAP 권한 타결 · 10월 말 베타 · 배포 게이트 대기"},{"key":"lg1","id":"LG-1","team":"lg","title":"계약 체결본 동일성 검증","owner":"J***","pct":80,"col":"eval","scope":"task","memo":"Diff 대조 정식 오픈 · OCR 오류율 3% · 안정화 검증 중"},{"key":"cm4","id":"CM-4","team":"cm","title":"ESG DC 전력 사용량 입력","owner":"J***","pct":90,"col":"eval","scope":"task","memo":"취합 20분→10분 · 4Q 보고서 출력 자동화 잔여"},{"key":"cm5","id":"CM-5","team":"cm","title":"시간 단위 뉴스 모니터링","owner":"L***","pct":80,"col":"eval","scope":"task","memo":"긴급 인지 30분 이내 · 임계값·노이즈 검증 중"},{"key":"ga1","id":"GA-1","team":"ga","title":"웰포인트 과세·공제 자동화","owner":"D***","pct":100,"col":"done","scope":"task","memo":"마감 8h→40분 · 과세/공제 오류 0건"},{"key":"ga2","id":"GA-2","team":"ga","title":"웰포인트 미정산 자동 안내","owner":"D***","pct":100,"col":"done","scope":"task","memo":"미정산 47명→12명/월 · 개별 안내 업무 소멸"},{"key":"sh1","id":"SH-1","team":"sh","title":"맞춤형 이슈 스크랩·전파","owner":"D***","pct":100,"col":"done","scope":"task","memo":"매일 08:30 브리핑 · 인사·기획팀 가로전개"},{"key":"sh2","id":"SH-2","team":"sh","title":"적격수급인 평가·계약 누락 방지","owner":"D***","pct":100,"col":"done","scope":"task","memo":"수기 체크 3h/주→0 · 누락 0건 · 만료 D-30 알림"},{"key":"cm1","id":"CM-1","team":"cm","title":"일별/주별 뉴스 공유","owner":"D***","pct":100,"col":"done","scope":"task","memo":"아지트 자동 게시 · 검수 10분 · 브리핑 30분"},{"key":"cm3","id":"CM-3","team":"cm","title":"인사/부고 알림","owner":"R***","pct":100,"col":"done","scope":"task","memo":"매일 08:00 취합 · 실시간 알림 · 놓침 0건"},{"key":"cm6","id":"CM-6","team":"cm","title":"정부/공공기관 인사 모니터링","owner":"L***","pct":100,"col":"done","scope":"task","memo":"예외 인사 당일 파악 (기존 5일) · 키맨 태깅"}],"infra":[{"state":"ok","title":"완료 · 설계 확정","items":["아키텍처 v2.1 — 단일 표면 허브 봇 (경영 AX 허브)","JEV 하이브리드 하네스 (라우팅·게이트·점수)","공유 워크스페이스 (소통 로그 · 스코어보드 · 슬롯)","Evals 5종 페어링 + 배포 게이트 · kill switch","워크플로우 (재시도 3회 초과 시 사람 에스컬레이션 + SLA)"]},{"state":"doing","title":"진행중","items":["공통 하네스 구현 (트리거 스케줄러 · 커넥터)","초기 골든셋 라벨링 (과거 수기 처리 사례)"]},{"state":"todo","title":"백로그","items":["JEV 인텐트 스키마 (21개 모듈 + fallback)","Evals 5종 구현 (골든셋 회귀 · LLM-judge · 캔어리)","난제 팀 모드 오픈 (검증자 확보 순: LG-2 → SH-2)","SLA/aging 자동화 (P1 4h / P2 1영업일 / P3 3영업일)","CM-2 루브릭 안정화 → 팀 모드 조건 충족","HR-0 원천 데이터 확정 후 모듈 편성"]}],"rules":[{"label":"Pull 규칙","text":"검증 PASS + (검수 필수 카테고리는 human-review 승인) 후에만 완료로 이동"},{"label":"FAIL 회귀","text":"agent-eval FAIL 시 진행중으로 회귀 (재시도++), 3회 초과 시 사람 에스컬레이션"},{"label":"WIP 상한","text":"팀당 진행중 3건. 현재 안전보건TF(SH-3·4·5) 도달, 1건 done 후 신규 스폰"},{"label":"SLA","text":"대기 컬럼 aging 초과 시 자동 에스컬레이션 (재시도 잔여와 무관)"},{"label":"난제 팀 모드","text":"검증자(골든셋) 존재 + 예산 충족 시에만 team@3~4 스폰, 채택은 검증 점수 기준"},{"label":"10월 이동 예정","text":"HR-2 베타 → 게이트 · SH-5 유소견자 베타 → 게이트 · CM-4/CM-5 → done 후보"}]};
+(function(){
+  var LS = 'ax-kanban-positions-v2';
+  var esc = function(s){ var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; };
+
+  document.getElementById('h-title').textContent = DATA.meta.title;
+  document.getElementById('h-date').textContent = '기준일 ' + DATA.meta.asOf + ' · ' + DATA.meta.scenarioNote;
+  document.getElementById('h-flow').textContent = DATA.meta.flow;
+  document.getElementById('foot').textContent = DATA.meta.footNote;
+
+  // stats
+  var statDefs = DATA.columns.map(function(c){ return { key: c.key, label: c.name + ' ' + c.state.split(' ')[0], color: c.color }; });
+  var statsEl = document.getElementById('stats');
+  statDefs.slice().reverse().forEach(function(s){
+    var d = document.createElement('div');
+    d.className = 'stat';
+    d.innerHTML = esc(s.label) + ' <b data-stat="' + esc(s.key) + '" style="color:' + esc(s.color) + '">0</b>';
+    statsEl.appendChild(d);
+  });
+  var avgBox = document.createElement('div');
+  avgBox.className = 'stat';
+  avgBox.innerHTML = '평균 진행률 (과제 19건) <b id="st-avg">-</b>';
+  statsEl.appendChild(avgBox);
+
+  // columns
+  var boardEl = document.getElementById('board');
+  DATA.columns.forEach(function(c){
+    var sec = document.createElement('section');
+    sec.className = 'column';
+    sec.dataset.col = c.key;
+    sec.innerHTML = '<div class="col-head"><div class="name"><span class="dot" style="background:' + esc(c.color) + '"></span>'
+      + esc(c.name) + '<span class="state">' + esc(c.state) + '</span></div><span class="count">0</span></div>';
+    boardEl.appendChild(sec);
+  });
+
+  // cards
+  DATA.cards.forEach(function(card){
+    var team = DATA.teams[card.team] || { label: card.team, color: '#9aa3b2' };
+    var art = document.createElement('article');
+    art.className = 'card';
+    art.draggable = true;
+    art.dataset.id = card.key;
+    art.dataset.pct = card.pct;
+    art.dataset.scope = card.scope;
+    art.style.setProperty('--tc', team.color);
+    art.innerHTML =
+      '<div class="top"><span class="id">' + esc(card.id) + '</span>'
+      + '<span class="tm" style="background:' + esc(team.color) + '1f;color:' + esc(team.color) + '">' + esc(team.label) + '</span></div>'
+      + '<h3>' + esc(card.title) + '</h3>'
+      + '<div class="bar"><i style="width:' + Number(card.pct) + '%"></i></div>'
+      + '<div class="pctrow"><span>' + esc(card.owner) + '</span><span>' + Number(card.pct) + '%</span></div>'
+      + '<p class="memo">' + esc(card.memo) + '</p>';
+    var col = boardEl.querySelector('.column[data-col="' + card.col + '"]');
+    (col || boardEl.firstElementChild).appendChild(art);
+  });
+
+  // infra
+  var infraEl = document.getElementById('infra');
+  DATA.infra.forEach(function(box){
+    var div = document.createElement('div');
+    div.className = 'ibox ' + (box.state === 'ok' ? 'ok' : box.state === 'doing' ? 'doing' : '');
+    div.innerHTML = '<h4>' + esc(box.title) + '</h4><ul>' + box.items.map(function(i){ return '<li>' + esc(i) + '</li>'; }).join('') + '</ul>';
+    infraEl.appendChild(div);
+  });
+
+  // rules
+  var rulesEl = document.getElementById('rules');
+  DATA.rules.forEach(function(r){
+    var li = document.createElement('li');
+    li.innerHTML = '<b>' + esc(r.label) + '</b> — ' + esc(r.text);
+    rulesEl.appendChild(li);
+  });
+
+  // drag & drop
+  function bindCard(c){
+    c.addEventListener('dragstart', function(e){
+      c.classList.add('dragging');
+      e.dataTransfer.setData('text/plain', c.dataset.id);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    c.addEventListener('dragend', function(){ c.classList.remove('dragging'); });
+  }
+  document.querySelectorAll('.card').forEach(bindCard);
+
+  document.querySelectorAll('.column').forEach(function(col){
+    col.addEventListener('dragover', function(e){ e.preventDefault(); col.classList.add('dragover'); });
+    col.addEventListener('dragleave', function(){ col.classList.remove('dragover'); });
+    col.addEventListener('drop', function(e){
+      e.preventDefault(); col.classList.remove('dragover');
+      var card = document.querySelector('.card[data-id="' + e.dataTransfer.getData('text/plain') + '"]');
+      if(!card || card.parentElement === col){ return; }
+      col.appendChild(card);
+      save(); refresh();
+    });
+  });
+
+  function save(){
+    var pos = {};
+    document.querySelectorAll('.card').forEach(function(c){ pos[c.dataset.id] = c.parentElement.dataset.col; });
+    try { localStorage.setItem(LS, JSON.stringify(pos)); } catch(err){}
+  }
+  function restore(){
+    try {
+      var pos = JSON.parse(localStorage.getItem(LS) || '{}');
+      Object.keys(pos).forEach(function(id){
+        var card = document.querySelector('.card[data-id="' + id + '"]');
+        var col = document.querySelector('.column[data-col="' + pos[id] + '"]');
+        if(card && col){ col.appendChild(card); }
+      });
+    } catch(err){}
+  }
+  function refresh(){
+    document.querySelectorAll('.column').forEach(function(col){
+      var n = col.querySelectorAll('.card').length;
+      col.querySelector('.count').textContent = n;
+      var stat = document.querySelector('b[data-stat="' + col.dataset.col + '"]');
+      if(stat){ stat.textContent = n; }
+    });
+    var list = document.querySelectorAll('.card[data-scope="task"]');
+    var sum = 0;
+    list.forEach(function(c){ sum += parseFloat(c.dataset.pct || '0'); });
+    document.getElementById('st-avg').textContent = list.length ? ((sum / list.length).toFixed(1) + '%') : '-';
+  }
+  document.getElementById('btn-reset').addEventListener('click', function(){
+    try { localStorage.removeItem(LS); } catch(err){}
+    location.reload();
+  });
+  restore(); refresh();
+})();
+</script>
+</body>
+</html>
