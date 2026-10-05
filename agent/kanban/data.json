@@ -1,0 +1,413 @@
+{
+  "schemaVersion": "1",
+  "audience": "agent",
+  "humanView": "../../kanban/",
+  "dataNature": "virtual-scenario",
+  "notice": "진행률·절감시간은 가상 시나리오/목표치이며 실적이 아니다. 담당자 ID는 마스킹되어 있다.",
+  "meta": {
+    "title": "경영 AX/자동화 프로젝트 칸반",
+    "asOf": "2026-10-06",
+    "scenarioNote": "가상 시나리오",
+    "flow": "blocked-queue → route-jev → worker → agent-eval → done",
+    "footNote": "본 보드는 가상 시나리오 데이터입니다. 평균 진행률은 카드 수치 기준으로 자동 계산되며(추가요청 제외 19건), 카드 위치 변경은 이 브라우저에만 저장됩니다. '완료 목표 뷰'의 사선 목표분은 시나리오 기준 목표치입니다. 담당자 ID는 공개용으로 마스킹되었습니다."
+  },
+  "stats": {
+    "countsByColumn": {
+      "backlog": 1,
+      "worker": 8,
+      "eval": 4,
+      "done": 7
+    },
+    "taskCount": 19,
+    "avgTaskPct": 80.8
+  },
+  "columns": [
+    {
+      "key": "backlog",
+      "name": "대기",
+      "state": "blocked-queue",
+      "color": "#9aa3b2"
+    },
+    {
+      "key": "worker",
+      "name": "진행중",
+      "state": "worker",
+      "color": "#4285F4"
+    },
+    {
+      "key": "eval",
+      "name": "검증",
+      "state": "agent-eval / human-review",
+      "color": "#F59E0B"
+    },
+    {
+      "key": "done",
+      "name": "완료",
+      "state": "done",
+      "color": "#34A853"
+    }
+  ],
+  "teams": {
+    "hr": {
+      "label": "인사팀",
+      "color": "#4285F4"
+    },
+    "ga": {
+      "label": "총무파트",
+      "color": "#34A853"
+    },
+    "sh": {
+      "label": "안전보건TF",
+      "color": "#F59E0B"
+    },
+    "lg": {
+      "label": "법무팀",
+      "color": "#EA4335"
+    },
+    "cm": {
+      "label": "컴팀",
+      "color": "#9C27B0"
+    }
+  },
+  "cards": [
+    {
+      "key": "hr0",
+      "id": "HR-0",
+      "team": "hr",
+      "title": "중책예산 사용 내역 알림",
+      "owner": "A***",
+      "pct": 0,
+      "col": "backlog",
+      "scope": "extra",
+      "memo": "원천 데이터 확인 대기 (검토 큐) · 4Q 착수 여부 결정 예정",
+      "teamLabel": "인사팀",
+      "targetPct": 100,
+      "remainingPct": 100
+    },
+    {
+      "key": "hr1",
+      "id": "HR-1",
+      "team": "hr",
+      "title": "실시간 HR 리포트 생성",
+      "owner": "A***",
+      "pct": 85,
+      "col": "worker",
+      "scope": "task",
+      "memo": "운영 중 (매일 10시 자동 생성) · 고도화는 v2로 이관",
+      "teamLabel": "인사팀",
+      "targetPct": 100,
+      "remainingPct": 15
+    },
+    {
+      "key": "hr3",
+      "id": "HR-3",
+      "team": "hr",
+      "title": "근태 이상 감지",
+      "owner": "A***",
+      "pct": 60,
+      "col": "worker",
+      "scope": "task",
+      "memo": "근태룰 12종 확정 후 파일럿 확장 · 셀프체크 봇 v0.9",
+      "teamLabel": "인사팀",
+      "targetPct": 100,
+      "remainingPct": 40
+    },
+    {
+      "key": "sh3",
+      "id": "SH-3",
+      "team": "sh",
+      "title": "검진 코스 추천·병원 매칭",
+      "owner": "D***",
+      "pct": 55,
+      "col": "worker",
+      "scope": "task",
+      "memo": "개인정보 조건부 승인 · 30명 클로즈드 베타 · 11월 전사 오픈 목표",
+      "teamLabel": "안전보건TF",
+      "targetPct": 100,
+      "remainingPct": 45
+    },
+    {
+      "key": "sh4",
+      "id": "SH-4",
+      "team": "sh",
+      "title": "외부 대행기관 인원 명부 연동",
+      "owner": "D***",
+      "pct": 70,
+      "col": "worker",
+      "scope": "task",
+      "memo": "회신피드백 루프 개발 중 · 업체 표준 양식 협의",
+      "teamLabel": "안전보건TF",
+      "targetPct": 100,
+      "remainingPct": 30
+    },
+    {
+      "key": "sh5",
+      "id": "SH-5",
+      "team": "sh",
+      "title": "건강검진·보건 관리 대시보드",
+      "owner": "Y***",
+      "pct": 65,
+      "col": "worker",
+      "scope": "task",
+      "memo": "미수검 D-30/D-14 리마인드 운영 · 유소견자 안내 10월 베타",
+      "teamLabel": "안전보건TF",
+      "targetPct": 100,
+      "remainingPct": 35
+    },
+    {
+      "key": "lg2",
+      "id": "LG-2",
+      "team": "lg",
+      "title": "AI 계약 조항 스크리닝",
+      "owner": "J***",
+      "pct": 70,
+      "col": "worker",
+      "scope": "task",
+      "memo": "비식별화+온프레 LLM 전환 완료 · 룰셋 v2(55룰) 확장 중",
+      "teamLabel": "법무팀",
+      "targetPct": 100,
+      "remainingPct": 30
+    },
+    {
+      "key": "lg3",
+      "id": "LG-3",
+      "team": "lg",
+      "title": "RAG 법무 지식 검색",
+      "owner": "J***",
+      "pct": 45,
+      "col": "worker",
+      "scope": "task",
+      "memo": "1,200/2,300건 벡터화 · 대외비 권한 분류 정리 중",
+      "teamLabel": "법무팀",
+      "targetPct": 100,
+      "remainingPct": 55
+    },
+    {
+      "key": "cm2",
+      "id": "CM-2",
+      "team": "cm",
+      "title": "AI 카드뉴스·쇼츠 제작",
+      "owner": "C*** · H***",
+      "pct": 60,
+      "col": "worker",
+      "scope": "task",
+      "memo": "카드뉴스 파이프라인 12종 · 툴 조합 확정 · 검수 후 게시",
+      "teamLabel": "컴팀",
+      "targetPct": 100,
+      "remainingPct": 40
+    },
+    {
+      "key": "hr2",
+      "id": "HR-2",
+      "team": "hr",
+      "title": "조직별 인건비 리포트",
+      "owner": "A***",
+      "pct": 75,
+      "col": "eval",
+      "scope": "task",
+      "memo": "SAP 권한 타결 · 10월 말 베타 · 배포 게이트 대기",
+      "teamLabel": "인사팀",
+      "targetPct": 100,
+      "remainingPct": 25
+    },
+    {
+      "key": "lg1",
+      "id": "LG-1",
+      "team": "lg",
+      "title": "계약 체결본 동일성 검증",
+      "owner": "J***",
+      "pct": 80,
+      "col": "eval",
+      "scope": "task",
+      "memo": "Diff 대조 정식 오픈 · OCR 오류율 3% · 안정화 검증 중",
+      "teamLabel": "법무팀",
+      "targetPct": 100,
+      "remainingPct": 20
+    },
+    {
+      "key": "cm4",
+      "id": "CM-4",
+      "team": "cm",
+      "title": "ESG DC 전력 사용량 입력",
+      "owner": "J***",
+      "pct": 90,
+      "col": "eval",
+      "scope": "task",
+      "memo": "취합 20분→10분 · 4Q 보고서 출력 자동화 잔여",
+      "teamLabel": "컴팀",
+      "targetPct": 100,
+      "remainingPct": 10
+    },
+    {
+      "key": "cm5",
+      "id": "CM-5",
+      "team": "cm",
+      "title": "시간 단위 뉴스 모니터링",
+      "owner": "L***",
+      "pct": 80,
+      "col": "eval",
+      "scope": "task",
+      "memo": "긴급 인지 30분 이내 · 임계값·노이즈 검증 중",
+      "teamLabel": "컴팀",
+      "targetPct": 100,
+      "remainingPct": 20
+    },
+    {
+      "key": "ga1",
+      "id": "GA-1",
+      "team": "ga",
+      "title": "웰포인트 과세·공제 자동화",
+      "owner": "D***",
+      "pct": 100,
+      "col": "done",
+      "scope": "task",
+      "memo": "마감 8h→40분 · 과세/공제 오류 0건",
+      "teamLabel": "총무파트",
+      "targetPct": 100,
+      "remainingPct": 0
+    },
+    {
+      "key": "ga2",
+      "id": "GA-2",
+      "team": "ga",
+      "title": "웰포인트 미정산 자동 안내",
+      "owner": "D***",
+      "pct": 100,
+      "col": "done",
+      "scope": "task",
+      "memo": "미정산 47명→12명/월 · 개별 안내 업무 소멸",
+      "teamLabel": "총무파트",
+      "targetPct": 100,
+      "remainingPct": 0
+    },
+    {
+      "key": "sh1",
+      "id": "SH-1",
+      "team": "sh",
+      "title": "맞춤형 이슈 스크랩·전파",
+      "owner": "D***",
+      "pct": 100,
+      "col": "done",
+      "scope": "task",
+      "memo": "매일 08:30 브리핑 · 인사·기획팀 가로전개",
+      "teamLabel": "안전보건TF",
+      "targetPct": 100,
+      "remainingPct": 0
+    },
+    {
+      "key": "sh2",
+      "id": "SH-2",
+      "team": "sh",
+      "title": "적격수급인 평가·계약 누락 방지",
+      "owner": "D***",
+      "pct": 100,
+      "col": "done",
+      "scope": "task",
+      "memo": "수기 체크 3h/주→0 · 누락 0건 · 만료 D-30 알림",
+      "teamLabel": "안전보건TF",
+      "targetPct": 100,
+      "remainingPct": 0
+    },
+    {
+      "key": "cm1",
+      "id": "CM-1",
+      "team": "cm",
+      "title": "일별/주별 뉴스 공유",
+      "owner": "D***",
+      "pct": 100,
+      "col": "done",
+      "scope": "task",
+      "memo": "아지트 자동 게시 · 검수 10분 · 브리핑 30분",
+      "teamLabel": "컴팀",
+      "targetPct": 100,
+      "remainingPct": 0
+    },
+    {
+      "key": "cm3",
+      "id": "CM-3",
+      "team": "cm",
+      "title": "인사/부고 알림",
+      "owner": "R***",
+      "pct": 100,
+      "col": "done",
+      "scope": "task",
+      "memo": "매일 08:00 취합 · 실시간 알림 · 놓침 0건",
+      "teamLabel": "컴팀",
+      "targetPct": 100,
+      "remainingPct": 0
+    },
+    {
+      "key": "cm6",
+      "id": "CM-6",
+      "team": "cm",
+      "title": "정부/공공기관 인사 모니터링",
+      "owner": "L***",
+      "pct": 100,
+      "col": "done",
+      "scope": "task",
+      "memo": "예외 인사 당일 파악 (기존 5일) · 키맨 태깅",
+      "teamLabel": "컴팀",
+      "targetPct": 100,
+      "remainingPct": 0
+    }
+  ],
+  "infra": [
+    {
+      "state": "ok",
+      "title": "완료 · 설계 확정",
+      "items": [
+        "아키텍처 v2.1 — 단일 표면 허브 봇 (경영 AX 허브)",
+        "JEV 하이브리드 하네스 (라우팅·게이트·점수)",
+        "공유 워크스페이스 (소통 로그 · 스코어보드 · 슬롯)",
+        "Evals 5종 페어링 + 배포 게이트 · kill switch",
+        "워크플로우 (재시도 3회 초과 시 사람 에스컬레이션 + SLA)"
+      ]
+    },
+    {
+      "state": "doing",
+      "title": "진행중",
+      "items": [
+        "공통 하네스 구현 (트리거 스케줄러 · 커넥터)",
+        "초기 골든셋 라벨링 (과거 수기 처리 사례)"
+      ]
+    },
+    {
+      "state": "todo",
+      "title": "백로그",
+      "items": [
+        "JEV 인텐트 스키마 (21개 모듈 + fallback)",
+        "Evals 5종 구현 (골든셋 회귀 · LLM-judge · 캔어리)",
+        "난제 팀 모드 오픈 (검증자 확보 순: LG-2 → SH-2)",
+        "SLA/aging 자동화 (P1 4h / P2 1영업일 / P3 3영업일)",
+        "CM-2 루브릭 안정화 → 팀 모드 조건 충족",
+        "HR-0 원천 데이터 확정 후 모듈 편성"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "label": "Pull 규칙",
+      "text": "검증 PASS + (검수 필수 카테고리는 human-review 승인) 후에만 완료로 이동"
+    },
+    {
+      "label": "FAIL 회귀",
+      "text": "agent-eval FAIL 시 진행중으로 회귀 (재시도++), 3회 초과 시 사람 에스컬레이션"
+    },
+    {
+      "label": "WIP 상한",
+      "text": "팀당 진행중 3건. 현재 안전보건TF(SH-3·4·5) 도달, 1건 done 후 신규 스폰"
+    },
+    {
+      "label": "SLA",
+      "text": "대기 컬럼 aging 초과 시 자동 에스컬레이션 (재시도 잔여와 무관)"
+    },
+    {
+      "label": "난제 팀 모드",
+      "text": "검증자(골든셋) 존재 + 예산 충족 시에만 team@3~4 스폰, 채택은 검증 점수 기준"
+    },
+    {
+      "label": "10월 이동 예정",
+      "text": "HR-2 베타 → 게이트 · SH-5 유소견자 베타 → 게이트 · CM-4/CM-5 → done 후보"
+    }
+  ]
+}

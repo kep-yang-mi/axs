@@ -1,0 +1,14 @@
+# AXS
+
+> 경영지원실 AX/자동화 TF 자료. 사람용 HTML과 에이전트용 데이터(agent/)를 분리해 게시한다.
+> HTML 페이지 일부는 JavaScript로 렌더링되므로, 에이전트는 agent/ 아래 파일을 읽는다.
+
+## Agent resources
+
+- [에이전트용 네임스페이스 안내](agent/README.md): 규칙과 리소스 목록
+- [경영 AX/자동화 프로젝트 칸반 — 요약](agent/kanban/README.md): 컬럼·카드·인프라·운영 규칙 표 (가상 시나리오 데이터)
+- [경영 AX/자동화 프로젝트 칸반 — 원본 JSON](agent/kanban/data.json): schemaVersion 1, 카드별 실제/목표 진행률
+
+## Human views
+
+- [칸반 보드](kanban/): 드래그 가능한 HTML 보드, '완료 목표 뷰' 토글
