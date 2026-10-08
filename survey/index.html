@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI 활용·교육 니즈 설문</title>
+<meta name="description" content="논테크 직군 대상 AI 활용 현황·교육 니즈 설문 문항 (공유용 정적 사본)">
+<link rel="alternate" type="application/json" href="../agent/survey/data.json" title="agent data">
+<link rel="alternate" type="text/markdown" href="../agent/survey/README.md" title="agent summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+  :root { color-scheme: light; }
+  html, body { margin: 0; }
+  [hidden] { display: none !important; }
+  img { max-width: 100%; }
+  .agent-foot { max-width: 760px; margin: 0 auto; padding-inline: 20px; padding-block: 0 40px; font-size: 12.5px; color: var(--muted); }
+  .agent-foot a { color: var(--accent); }
+  :root {
+    --bg: #F2F5F4;
+    --surface: #FFFFFF;
+    --surface-2: #F8FAF9;
+    --ink: #14211F;
+    --ink-2: #33433F;
+    --muted: #66766F;
+    --line: #D8E0DD;
+    --line-strong: #B4C2BE;
+    --accent: #0D6B62;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #E0EFEB;
+    --accent-line: #7FB8AF;
+    --amber: #9A6408;
+    --amber-soft: #FBF0D9;
+    --danger: #B42318;
+    --danger-soft: #FCEBE8;
+    --bar: #0D6B62;
+    --bar-track: #E6ECEA;
+    --shadow: 0 1px 2px rgba(20, 33, 31, .06), 0 8px 24px -12px rgba(20, 33, 31, .18);
+    --font: "IBM Plex Sans KR", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0D1312;
+      --surface: #141C1B;
+      --surface-2: #18211F;
+      --ink: #E4ECEA;
+      --ink-2: #C2CECB;
+      --muted: #8A9A96;
+      --line: #25302D;
+      --line-strong: #3A4844;
+      --accent: #4DC0B1;
+      --accent-ink: #052320;
+      --accent-soft: #143430;
+      --accent-line: #2E7A70;
+      --amber: #F0BF63;
+      --amber-soft: #392D14;
+      --danger: #F28474;
+      --danger-soft: #3B1D19;
+      --bar: #4DC0B1;
+      --bar-track: #1F2A28;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px -12px rgba(0, 0, 0, .6);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0D1312;
+    --surface: #141C1B;
+    --surface-2: #18211F;
+    --ink: #E4ECEA;
+    --ink-2: #C2CECB;
+    --muted: #8A9A96;
+    --line: #25302D;
+    --line-strong: #3A4844;
+    --accent: #4DC0B1;
+    --accent-ink: #052320;
+    --accent-soft: #143430;
+    --accent-line: #2E7A70;
+    --amber: #F0BF63;
+    --amber-soft: #392D14;
+    --danger: #F28474;
+    --danger-soft: #3B1D19;
+    --bar: #4DC0B1;
+    --bar-track: #1F2A28;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px -12px rgba(0, 0, 0, .6);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.6;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding-inline: 20px;
+    padding-block: 28px 72px;
+  }
+  @media (max-width: 480px) { .wrap { padding-inline: 16px; } }
+
+  /* ---------- Masthead ---------- */
+  .mast { display: grid; gap: 14px; padding-block: 12px 28px; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+  }
+  .mast h1 {
+    margin: 0;
+    font-size: clamp(26px, 5vw, 34px);
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .lead { margin: 0; color: var(--ink-2); max-width: 62ch; }
+  .facts {
+    display: flex; flex-wrap: wrap; gap: 8px 20px;
+    margin: 4px 0 0; padding: 0; list-style: none;
+    font-size: 13px; color: var(--muted);
+  }
+  .facts b { color: var(--ink); font-weight: 600; margin-left: 6px; font-variant-numeric: tabular-nums; }
+
+  /* ---------- Tabs (operators only) ---------- */
+  .tabs {
+    display: flex; gap: 4px; margin-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .tab {
+    appearance: none; background: none; border: 0; cursor: pointer;
+    font: inherit; font-weight: 600; font-size: 14px; color: var(--muted);
+    padding: 10px 14px; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+  .tab .count {
+    font-family: var(--mono); font-size: 12px; margin-left: 6px;
+    background: var(--accent-soft); color: var(--accent); padding: 1px 7px; border-radius: 99px;
+  }
+  .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+  /* ---------- Sticky progress ---------- */
+  .progress {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding-block: 10px;
+    margin-bottom: 8px;
+    display: grid; gap: 8px;
+  }
+  .progress-row { display: flex; align-items: center; gap: 12px; }
+  .progress-track { flex: 1; height: 6px; background: var(--bar-track); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0; background: var(--accent); border-radius: 99px; transition: width .25s ease; }
+  .progress-label { font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .jump { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .jump::-webkit-scrollbar { display: none; }
+  .jump a {
+    flex: none; text-decoration: none; font-size: 12px; font-weight: 500;
+    color: var(--ink-2); border: 1px solid var(--line); background: var(--surface);
+    padding: 3px 10px; border-radius: 99px; white-space: nowrap;
+  }
+  .jump a.done { border-color: var(--accent-line); color: var(--accent); }
+  .jump a.off { opacity: .45; }
+  .jump a:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  /* ---------- Banner ---------- */
+  .banner {
+    display: flex; gap: 10px; align-items: flex-start;
+    border: 1px solid var(--accent-line); background: var(--accent-soft); color: var(--ink);
+    padding: 12px 14px; border-radius: 10px; font-size: 14px; margin-bottom: 16px;
+  }
+  .banner.warn { border-color: color-mix(in srgb, var(--amber) 45%, transparent); background: var(--amber-soft); }
+
+  /* ---------- Sections ---------- */
+  .sec { padding-block: 36px 8px; scroll-margin-top: 96px; }
+  .sec + .sec { border-top: 1px solid var(--line); }
+  .sec-head { display: grid; gap: 6px; margin-bottom: 22px; }
+  .sec-tag { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .sec-no { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .08em; color: var(--accent); }
+  .sec-scope {
+    font-size: 12px; font-weight: 500; color: var(--amber); background: var(--amber-soft);
+    padding: 1px 8px; border-radius: 4px;
+  }
+  .sec h2 { margin: 0; font-size: 21px; line-height: 1.35; letter-spacing: -0.01em; font-weight: 700; text-wrap: balance; }
+  .sec-desc { margin: 0; color: var(--muted); font-size: 14px; max-width: 62ch; }
+  .skip-note {
+    border: 1px dashed var(--line-strong); border-radius: 10px; padding: 16px;
+    color: var(--muted); font-size: 14px; margin-bottom: 24px;
+  }
+
+  /* ---------- Questions ---------- */
+  .q { display: grid; gap: 12px; padding-block: 18px 26px; scroll-margin-top: 110px; }
+  .q-head { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-items: baseline; }
+  .q-num {
+    font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--muted);
+    min-width: 2.6em; font-variant-numeric: tabular-nums;
+  }
+  .q-title { margin: 0; font-size: 16.5px; line-height: 1.5; font-weight: 600; text-wrap: pretty; }
+  .req { color: var(--danger); margin-left: 3px; }
+  .q-meta { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 13px; color: var(--muted); }
+  .q-meta .hint { margin: 0; }
+  .pick {
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    border: 1px solid var(--line); border-radius: 99px; padding: 0 8px; color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .pick.full { border-color: var(--accent-line); color: var(--accent); background: var(--accent-soft); }
+  .q-body { padding-left: calc(2.6em + 12px); display: grid; gap: 10px; }
+  @media (max-width: 560px) { .q-body { padding-left: 0; } .q-meta { grid-column: 1 / -1; } }
+
+  .opts { display: grid; gap: 8px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) {
+    .opts.cols-2 { grid-template-columns: 1fr 1fr; }
+    .opts.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .opts.cols-5 { grid-template-columns: repeat(5, 1fr); }
+  }
+  .opt {
+    position: relative; display: flex; align-items: flex-start; gap: 10px;
+    border: 1px solid var(--line); background: var(--surface); border-radius: 10px;
+    padding: 11px 13px; cursor: pointer; font-size: 14.5px; line-height: 1.5;
+    transition: border-color .12s ease, background-color .12s ease;
+  }
+  .opt:hover { border-color: var(--line-strong); }
+  .opt input { position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; }
+  .opt .mark {
+    flex: none; width: 18px; height: 18px; margin-top: 2px;
+    border: 1.5px solid var(--line-strong); background: var(--surface); border-radius: 5px;
+    display: grid; place-items: center;
+  }
+  .opt input[type="radio"] + .mark { border-radius: 50%; }
+  .opt .mark::after {
+    content: ""; width: 10px; height: 6px; border: 2px solid var(--accent-ink);
+    border-top: 0; border-right: 0; transform: translateY(-1px) rotate(-45deg); opacity: 0;
+  }
+  .opt input[type="radio"] + .mark::after {
+    width: 8px; height: 8px; border: 0; border-radius: 50%; background: var(--accent-ink); transform: none;
+  }
+  .opt.on { border-color: var(--accent); background: var(--accent-soft); }
+  .opt.on .mark { background: var(--accent); border-color: var(--accent); }
+  .opt.on .mark::after { opacity: 1; }
+  .opt.dim { opacity: .45; cursor: not-allowed; }
+  .opt.dim:hover { border-color: var(--line); }
+  .opt:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .opt-text { min-width: 0; }
+  .opt-badge {
+    display: inline-block; margin-left: 6px; font-size: 11px; font-weight: 600;
+    color: var(--amber); background: var(--amber-soft); padding: 0 6px; border-radius: 4px; vertical-align: 1px;
+  }
+
+  /* Ladder — level questions */
+  .ladder { display: grid; gap: 8px; }
+  .ladder .opt { align-items: center; padding: 12px 14px; gap: 14px; }
+  .lv-meter { flex: none; display: flex; align-items: flex-end; gap: 3px; height: 22px; }
+  .lv-meter i { display: block; width: 5px; border-radius: 2px; background: var(--bar-track); }
+  .lv-meter i:nth-child(1) { height: 30%; } .lv-meter i:nth-child(2) { height: 47%; }
+  .lv-meter i:nth-child(3) { height: 64%; } .lv-meter i:nth-child(4) { height: 82%; }
+  .lv-meter i:nth-child(5) { height: 100%; }
+  .lv-meter i.f { background: var(--line-strong); }
+  .opt.on .lv-meter i.f { background: var(--accent); }
+  .lv-text { display: grid; gap: 1px; min-width: 0; }
+  .lv-name { font-weight: 600; }
+  .lv-name small { font-family: var(--mono); font-weight: 500; font-size: 12px; color: var(--muted); margin-right: 8px; }
+  .lv-desc { color: var(--muted); font-size: 13.5px; }
+  .ladder .mark { margin-top: 0; }
+
+  /* Scale — ordered frequency */
+  .opts.scale .opt { justify-content: flex-start; }
+  @media (min-width: 640px) {
+    .opts.scale .opt { flex-direction: column; align-items: flex-start; gap: 8px; min-height: 92px; }
+  }
+
+  .etc-field { display: grid; gap: 6px; }
+  .etc-field label { font-size: 13px; color: var(--muted); }
+  .text-input {
+    width: 100%; font: inherit; font-size: 14.5px; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line-strong); border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .text-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+
+  .q-err { margin: 0; color: var(--danger); font-size: 13px; font-weight: 500; }
+  .q.invalid .q-title { color: var(--danger); }
+
+  .note {
+    display: flex; gap: 8px; font-size: 13px; color: var(--ink-2);
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px;
+  }
+  .note .path { font-weight: 600; color: var(--ink); }
+
+  /* ---------- Submit ---------- */
+  .submit-bar {
+    margin-top: 36px; padding: 20px; border-radius: 14px;
+    background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow);
+    display: grid; gap: 14px;
+  }
+  .submit-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+  .submit-sum { font-size: 14px; color: var(--ink-2); }
+  .submit-sum b { font-variant-numeric: tabular-nums; }
+  .btn {
+    appearance: none; border: 1px solid transparent; cursor: pointer;
+    font: inherit; font-weight: 600; font-size: 15px;
+    padding: 11px 22px; border-radius: 10px;
+    background: var(--accent); color: var(--accent-ink);
+  }
+  .btn:hover { filter: brightness(1.06); }
+  .btn:disabled { opacity: .55; cursor: progress; }
+  .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+  .btn.small { font-size: 13px; padding: 7px 14px; }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .status { margin: 0; font-size: 13.5px; }
+  .status.err { color: var(--danger); }
+  .status.ok { color: var(--accent); }
+  .privacy { margin: 0; font-size: 12.5px; color: var(--muted); }
+
+  .done-panel {
+    margin-top: 12px; padding: 36px 28px; border-radius: 16px; text-align: left;
+    background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow);
+    display: grid; gap: 12px; justify-items: start;
+  }
+  .done-panel h2 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+  .done-panel p { margin: 0; color: var(--ink-2); max-width: 56ch; }
+  .done-check {
+    width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: var(--accent-ink);
+    display: grid; place-items: center; font-size: 20px; font-weight: 700;
+  }
+
+  /* ---------- Results ---------- */
+  .res-top { display: grid; gap: 14px; margin-bottom: 8px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 2px; }
+  .kpi span { font-size: 12.5px; color: var(--muted); }
+  .kpi b { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  .kpi small { font-size: 12px; color: var(--muted); }
+  .res-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    appearance: none; cursor: pointer; font: inherit; font-size: 13px; font-weight: 500;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink-2);
+    padding: 4px 11px; border-radius: 99px;
+  }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .chip .n { font-family: var(--mono); font-size: 11.5px; opacity: .75; margin-left: 4px; }
+  .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .res-sec { padding-top: 26px; }
+  .res-sec > h3 { margin: 0 0 4px; font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .08em; color: var(--accent); }
+  .res-q { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin-top: 10px; display: grid; gap: 12px; }
+  .res-q h4 { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.5; }
+  .res-q h4 .q-num { margin-right: 8px; }
+  .res-sub { font-size: 12.5px; color: var(--muted); margin-top: -8px; }
+  .bars { display: grid; gap: 7px; }
+  .bar-row { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) 76px; gap: 12px; align-items: center; font-size: 13.5px; }
+  .bar-label { min-width: 0; color: var(--ink-2); }
+  .bar-track { height: 12px; background: var(--bar-track); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--bar); border-radius: 3px; min-width: 0; }
+  .bar-row.top .bar-label { color: var(--ink); font-weight: 600; }
+  .bar-val { text-align: right; font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .bar-val small { color: var(--muted); margin-left: 4px; }
+  @media (max-width: 520px) {
+    .bar-row { grid-template-columns: 1fr 70px; gap: 4px 10px; }
+    .bar-label { grid-column: 1 / -1; }
+  }
+  details.etc { font-size: 13px; color: var(--ink-2); }
+  details.etc summary { cursor: pointer; color: var(--muted); }
+  details.etc ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; }
+  textarea.text-input { resize: vertical; min-height: 104px; line-height: 1.6; }
+  .quotes { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; max-height: 420px; overflow-y: auto; }
+  .quotes li {
+    font-size: 13.5px; color: var(--ink-2); background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; white-space: pre-wrap;
+  }
+  .empty { padding: 40px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line-strong); border-radius: 12px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <p class="eyebrow">카카오엔터프라이즈 · 논테크 직군 대상</p>
+    <h1>AI 활용 현황 및 교육 니즈 설문</h1>
+    <p class="lead">구성원 여러분의 AI 활용 수준과 업무 현장의 병목을 파악해, 직군에 맞는 AX 교육과 지원 방향을 설계하려 합니다. 솔직하게 답해 주실수록 실제 업무에 도움이 되는 교육을 만들 수 있습니다.</p>
+    <ul class="facts">
+      <li>문항<b id="fact-count">17문항</b></li>
+      <li>소요 시간<b>약 5분</b></li>
+      <li>필수 문항<b><span class="req" style="margin:0">*</span> 표시</b></li>
+    </ul>
+  </header>
+
+  <nav class="tabs" id="tabs" role="tablist" aria-label="화면 전환" hidden>
+    <button class="tab" id="tab-survey" role="tab" aria-selected="true" aria-controls="view-survey">설문 응답</button>
+    <button class="tab" id="tab-results" role="tab" aria-selected="false" aria-controls="view-results">응답 현황<span class="count" id="tab-count">0</span></button>
+  </nav>
+
+  <div id="view-survey" role="tabpanel" aria-labelledby="tab-survey">
+    <div class="progress" id="progress">
+      <div class="progress-row">
+        <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
+        <span class="progress-label" id="progress-label">0 / 0</span>
+      </div>
+      <nav class="jump" id="jump" aria-label="섹션 바로가기"></nav>
+    </div>
+
+    <div id="banner-slot"></div>
+
+    <form id="survey" novalidate></form>
+
+    <div class="done-panel" id="done" hidden>
+      <div class="done-check" aria-hidden="true">✓</div>
+      <h2>응답이 저장되었습니다</h2>
+      <p>소중한 의견 감사합니다. 응답 결과는 직군별 AX 교육 과정과 조직 지원 방향을 설계하는 데 활용됩니다. 제출 후에도 같은 링크에서 응답을 수정할 수 있습니다.</p>
+      <button type="button" class="btn ghost small" id="edit-again">응답 수정하기</button>
+    </div>
+  </div>
+
+  <div id="view-results" role="tabpanel" aria-labelledby="tab-results" hidden></div>
+</div>
+
+<footer class="agent-foot">에이전트·자동화 도구용 문항 데이터: <a href="../agent/survey/README.md">Markdown 요약</a> · <a href="../agent/survey/data.json">JSON</a> (이 페이지는 JavaScript로 렌더링되므로 HTML만 읽는 도구는 위 파일을 사용)</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ================= Survey definition ================= */
+  const ETC = "기타";
+  const TEXT_MAX = 1000;
+  const TRACKS_BS = ["Product Manager", "Design", "Business", "Staff", ETC];
+
+  const SECTIONS = [
+    {
+      id: "s1", no: "SECTION 1", title: "개인 AI/AX 이용 현황",
+      desc: "본인의 현재 AI 활용 수준과, 활용을 넓히는 데 걸림돌이 되는 요인을 묻습니다.",
+      questions: [
+        {
+          id: "q1", type: "ladder", required: true,
+          title: "현재 본인의 AI 활용 수준은 어느 단계에 가장 가깝다고 생각하시나요?",
+          options: [
+            ["관심 단계", "AI 도구를 거의 사용해 보지 않았거나 관심만 있는 상태"],
+            ["탐색 단계", "필요할 때 가끔 질문·검색 용도로 사용해 봄"],
+            ["활용 단계", "문서 작성·요약 등 일부 업무에 정기적으로 활용"],
+            ["내재화 단계", "주요 업무 흐름 곳곳에 AI를 일상적으로 결합해 활용"],
+            ["혁신 단계", "AI로 업무 방식을 재설계하거나 자동화·에이전트를 직접 구성"]
+          ]
+        },
+        {
+          id: "q2", type: "multi", max: 3, required: true, cols: 2,
+          title: "AI 활용 확산의 가장 큰 장애요인은 무엇이라고 생각하시나요?",
+          options: [
+            "AI를 어떻게 활용해야 할지 방법·노하우를 잘 모름",
+            "내 업무에 적용할 구체적인 사례를 찾기 어려움",
+            "결과물의 정확도·신뢰성이 걱정됨 (환각 등)",
+            "보안·개인정보·사내 정보 유출이 우려됨",
+            "쓸 수 있는 도구·유료 라이선스가 부족함",
+            "배우고 시도해 볼 시간이 부족함",
+            "프롬프트 작성 등 사용 자체가 어렵게 느껴짐",
+            "사내 시스템·데이터와 연결해 쓰기 어려움",
+            "사용 가능 범위 등 가이드라인이 불명확함",
+            "아직 필요성을 크게 느끼지 못함",
+            ETC
+          ]
+        }
+      ]
+    },
+    {
+      id: "s2", no: "SECTION 2", title: "조직 내 AI/AX 현황 진단",
+      desc: "본인이 속한 조직(팀·실 단위)의 AI 활용 수준과 확산 장애요인을 묻습니다.",
+      questions: [
+        {
+          id: "q3", type: "ladder", required: true,
+          title: "현재 본인 조직의 AI 활용 수준은 어느 단계에 가장 가깝다고 생각하시나요?",
+          options: [
+            ["미도입", "조직 차원의 AI 활용이 거의 없음"],
+            ["개인 실험", "일부 구성원이 개인적으로 시도하는 수준"],
+            ["부분 적용", "일부 업무·팀 단위에서 AI를 활용"],
+            ["확산", "조직 전반의 업무 프로세스에 AI가 표준처럼 적용됨"],
+            ["AI Native", "AI를 전제로 업무와 조직 운영이 재설계됨"]
+          ]
+        },
+        {
+          id: "q4", type: "multi", max: 3, required: true, cols: 2,
+          title: "현재 조직 내 AI 활용 확산의 가장 큰 장애요인은 무엇이라고 생각하시나요?",
+          options: [
+            "리더·조직 차원의 AX 방향성과 우선순위가 불명확함",
+            "조직 내 활용 사례·성공 경험 공유가 부족함",
+            "구성원 간 AI 활용 역량 편차가 큼",
+            "보안·컴플라이언스 정책상 제약이 큼",
+            "전사 표준 AI 도구·인프라가 부족함",
+            "기존 업무 프로세스·시스템이 AI 적용에 맞지 않음",
+            "활용할 데이터가 흩어져 있거나 정리되어 있지 않음",
+            "AI 활용 성과에 대한 평가·인정 체계가 없음",
+            "교육·학습 기회가 부족함",
+            "변화에 대한 부담감·심리적 저항",
+            ETC
+          ]
+        }
+      ]
+    },
+    {
+      id: "s3", no: "SECTION 3", title: "직군별 향후 교육 수요 조사",
+      desc: "선택한 직렬에 따라 이어지는 문항이 달라집니다.",
+      questions: [
+        {
+          id: "q5", type: "single", required: true, cols: 3,
+          title: "본인의 직렬을 선택해주세요.",
+          note: ["마이카카오 > 나의인사정보 > 직군/직렬", "에서 확인할 수 있습니다. (조직도에서도 확인 가능)"],
+          options: ["Tech", "Product Manager", "Design", "Business", "Staff", ETC]
+        }
+      ]
+    },
+    {
+      id: "s3c", no: "SECTION 3-C", title: "PM·Design·Business·Staff 직렬", scope: "Tech 외 직렬 응답",
+      desc: "현재 업무에서의 AI 활용 방식과, AI로 풀고 싶은 병목 업무를 묻습니다.",
+      branch: true,
+      questions: [
+        {
+          id: "bs_plan", type: "text",
+          title: "AI 도구가 지급된다면, 업무에 어떤 방식으로 활용하실 계획인가요?",
+          placeholder: "예: 주간 보고서 초안 작성과 회의록 요약에 매일 활용하고, 팀에서 함께 쓸 프롬프트를 만들어 공유"
+        },
+        {
+          id: "bs_task", type: "text",
+          title: "AI 도구를 활용해 해결하고 싶은 특정 업무가 있으신가요?",
+          placeholder: "예: 매월 여러 부서에서 받는 실적 데이터를 취합해 보고서로 정리하는 작업"
+        },
+        {
+          id: "bs_process", type: "text",
+          title: "AI 도구를 활용해 개편하고 싶은 업무 프로세스나 시스템이 있으신가요?",
+          placeholder: "예: 메일·메신저로 흩어져 들어오는 문의를 한곳에 모아 분류하고 답변 초안까지 만드는 흐름"
+        },
+        {
+          id: "q6", type: "scale", required: true, cols: 5,
+          title: "현재 업무에서 AI 도구를 얼마나 활용하고 계신가요? (예: ChatGPT, Claude 등)",
+          options: ["거의 사용하지 않음", "월 몇 회, 필요할 때만", "주 1~2회", "주 3~4회", "매일 업무에 활용"]
+        },
+        {
+          id: "q7", type: "multi", max: 3, required: true, cols: 2,
+          title: "현재 업무에서 AI를 활용하고 있는 주요 업무는 무엇인가요?",
+          exclusive: "아직 AI를 활용하는 업무가 없음",
+          options: [
+            "문서·보고서 초안 작성",
+            "메일·메시지·공지문 작성",
+            "회의록 정리·요약",
+            "자료 조사·리서치·트렌드 분석",
+            "데이터 분석·엑셀 수식·시각화",
+            "기획 아이디어 발굴 (브레인스토밍)",
+            "번역·외국어 커뮤니케이션",
+            "발표자료(PPT) 구성·작성",
+            "계약서·규정 등 문서 검토",
+            "반복 업무 자동화 (스크립트·워크플로)",
+            "아직 AI를 활용하는 업무가 없음",
+            ETC
+          ]
+        },
+        {
+          id: "q8", type: "multi", max: 3, required: true, cols: 2,
+          title: "현재 업무 수행에 가장 도움이 되고 있거나, 향후 활용 가치를 높게 평가하는 AI 도구는 무엇인가요?",
+          options: [
+            "ChatGPT",
+            "Claude",
+            "Gemini",
+            "Microsoft Copilot",
+            "Perplexity",
+            "NotebookLM",
+            "Notion AI",
+            "Claude Code·Cursor 등 에이전트형 도구",
+            "Gamma 등 문서·슬라이드 생성 도구",
+            "이미지·영상 생성 도구 (Midjourney 등)",
+            "사내 AI 도구·서비스",
+            ETC
+          ]
+        },
+        {
+          id: "q9", type: "multi", max: 3, required: true, cols: 2,
+          title: "현재 업무에서 가장 병목이 크거나 반복적으로 많은 시간이 소요되는 업무는 무엇인가요?",
+          options: [
+            "보고서·기획서 등 문서 작성",
+            "회의 준비, 회의록 정리·후속 공유",
+            "데이터 취합·정리·집계 (엑셀 등)",
+            "정기 현황·리포트 자료 작성",
+            "자료 조사, 시장·경쟁사 분석",
+            "메일·메신저 문의 응대",
+            "결재·품의·정산 등 행정 처리",
+            "계약서·규정·정책 문서 검토",
+            "발표자료(PPT) 제작",
+            "여러 시스템 간 데이터 입력·이관",
+            "일정·리소스 조율",
+            ETC
+          ]
+        },
+        {
+          id: "q10", type: "multi", max: 3, required: true, cols: 2, sameAs: "q9",
+          title: "위 업무 중 AI 적용 효과가 가장 클 것으로 생각되는 영역은 무엇인가요?"
+        },
+        {
+          id: "q11", type: "multi", max: 3, required: true, cols: 2,
+          title: "향후 가장 듣고 싶은 후속 교육 주제는 무엇인가요?",
+          options: [
+            "생성형 AI 기초와 프롬프트 작성법",
+            "문서·보고서 작성에 AI 활용",
+            "엑셀·데이터 분석에 AI 활용",
+            "회의록·메일 등 커뮤니케이션 효율화",
+            "리서치·인사이트 도출에 AI 활용",
+            "발표자료·시각자료 제작에 AI 활용",
+            "노코드 업무 자동화 (워크플로·에이전트 만들기)",
+            "나만의 AI 비서 만들기 (GPTs·Claude Projects 등)",
+            "비개발자를 위한 Claude Code 등 에이전트 도구 활용",
+            "AI 활용 시 보안·저작권·윤리 가이드",
+            "직무별 AI 활용 우수 사례",
+            ETC
+          ]
+        }
+      ]
+    },
+    {
+      id: "s4", no: "SECTION 4", title: "향후 교육 운영 방식 및 조직 지원 방향",
+      desc: "교육을 어떤 방식과 주기로 운영하면 좋을지, 회사가 무엇을 지원해야 할지 묻습니다.",
+      questions: [
+        {
+          id: "q12", type: "multi", max: 3, required: true, cols: 2,
+          title: "향후 AI/AX 역량 강화를 위해 가장 효과적일 것으로 보이는 교육 방식은 무엇인가요?",
+          options: [
+            "실습 중심 핸즈온 워크숍",
+            "직군·직무별 맞춤 과정",
+            "실제 업무 과제를 가져와 해결하는 프로젝트형 과정",
+            "온라인 강의(VOD) 등 자기주도 학습",
+            "사내 우수 활용 사례 공유 세션",
+            "외부 전문가 특강·세미나",
+            "소규모 스터디·학습 커뮤니티",
+            "1:1 코칭·오피스아워 (상시 Q&A)",
+            "해커톤·AI 활용 공모전",
+            ETC
+          ]
+        },
+        {
+          id: "q13", type: "multi", max: 3, required: true, cols: 2,
+          title: "회사의 효과적인 AI Native/AX 전환을 위해 가장 필요한 지원은 무엇이라고 생각하시나요?",
+          options: [
+            "유료 AI 도구·라이선스 지원 확대",
+            "보안 기준을 충족하는 사내 AI 환경 구축",
+            "명확한 AI 활용 가이드라인·정책 수립",
+            "사내 업무 시스템·데이터와 AI 연동",
+            "체계적인 단계별 교육 프로그램",
+            "직무별 활용 사례·프롬프트 템플릿 제공",
+            "AI 학습·실험을 위한 업무 시간 확보",
+            "AI 활용 성과에 대한 인정·보상",
+            "리더십의 명확한 AX 방향 제시와 솔선수범",
+            "조직별 AX 챔피언·전담 지원 인력",
+            ETC
+          ]
+        },
+        {
+          id: "q14", type: "single", required: true, cols: 1,
+          title: "향후 AI/AX 관련 교육은 어느 정도 주기로 운영되는 것이 적절하다고 느끼시나요?",
+          options: [
+            "월 1회 이상",
+            "분기 1회",
+            "반기 1회",
+            "연 1회",
+            "정기 과정 없이 필요할 때 수시로 (상시 오픈 과정)"
+          ]
+        }
+      ]
+    }
+  ];
+
+  const ALL_Q = [];
+  SECTIONS.forEach(s => s.questions.forEach(q => {
+    q.section = s.id;
+    if (q.sameAs) q.options = SECTIONS.flatMap(x => x.questions).find(x => x.id === q.sameAs).options;
+    ALL_Q.push(q);
+  }));
+  const Q_BY_ID = Object.fromEntries(ALL_Q.map(q => [q.id, q]));
+  const labelOf = o => Array.isArray(o) ? o[0] : o;
+  const isMulti = q => q.type === "multi";
+  const hasEtc = q => (q.options || []).some(o => labelOf(o) === ETC);
+
+  /* ================= State ================= */
+  const state = { answers: {}, etc: {} };
+  const DRAFT_KEY = "ax-survey-draft-v1";
+  let db = null, uid = null, existing = null, downloads = null;
+
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const el = (tag, attrs = {}, kids = []) => {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v == null || v === false) continue;
+      if (k === "class") n.className = v;
+      else if (k === "text") n.textContent = v;
+      else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+      else n.setAttribute(k, v === true ? "" : v);
+    }
+    (Array.isArray(kids) ? kids : [kids]).forEach(c => c != null && n.append(c));
+    return n;
+  };
+
+  /* Sequential numbering that skips nothing: Q1…Q14 */
+  ALL_Q.forEach((q, i) => { q.no = "Q" + (i + 1); });
+
+  /* ================= Render form ================= */
+  const form = $("#survey");
+
+  function renderForm() {
+    form.textContent = "";
+    for (const s of SECTIONS) {
+      const sec = el("section", { class: "sec", id: "sec-" + s.id, "aria-labelledby": "h-" + s.id });
+      const tag = el("div", { class: "sec-tag" }, [el("span", { class: "sec-no", text: s.no })]);
+      if (s.scope) tag.append(el("span", { class: "sec-scope", text: s.scope }));
+      sec.append(el("div", { class: "sec-head" }, [
+        tag,
+        el("h2", { id: "h-" + s.id, text: s.title }),
+        el("p", { class: "sec-desc", text: s.desc })
+      ]));
+      if (s.branch) sec.append(el("div", { class: "skip-note", id: "skip-" + s.id, hidden: true }));
+      const body = el("div", { id: "body-" + s.id });
+      s.questions.forEach(q => body.append(renderQuestion(q)));
+      sec.append(body);
+      form.append(sec);
+    }
+
+    const submit = el("div", { class: "submit-bar" }, [
+      el("div", { class: "submit-row" }, [
+        el("div", { class: "submit-sum", id: "submit-sum" }),
+        el("button", { type: "submit", class: "btn", id: "submit-btn", text: "응답 제출하기" })
+      ]),
+      el("p", { class: "status", id: "status", role: "status", "aria-live": "polite" }),
+      el("p", { class: "privacy", text: "이름·이메일은 저장하지 않으며, 1인 1회 응답 확인을 위한 내부 식별자만 함께 저장됩니다. 결과는 통계 형태로만 교육 기획에 활용됩니다." })
+    ]);
+    form.append(submit);
+
+    const jump = $("#jump");
+    jump.textContent = "";
+    SECTIONS.forEach(s => jump.append(el("a", { href: "#sec-" + s.id, id: "jump-" + s.id, text: s.no.replace("SECTION ", "S") + " " + s.title })));
+  }
+
+  function renderQuestion(q) {
+    const wrap = el("div", { class: "q", id: "q-" + q.id, role: "group", "aria-labelledby": "t-" + q.id });
+    const title = el("h3", { class: "q-title", id: "t-" + q.id }, [q.title]);
+    if (q.required) title.append(el("span", { class: "req", "aria-label": "필수", text: "*" }));
+    const meta = el("div", { class: "q-meta" });
+    if (isMulti(q)) {
+      meta.append(el("p", { class: "hint", text: `최대 ${q.max}개 선택` }));
+      meta.append(el("span", { class: "pick", id: "pick-" + q.id, text: `0 / ${q.max}` }));
+    } else if (q.type === "ladder") {
+      meta.append(el("p", { class: "hint", text: "하나만 선택" }));
+    } else if (q.type === "text") {
+      meta.append(el("p", { class: "hint", text: "선택 문항 · 자유롭게 적어 주세요" }));
+    }
+    wrap.append(el("div", { class: "q-head" }, [el("span", { class: "q-num", text: q.no }), title, meta]));
+
+    const body = el("div", { class: "q-body" });
+    if (q.note) {
+      body.append(el("div", { class: "note" }, [
+        el("span", { "aria-hidden": "true", text: "ⓘ" }),
+        el("span", {}, [el("span", { class: "path", text: q.note[0] }), " " + q.note[1]])
+      ]));
+    }
+
+    if (q.type === "text") {
+      const ta = el("textarea", {
+        class: "text-input", id: q.id + "-text", rows: "4", maxlength: String(TEXT_MAX),
+        placeholder: q.placeholder || "", "aria-labelledby": "t-" + q.id
+      });
+      ta.addEventListener("input", () => { state.answers[q.id] = ta.value; saveDraft(); });
+      body.append(ta);
+      wrap.append(body);
+      return wrap;
+    }
+
+    const inputType = isMulti(q) ? "checkbox" : "radio";
+    const list = el("div", {
+      class: q.type === "ladder" ? "ladder" : `opts cols-${q.cols || 1}${q.type === "scale" ? " scale" : ""}`
+    });
+    q.options.forEach((o, i) => {
+      const label = labelOf(o);
+      const id = `${q.id}-o${i + 1}`;
+      const input = el("input", { type: inputType, id, name: q.id, value: label });
+      input.addEventListener("change", () => onPick(q, label, input.checked));
+      const optKids = [input, el("span", { class: "mark", "aria-hidden": "true" })];
+      if (q.type === "ladder") {
+        const meter = el("span", { class: "lv-meter", "aria-hidden": "true" });
+        for (let k = 1; k <= 5; k++) meter.append(el("i", { class: k <= i + 1 ? "f" : "" }));
+        optKids.push(meter, el("span", { class: "lv-text" }, [
+          el("span", { class: "lv-name" }, [el("small", { text: `${i + 1}단계` }), label]),
+          el("span", { class: "lv-desc", text: o[1] })
+        ]));
+      } else {
+        const txt = el("span", { class: "opt-text", text: label === ETC ? "기타 (직접 입력)" : label });
+        if (q.sameAs) txt.append(el("span", { class: "opt-badge", hidden: true, "data-from": label, text: `${Q_BY_ID[q.sameAs].no}에서 선택` }));
+        optKids.push(txt);
+      }
+      list.append(el("label", { class: "opt", for: id, "data-label": label }, optKids));
+    });
+    body.append(list);
+
+    if (hasEtc(q)) {
+      const etcId = q.id + "-etc";
+      const input = el("input", { class: "text-input", type: "text", id: etcId, maxlength: "200", placeholder: "내용을 입력해 주세요" });
+      input.addEventListener("input", () => { state.etc[q.id] = input.value; saveDraft(); refreshProgress(); });
+      body.append(el("div", { class: "etc-field", id: "etcwrap-" + q.id, hidden: true }, [
+        el("label", { for: etcId, text: "기타 내용" }), input
+      ]));
+    }
+    body.append(el("p", { class: "q-err", id: "err-" + q.id, hidden: true }));
+    wrap.append(body);
+    return wrap;
+  }
+
+  /* ================= Interaction ================= */
+  function onPick(q, label, checked) {
+    if (isMulti(q)) {
+      let cur = new Set(state.answers[q.id] || []);
+      if (checked) {
+        if (q.exclusive && label === q.exclusive) cur = new Set([label]);
+        else { cur.delete(q.exclusive); cur.add(label); }
+        if (cur.size > q.max) cur.delete(label);
+      } else cur.delete(label);
+      state.answers[q.id] = [...cur];
+    } else {
+      state.answers[q.id] = label;
+    }
+    syncQuestion(q);
+    if (q.id === "q5") applyBranch();
+    if (q.id === "q9") syncQuestion(Q_BY_ID.q10);
+    clearError(q);
+    saveDraft();
+    refreshProgress();
+  }
+
+  function syncQuestion(q) {
+    const root = $("#q-" + q.id);
+    if (!root) return;
+    if (q.type === "text") {
+      const ta = $("#" + q.id + "-text");
+      const v = state.answers[q.id] || "";
+      if (ta.value !== v) ta.value = v;
+      return;
+    }
+    const val = state.answers[q.id];
+    const sel = new Set(isMulti(q) ? (val || []) : (val ? [val] : []));
+    const full = isMulti(q) && sel.size >= q.max;
+    root.querySelectorAll(".opt").forEach(opt => {
+      const label = opt.dataset.label;
+      const input = opt.querySelector("input");
+      const on = sel.has(label);
+      input.checked = on;
+      opt.classList.toggle("on", on);
+      const dim = full && !on;
+      opt.classList.toggle("dim", dim);
+      input.disabled = dim;
+    });
+    if (isMulti(q)) {
+      const pick = $("#pick-" + q.id);
+      pick.textContent = `${sel.size} / ${q.max}`;
+      pick.classList.toggle("full", full);
+    }
+    if (q.sameAs) {
+      const from = new Set(state.answers[q.sameAs] || []);
+      root.querySelectorAll(".opt-badge").forEach(b => { b.hidden = !from.has(b.dataset.from); });
+    }
+    const etcWrap = $("#etcwrap-" + q.id);
+    if (etcWrap) {
+      etcWrap.hidden = !sel.has(ETC);
+      const input = $("#" + q.id + "-etc");
+      if (input.value !== (state.etc[q.id] || "")) input.value = state.etc[q.id] || "";
+    }
+  }
+
+  function branchOpen() {
+    const t = state.answers.q5;
+    return TRACKS_BS.includes(t);
+  }
+
+  function applyBranch() {
+    const t = state.answers.q5;
+    const open = branchOpen();
+    const body = $("#body-s3c");
+    const note = $("#skip-s3c");
+    body.hidden = !open;
+    note.hidden = open;
+    if (!t) note.textContent = "Q5에서 직렬을 선택하면 해당 직렬의 문항이 표시됩니다.";
+    else if (!open) note.textContent = `${t} 직렬은 이 섹션(PM·Design·Business·Staff 직렬 문항) 대상이 아닙니다. 아래 SECTION 4로 바로 이어서 응답해 주세요.`;
+    $("#jump-s3c").classList.toggle("off", !open);
+    const total = ALL_Q.length, base = ALL_Q.filter(q => q.section !== "s3c").length;
+    $("#fact-count").textContent = open ? `${total}문항` : (t ? `${base}문항` : `${base}~${total}문항`);
+  }
+
+  function activeQuestions() {
+    return ALL_Q.filter(q => !(Q_BY_ID[q.id].section === "s3c" && !branchOpen()));
+  }
+
+  function isAnswered(q) {
+    const v = state.answers[q.id];
+    const has = isMulti(q) ? Array.isArray(v) && v.length > 0 : !!v;
+    if (!has) return false;
+    const picked = isMulti(q) ? v : [v];
+    if (picked.includes(ETC) && !(state.etc[q.id] || "").trim()) return false;
+    return true;
+  }
+
+  function refreshProgress() {
+    const qs = activeQuestions().filter(q => q.required);
+    const done = qs.filter(isAnswered).length;
+    const pct = qs.length ? Math.round(done / qs.length * 100) : 0;
+    $("#progress-fill").style.width = pct + "%";
+    $("#progress-label").textContent = `${done} / ${qs.length} 응답`;
+    const sum = $("#submit-sum");
+    sum.textContent = "";
+    sum.append("필수 문항 ", el("b", { text: String(qs.length) }), "개 중 ", el("b", { text: String(done) }), "개 응답");
+    for (const s of SECTIONS) {
+      const sq = s.questions.filter(q => q.required && activeQuestions().includes(q));
+      const link = $("#jump-" + s.id);
+      if (link) link.classList.toggle("done", sq.length > 0 && sq.every(isAnswered));
+    }
+  }
+
+  function clearError(q) {
+    const root = $("#q-" + q.id);
+    root.classList.remove("invalid");
+    const err = $("#err-" + q.id);
+    err.hidden = true;
+  }
+
+  function validate() {
+    let first = null;
+    for (const q of activeQuestions()) {
+      if (!q.required) continue;
+      if (isAnswered(q)) { clearError(q); continue; }
+      const v = state.answers[q.id];
+      const picked = isMulti(q) ? (v || []) : (v ? [v] : []);
+      const msg = picked.includes(ETC) ? "기타 내용을 입력해 주세요." : (isMulti(q) ? "1개 이상 선택해 주세요." : "하나를 선택해 주세요.");
+      $("#q-" + q.id).classList.add("invalid");
+      const err = $("#err-" + q.id);
+      err.textContent = msg;
+      err.hidden = false;
+      first = first || q;
+    }
+    return first;
+  }
+
+  /* ================= Draft (per-viewer convenience) ================= */
+  function saveDraft() {
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function loadDraft() {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return null;
+      const d = JSON.parse(raw);
+      return d && typeof d === "object" ? d : null;
+    } catch (e) { return null; }
+  }
+  function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); } catch (e) {} }
+
+  function applyAnswers(src) {
+    state.answers = {};
+    state.etc = {};
+    for (const q of ALL_Q) {
+      const v = src.answers?.[q.id];
+      if (q.type === "text") {
+        if (typeof v === "string") state.answers[q.id] = v.slice(0, TEXT_MAX);
+        continue;
+      }
+      const allowed = new Set(q.options.map(labelOf));
+      if (isMulti(q) && Array.isArray(v)) state.answers[q.id] = v.filter(x => allowed.has(x)).slice(0, q.max);
+      else if (!isMulti(q) && typeof v === "string" && allowed.has(v)) state.answers[q.id] = v;
+      const e = src.etc?.[q.id];
+      if (typeof e === "string") state.etc[q.id] = e.slice(0, 200);
+    }
+    ALL_Q.forEach(syncQuestion);
+    applyBranch();
+    refreshProgress();
+  }
+
+  /* ================= Submit ================= */
+  function setStatus(msg, kind) {
+    const s = $("#status");
+    s.textContent = msg || "";
+    s.className = "status" + (kind ? " " + kind : "");
+  }
+
+  function buildRecord() {
+    const answers = {}, etc = {};
+    for (const q of activeQuestions()) {
+      const v = state.answers[q.id];
+      if (v == null || (Array.isArray(v) && !v.length)) continue;
+      if (q.type === "text") {
+        const t = String(v).trim().slice(0, TEXT_MAX);
+        if (t) answers[q.id] = t;
+        continue;
+      }
+      answers[q.id] = v;
+      const picked = isMulti(q) ? v : [v];
+      if (picked.includes(ETC) && (state.etc[q.id] || "").trim()) etc[q.id] = state.etc[q.id].trim();
+    }
+    const now = new Date().toISOString();
+    return {
+      schema: 1,
+      track: answers.q5 || null,
+      answers,
+      etc,
+      submittedAt: existing?.submittedAt || now,
+      updatedAt: now
+    };
+  }
+
+  form.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const missing = validate();
+    if (missing) {
+      setStatus("아직 응답하지 않은 필수 문항이 있습니다. 표시된 문항을 확인해 주세요.", "err");
+      $("#q-" + missing.id).scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    if (!db || !uid) {
+      setStatus("이 화면에서는 응답을 저장할 수 없습니다. claude.ai에 로그인한 상태로 설문 링크를 다시 열어 주세요.", "err");
+      return;
+    }
+    const btn = $("#submit-btn");
+    btn.disabled = true;
+    setStatus("저장하는 중…");
+    const record = buildRecord();
+    try {
+      await db.doc("responses/" + uid).set(record);
+      existing = record;
+      clearDraft();
+      setStatus("");
+      showDone();
+    } catch (e) {
+      const code = e && e.code;
+      if (code === "invalid_argument") setStatus("응답을 저장할 권한이 없습니다. 설문 담당자에게 이 설문의 ‘참여자(Contributor)’ 권한을 요청해 주세요.", "err");
+      else if (code === "quota_exceeded") setStatus("설문 저장 공간이 가득 찼습니다. 설문 담당자에게 알려 주세요.", "err");
+      else if (code === "resource_exhausted") setStatus("요청이 많아 잠시 저장하지 못했습니다. 몇 초 뒤 다시 제출해 주세요.", "err");
+      else setStatus("일시적인 문제로 저장하지 못했습니다. 잠시 뒤 다시 제출해 주세요.", "err");
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  function showDone() {
+    form.hidden = true;
+    $("#progress").hidden = true;
+    $("#banner-slot").textContent = "";
+    $("#done").hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  $("#edit-again").addEventListener("click", () => {
+    $("#done").hidden = true;
+    form.hidden = false;
+    $("#progress").hidden = false;
+    $("#submit-btn").textContent = "수정한 응답 제출하기";
+  });
+
+  function showBanner(text, warn) {
+    const slot = $("#banner-slot");
+    slot.textContent = "";
+    slot.append(el("div", { class: "banner" + (warn ? " warn" : "") }, [el("span", { text })]));
+  }
+
+  /* ================= Results (operators) ================= */
+  let responses = [];
+  let filter = "전체";
+
+  function fmtDate(iso) {
+    if (!iso) return "-";
+    const d = new Date(iso);
+    if (isNaN(d)) return "-";
+    const p = n => String(n).padStart(2, "0");
+    return `${d.getFullYear()}.${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  }
+
+  function renderResults() {
+    const view = $("#view-results");
+    view.textContent = "";
+    $("#tab-count").textContent = String(responses.length);
+
+    const tracks = ["Business", "Staff", "Tech", "Product Manager", "Design", ETC];
+    const byTrack = Object.fromEntries(tracks.map(t => [t, responses.filter(r => r.track === t).length]));
+    const latest = responses.reduce((m, r) => (r.updatedAt && r.updatedAt > m ? r.updatedAt : m), "");
+    const bsCount = TRACKS_BS.reduce((sum, t) => sum + byTrack[t], 0);
+
+    const kpis = el("div", { class: "kpis" }, [
+      el("div", { class: "kpi" }, [el("span", { text: "총 응답자" }), el("b", { text: `${responses.length}명` })]),
+      el("div", { class: "kpi" }, [el("span", { text: "3-C 응답 (Tech 외 직렬)" }), el("b", { text: `${bsCount}명` })]),
+      el("div", { class: "kpi" }, [el("span", { text: "최근 응답" }), el("b", { style: "font-size:17px", text: latest ? fmtDate(latest) : "-" })])
+    ]);
+
+    const filters = el("div", { class: "filters", role: "group", "aria-label": "직렬 필터" });
+    ["전체", ...tracks].forEach(t => {
+      const n = t === "전체" ? responses.length : byTrack[t];
+      if (t !== "전체" && !n) return;
+      filters.append(el("button", {
+        type: "button", class: "chip", "aria-pressed": String(filter === t),
+        onclick: () => { filter = t; renderResults(); }
+      }, [t, el("span", { class: "n", text: String(n) })]));
+    });
+    const tools = el("div", { class: "res-tools" }, [filters]);
+    if (downloads) {
+      tools.append(el("button", { type: "button", class: "btn ghost small", id: "csv-btn", onclick: exportCsv, text: "CSV 내려받기" }));
+    }
+    const head = el("div", { class: "res-top" }, [kpis, tools]);
+    view.append(head);
+    view.append(el("p", { class: "status", id: "csv-status", role: "status", "aria-live": "polite" }));
+
+    const rows = filter === "전체" ? responses : responses.filter(r => r.track === filter);
+    if (!responses.length) {
+      view.append(el("div", { class: "empty", text: "아직 제출된 응답이 없습니다. 설문 링크를 공유하면 응답이 들어오는 대로 여기에 집계됩니다." }));
+      return;
+    }
+
+    for (const s of SECTIONS) {
+      const sec = el("div", { class: "res-sec" }, [el("h3", { text: `${s.no} · ${s.title}` })]);
+      for (const q of s.questions) {
+        const answered = rows.filter(r => {
+          const v = r.answers?.[q.id];
+          return Array.isArray(v) ? v.length > 0 : !!v;
+        });
+        const n = answered.length;
+        if (q.type === "text") {
+          const texts = [...answered]
+            .sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt)))
+            .map(r => String(r.answers[q.id]))
+            .filter(t => t.trim());
+          const card = el("div", { class: "res-q" }, [el("h4", {}, [el("span", { class: "q-num", text: q.no }), q.title])]);
+          card.append(el("div", { class: "res-sub", text: texts.length ? `서술 응답 ${texts.length}건 · 최근 수정순` : "이 조건의 응답이 없습니다" }));
+          if (texts.length) {
+            const list = el("ul", { class: "quotes" });
+            texts.forEach(t => list.append(el("li", { text: t })));
+            card.append(list);
+          }
+          sec.append(card);
+          continue;
+        }
+        const counts = new Map(q.options.map(o => [labelOf(o), 0]));
+        answered.forEach(r => {
+          const v = r.answers[q.id];
+          (Array.isArray(v) ? v : [v]).forEach(x => counts.has(x) && counts.set(x, counts.get(x) + 1));
+        });
+        let entries = [...counts.entries()];
+        if (isMulti(q)) entries.sort((a, b) => b[1] - a[1]);
+        const maxC = Math.max(1, ...entries.map(e => e[1]));
+        const card = el("div", { class: "res-q" }, [
+          el("h4", {}, [el("span", { class: "q-num", text: q.no }), q.title])
+        ]);
+        card.append(el("div", { class: "res-sub", text: n ? `응답자 ${n}명${isMulti(q) ? " · 복수 선택, 응답자 대비 비율" : ""}` : "이 조건의 응답이 없습니다" }));
+        if (n) {
+          const bars = el("div", { class: "bars" });
+          entries.forEach(([label, c]) => {
+            const pct = Math.round(c / n * 100);
+            bars.append(el("div", { class: "bar-row" + (c === maxC && c > 0 ? " top" : "") }, [
+              el("div", { class: "bar-label", text: label }),
+              el("div", { class: "bar-track", "aria-hidden": "true" }, [el("div", { class: "bar-fill", style: `width:${(c / n * 100).toFixed(1)}%` })]),
+              el("div", { class: "bar-val" }, [String(c), el("small", { text: `${pct}%` })])
+            ]));
+          });
+          card.append(bars);
+          const etcTexts = answered.map(r => r.etc?.[q.id]).filter(t => typeof t === "string" && t.trim());
+          if (etcTexts.length) {
+            const list = el("ul");
+            etcTexts.forEach(t => list.append(el("li", { text: t })));
+            card.append(el("details", { class: "etc" }, [el("summary", { text: `기타 응답 ${etcTexts.length}건 보기` }), list]));
+          }
+        }
+        sec.append(card);
+      }
+      view.append(sec);
+    }
+  }
+
+  function csvCell(v) {
+    const s = v == null ? "" : String(v);
+    return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  }
+
+  async function exportCsv() {
+    const st = $("#csv-status");
+    const header = ["No", "제출일시", "수정일시"];
+    ALL_Q.forEach(q => {
+      header.push(`${q.no}. ${q.title}`);
+      if (hasEtc(q)) header.push(`${q.no} 기타 내용`);
+    });
+    const lines = [header.map(csvCell).join(",")];
+    const sorted = [...responses].sort((a, b) => String(a.submittedAt).localeCompare(String(b.submittedAt)));
+    sorted.forEach((r, i) => {
+      const row = [i + 1, fmtDate(r.submittedAt), fmtDate(r.updatedAt)];
+      ALL_Q.forEach(q => {
+        const v = r.answers?.[q.id];
+        row.push(Array.isArray(v) ? v.join("; ") : (v || ""));
+        if (hasEtc(q)) row.push(r.etc?.[q.id] || "");
+      });
+      lines.push(row.map(csvCell).join(","));
+    });
+    const d = new Date();
+    const stamp = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
+    try {
+      await downloads.save({ filename: `AI활용_교육니즈_설문_${stamp}.csv`, data: "﻿" + lines.join("\r\n") });
+      st.className = "status ok"; st.textContent = "CSV 파일을 저장했습니다.";
+    } catch (e) {
+      if (e && e.code === "declined") { st.textContent = ""; return; }
+      st.className = "status err";
+      st.textContent = e && e.code === "rate_limited" ? "이미 저장 창이 열려 있습니다. 잠시 뒤 다시 시도해 주세요." : "이 화면에서는 파일을 내려받을 수 없습니다.";
+    }
+  }
+
+  function selectTab(which) {
+    const survey = which === "survey";
+    $("#tab-survey").setAttribute("aria-selected", String(survey));
+    $("#tab-results").setAttribute("aria-selected", String(!survey));
+    $("#view-survey").hidden = !survey;
+    $("#view-results").hidden = survey;
+  }
+  $("#tab-survey").addEventListener("click", () => selectTab("survey"));
+  $("#tab-results").addEventListener("click", () => selectTab("results"));
+
+  /* ================= Boot ================= */
+  renderForm();
+  ALL_Q.forEach(syncQuestion);
+  applyBranch();
+  refreshProgress();
+  const draft = loadDraft();
+  if (draft) applyAnswers(draft);
+
+  (async () => {
+    if (!window.claude || typeof window.claude.use !== "function") {
+      showBanner("문항 공유용 정적 사본입니다. 이 페이지에서는 응답이 저장되지 않으니, 응답은 안내받은 설문 링크에서 제출해 주세요.", true);
+      return;
+    }
+    const [dbNs, userNs] = await Promise.all([
+      window.claude.use("db").catch(() => null),
+      window.claude.use("user").catch(() => null)
+    ]);
+    db = dbNs;
+    if (!db || !userNs) {
+      showBanner("이 화면에서는 응답을 저장할 수 없습니다. claude.ai에 로그인한 상태로 설문 링크를 열어 주세요.", true);
+      return;
+    }
+    uid = await userNs.id();
+    if (!uid) {
+      showBanner("로그인 정보를 확인할 수 없어 응답을 저장할 수 없습니다. claude.ai에 로그인한 뒤 다시 열어 주세요.", true);
+    } else {
+      try {
+        const snap = await db.doc("responses/" + uid).get();
+        if (snap.exists) {
+          existing = snap.data();
+          applyAnswers(existing);
+          clearDraft();
+          $("#submit-btn").textContent = "수정한 응답 제출하기";
+          showBanner(`이미 제출한 응답이 있습니다 (${fmtDate(existing.updatedAt)}). 내용을 고친 뒤 다시 제출하면 기존 응답을 덮어씁니다.`);
+        }
+      } catch (e) { /* first visit or transient; the form still works */ }
+    }
+
+    const canEdit = await userNs.canEdit();
+    if (!canEdit) return;
+    downloads = await window.claude.use("downloads").catch(() => null);
+    $("#tabs").hidden = false;
+    renderResults();
+    db.collection("responses").onSnapshot(snap => {
+      responses = snap.docs.filter(d => d.exists).map(d => d.data());
+      renderResults();
+    }, () => {
+      const view = $("#view-results");
+      view.textContent = "";
+      view.append(el("div", { class: "empty", text: "응답 현황을 불러오지 못했습니다. 페이지를 새로고침해 주세요." }));
+    });
+    if (location.hash === "#results") selectTab("results");
+  })();
+})();
+</script>
+</body>
+</html>

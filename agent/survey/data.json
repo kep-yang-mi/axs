@@ -1,0 +1,661 @@
+{
+  "schemaVersion": 1,
+  "title": "AI 활용 현황 및 교육 니즈 설문",
+  "audience": "논테크 직군",
+  "asOf": "2026-10-08",
+  "dataNature": "survey-definition",
+  "note": "문항·보기 정의만 포함한다. 응답 데이터는 게시하지 않는다.",
+  "humanView": "../../survey/",
+  "questionCount": {
+    "total": 17,
+    "withoutConditionalSection": 8
+  },
+  "branching": [
+    {
+      "section": "SECTION 3-C",
+      "showWhen": {
+        "question": "Q5",
+        "answerIn": [
+          "Product Manager",
+          "Design",
+          "Business",
+          "Staff",
+          "기타"
+        ]
+      },
+      "otherwise": "SECTION 4로 바로 이동"
+    }
+  ],
+  "sections": [
+    {
+      "no": "SECTION 1",
+      "title": "개인 AI/AX 이용 현황",
+      "description": "본인의 현재 AI 활용 수준과, 활용을 넓히는 데 걸림돌이 되는 요인을 묻습니다.",
+      "conditional": false,
+      "questions": [
+        {
+          "no": "Q1",
+          "id": "q1",
+          "type": "ladder",
+          "answer": "single",
+          "required": true,
+          "title": "현재 본인의 AI 활용 수준은 어느 단계에 가장 가깝다고 생각하시나요?",
+          "options": [
+            {
+              "label": "관심 단계",
+              "description": "AI 도구를 거의 사용해 보지 않았거나 관심만 있는 상태"
+            },
+            {
+              "label": "탐색 단계",
+              "description": "필요할 때 가끔 질문·검색 용도로 사용해 봄"
+            },
+            {
+              "label": "활용 단계",
+              "description": "문서 작성·요약 등 일부 업무에 정기적으로 활용"
+            },
+            {
+              "label": "내재화 단계",
+              "description": "주요 업무 흐름 곳곳에 AI를 일상적으로 결합해 활용"
+            },
+            {
+              "label": "혁신 단계",
+              "description": "AI로 업무 방식을 재설계하거나 자동화·에이전트를 직접 구성"
+            }
+          ],
+          "allowsOtherText": false
+        },
+        {
+          "no": "Q2",
+          "id": "q2",
+          "type": "multi",
+          "answer": "multiple",
+          "required": true,
+          "title": "AI 활용 확산의 가장 큰 장애요인은 무엇이라고 생각하시나요?",
+          "maxSelect": 3,
+          "options": [
+            {
+              "label": "AI를 어떻게 활용해야 할지 방법·노하우를 잘 모름"
+            },
+            {
+              "label": "내 업무에 적용할 구체적인 사례를 찾기 어려움"
+            },
+            {
+              "label": "결과물의 정확도·신뢰성이 걱정됨 (환각 등)"
+            },
+            {
+              "label": "보안·개인정보·사내 정보 유출이 우려됨"
+            },
+            {
+              "label": "쓸 수 있는 도구·유료 라이선스가 부족함"
+            },
+            {
+              "label": "배우고 시도해 볼 시간이 부족함"
+            },
+            {
+              "label": "프롬프트 작성 등 사용 자체가 어렵게 느껴짐"
+            },
+            {
+              "label": "사내 시스템·데이터와 연결해 쓰기 어려움"
+            },
+            {
+              "label": "사용 가능 범위 등 가이드라인이 불명확함"
+            },
+            {
+              "label": "아직 필요성을 크게 느끼지 못함"
+            },
+            {
+              "label": "기타"
+            }
+          ],
+          "allowsOtherText": true
+        }
+      ]
+    },
+    {
+      "no": "SECTION 2",
+      "title": "조직 내 AI/AX 현황 진단",
+      "description": "본인이 속한 조직(팀·실 단위)의 AI 활용 수준과 확산 장애요인을 묻습니다.",
+      "conditional": false,
+      "questions": [
+        {
+          "no": "Q3",
+          "id": "q3",
+          "type": "ladder",
+          "answer": "single",
+          "required": true,
+          "title": "현재 본인 조직의 AI 활용 수준은 어느 단계에 가장 가깝다고 생각하시나요?",
+          "options": [
+            {
+              "label": "미도입",
+              "description": "조직 차원의 AI 활용이 거의 없음"
+            },
+            {
+              "label": "개인 실험",
+              "description": "일부 구성원이 개인적으로 시도하는 수준"
+            },
+            {
+              "label": "부분 적용",
+              "description": "일부 업무·팀 단위에서 AI를 활용"
+            },
+            {
+              "label": "확산",
+              "description": "조직 전반의 업무 프로세스에 AI가 표준처럼 적용됨"
+            },
+            {
+              "label": "AI Native",
+              "description": "AI를 전제로 업무와 조직 운영이 재설계됨"
+            }
+          ],
+          "allowsOtherText": false
+        },
+        {
+          "no": "Q4",
+          "id": "q4",
+          "type": "multi",
+          "answer": "multiple",
+          "required": true,
+          "title": "현재 조직 내 AI 활용 확산의 가장 큰 장애요인은 무엇이라고 생각하시나요?",
+          "maxSelect": 3,
+          "options": [
+            {
+              "label": "리더·조직 차원의 AX 방향성과 우선순위가 불명확함"
+            },
+            {
+              "label": "조직 내 활용 사례·성공 경험 공유가 부족함"
+            },
+            {
+              "label": "구성원 간 AI 활용 역량 편차가 큼"
+            },
+            {
+              "label": "보안·컴플라이언스 정책상 제약이 큼"
+            },
+            {
+              "label": "전사 표준 AI 도구·인프라가 부족함"
+            },
+            {
+              "label": "기존 업무 프로세스·시스템이 AI 적용에 맞지 않음"
+            },
+            {
+              "label": "활용할 데이터가 흩어져 있거나 정리되어 있지 않음"
+            },
+            {
+              "label": "AI 활용 성과에 대한 평가·인정 체계가 없음"
+            },
+            {
+              "label": "교육·학습 기회가 부족함"
+            },
+            {
+              "label": "변화에 대한 부담감·심리적 저항"
+            },
+            {
+              "label": "기타"
+            }
+          ],
+          "allowsOtherText": true
+        }
+      ]
+    },
+    {
+      "no": "SECTION 3",
+      "title": "직군별 향후 교육 수요 조사",
+      "description": "선택한 직렬에 따라 이어지는 문항이 달라집니다.",
+      "conditional": false,
+      "questions": [
+        {
+          "no": "Q5",
+          "id": "q5",
+          "type": "single",
+          "answer": "single",
+          "required": true,
+          "title": "본인의 직렬을 선택해주세요.",
+          "note": "마이카카오 > 나의인사정보 > 직군/직렬 에서 확인할 수 있습니다. (조직도에서도 확인 가능)",
+          "options": [
+            {
+              "label": "Tech"
+            },
+            {
+              "label": "Product Manager"
+            },
+            {
+              "label": "Design"
+            },
+            {
+              "label": "Business"
+            },
+            {
+              "label": "Staff"
+            },
+            {
+              "label": "기타"
+            }
+          ],
+          "allowsOtherText": true
+        }
+      ]
+    },
+    {
+      "no": "SECTION 3-C",
+      "title": "PM·Design·Business·Staff 직렬",
+      "description": "현재 업무에서의 AI 활용 방식과, AI로 풀고 싶은 병목 업무를 묻습니다.",
+      "conditional": true,
+      "questions": [
+        {
+          "no": "Q6",
+          "id": "bs_plan",
+          "type": "text",
+          "answer": "text",
+          "required": false,
+          "title": "AI 도구가 지급된다면, 업무에 어떤 방식으로 활용하실 계획인가요?",
+          "example": "주간 보고서 초안 작성과 회의록 요약에 매일 활용하고, 팀에서 함께 쓸 프롬프트를 만들어 공유"
+        },
+        {
+          "no": "Q7",
+          "id": "bs_task",
+          "type": "text",
+          "answer": "text",
+          "required": false,
+          "title": "AI 도구를 활용해 해결하고 싶은 특정 업무가 있으신가요?",
+          "example": "매월 여러 부서에서 받는 실적 데이터를 취합해 보고서로 정리하는 작업"
+        },
+        {
+          "no": "Q8",
+          "id": "bs_process",
+          "type": "text",
+          "answer": "text",
+          "required": false,
+          "title": "AI 도구를 활용해 개편하고 싶은 업무 프로세스나 시스템이 있으신가요?",
+          "example": "메일·메신저로 흩어져 들어오는 문의를 한곳에 모아 분류하고 답변 초안까지 만드는 흐름"
+        },
+        {
+          "no": "Q9",
+          "id": "q6",
+          "type": "scale",
+          "answer": "single",
+          "required": true,
+          "title": "현재 업무에서 AI 도구를 얼마나 활용하고 계신가요? (예: ChatGPT, Claude 등)",
+          "options": [
+            {
+              "label": "거의 사용하지 않음"
+            },
+            {
+              "label": "월 몇 회, 필요할 때만"
+            },
+            {
+              "label": "주 1~2회"
+            },
+            {
+              "label": "주 3~4회"
+            },
+            {
+              "label": "매일 업무에 활용"
+            }
+          ],
+          "allowsOtherText": false
+        },
+        {
+          "no": "Q10",
+          "id": "q7",
+          "type": "multi",
+          "answer": "multiple",
+          "required": true,
+          "title": "현재 업무에서 AI를 활용하고 있는 주요 업무는 무엇인가요?",
+          "maxSelect": 3,
+          "options": [
+            {
+              "label": "문서·보고서 초안 작성"
+            },
+            {
+              "label": "메일·메시지·공지문 작성"
+            },
+            {
+              "label": "회의록 정리·요약"
+            },
+            {
+              "label": "자료 조사·리서치·트렌드 분석"
+            },
+            {
+              "label": "데이터 분석·엑셀 수식·시각화"
+            },
+            {
+              "label": "기획 아이디어 발굴 (브레인스토밍)"
+            },
+            {
+              "label": "번역·외국어 커뮤니케이션"
+            },
+            {
+              "label": "발표자료(PPT) 구성·작성"
+            },
+            {
+              "label": "계약서·규정 등 문서 검토"
+            },
+            {
+              "label": "반복 업무 자동화 (스크립트·워크플로)"
+            },
+            {
+              "label": "아직 AI를 활용하는 업무가 없음"
+            },
+            {
+              "label": "기타"
+            }
+          ],
+          "exclusiveOption": "아직 AI를 활용하는 업무가 없음",
+          "allowsOtherText": true
+        },
+        {
+          "no": "Q11",
+          "id": "q8",
+          "type": "multi",
+          "answer": "multiple",
+          "required": true,
+          "title": "현재 업무 수행에 가장 도움이 되고 있거나, 향후 활용 가치를 높게 평가하는 AI 도구는 무엇인가요?",
+          "maxSelect": 3,
+          "options": [
+            {
+              "label": "ChatGPT"
+            },
+            {
+              "label": "Claude"
+            },
+            {
+              "label": "Gemini"
+            },
+            {
+              "label": "Microsoft Copilot"
+            },
+            {
+              "label": "Perplexity"
+            },
+            {
+              "label": "NotebookLM"
+            },
+            {
+              "label": "Notion AI"
+            },
+            {
+              "label": "Claude Code·Cursor 등 에이전트형 도구"
+            },
+            {
+              "label": "Gamma 등 문서·슬라이드 생성 도구"
+            },
+            {
+              "label": "이미지·영상 생성 도구 (Midjourney 등)"
+            },
+            {
+              "label": "사내 AI 도구·서비스"
+            },
+            {
+              "label": "기타"
+            }
+          ],
+          "allowsOtherText": true
+        },
+        {
+          "no": "Q12",
+          "id": "q9",
+          "type": "multi",
+          "answer": "multiple",
+          "required": true,
+          "title": "현재 업무에서 가장 병목이 크거나 반복적으로 많은 시간이 소요되는 업무는 무엇인가요?",
+          "maxSelect": 3,
+          "options": [
+            {
+              "label": "보고서·기획서 등 문서 작성"
+            },
+            {
+              "label": "회의 준비, 회의록 정리·후속 공유"
+            },
+            {
+              "label": "데이터 취합·정리·집계 (엑셀 등)"
+            },
+            {
+              "label": "정기 현황·리포트 자료 작성"
+            },
+            {
+              "label": "자료 조사, 시장·경쟁사 분석"
+            },
+            {
+              "label": "메일·메신저 문의 응대"
+            },
+            {
+              "label": "결재·품의·정산 등 행정 처리"
+            },
+            {
+              "label": "계약서·규정·정책 문서 검토"
+            },
+            {
+              "label": "발표자료(PPT) 제작"
+            },
+            {
+              "label": "여러 시스템 간 데이터 입력·이관"
+            },
+            {
+              "label": "일정·리소스 조율"
+            },
+            {
+              "label": "기타"
+            }
+          ],
+          "allowsOtherText": true
+        },
+        {
+          "no": "Q13",
+          "id": "q10",
+          "type": "multi",
+          "answer": "multiple",
+          "required": true,
+          "title": "위 업무 중 AI 적용 효과가 가장 클 것으로 생각되는 영역은 무엇인가요?",
+          "maxSelect": 3,
+          "options": [
+            {
+              "label": "보고서·기획서 등 문서 작성"
+            },
+            {
+              "label": "회의 준비, 회의록 정리·후속 공유"
+            },
+            {
+              "label": "데이터 취합·정리·집계 (엑셀 등)"
+            },
+            {
+              "label": "정기 현황·리포트 자료 작성"
+            },
+            {
+              "label": "자료 조사, 시장·경쟁사 분석"
+            },
+            {
+              "label": "메일·메신저 문의 응대"
+            },
+            {
+              "label": "결재·품의·정산 등 행정 처리"
+            },
+            {
+              "label": "계약서·규정·정책 문서 검토"
+            },
+            {
+              "label": "발표자료(PPT) 제작"
+            },
+            {
+              "label": "여러 시스템 간 데이터 입력·이관"
+            },
+            {
+              "label": "일정·리소스 조율"
+            },
+            {
+              "label": "기타"
+            }
+          ],
+          "sameOptionsAs": "Q12",
+          "allowsOtherText": true
+        },
+        {
+          "no": "Q14",
+          "id": "q11",
+          "type": "multi",
+          "answer": "multiple",
+          "required": true,
+          "title": "향후 가장 듣고 싶은 후속 교육 주제는 무엇인가요?",
+          "maxSelect": 3,
+          "options": [
+            {
+              "label": "생성형 AI 기초와 프롬프트 작성법"
+            },
+            {
+              "label": "문서·보고서 작성에 AI 활용"
+            },
+            {
+              "label": "엑셀·데이터 분석에 AI 활용"
+            },
+            {
+              "label": "회의록·메일 등 커뮤니케이션 효율화"
+            },
+            {
+              "label": "리서치·인사이트 도출에 AI 활용"
+            },
+            {
+              "label": "발표자료·시각자료 제작에 AI 활용"
+            },
+            {
+              "label": "노코드 업무 자동화 (워크플로·에이전트 만들기)"
+            },
+            {
+              "label": "나만의 AI 비서 만들기 (GPTs·Claude Projects 등)"
+            },
+            {
+              "label": "비개발자를 위한 Claude Code 등 에이전트 도구 활용"
+            },
+            {
+              "label": "AI 활용 시 보안·저작권·윤리 가이드"
+            },
+            {
+              "label": "직무별 AI 활용 우수 사례"
+            },
+            {
+              "label": "기타"
+            }
+          ],
+          "allowsOtherText": true
+        }
+      ]
+    },
+    {
+      "no": "SECTION 4",
+      "title": "향후 교육 운영 방식 및 조직 지원 방향",
+      "description": "교육을 어떤 방식과 주기로 운영하면 좋을지, 회사가 무엇을 지원해야 할지 묻습니다.",
+      "conditional": false,
+      "questions": [
+        {
+          "no": "Q15",
+          "id": "q12",
+          "type": "multi",
+          "answer": "multiple",
+          "required": true,
+          "title": "향후 AI/AX 역량 강화를 위해 가장 효과적일 것으로 보이는 교육 방식은 무엇인가요?",
+          "maxSelect": 3,
+          "options": [
+            {
+              "label": "실습 중심 핸즈온 워크숍"
+            },
+            {
+              "label": "직군·직무별 맞춤 과정"
+            },
+            {
+              "label": "실제 업무 과제를 가져와 해결하는 프로젝트형 과정"
+            },
+            {
+              "label": "온라인 강의(VOD) 등 자기주도 학습"
+            },
+            {
+              "label": "사내 우수 활용 사례 공유 세션"
+            },
+            {
+              "label": "외부 전문가 특강·세미나"
+            },
+            {
+              "label": "소규모 스터디·학습 커뮤니티"
+            },
+            {
+              "label": "1:1 코칭·오피스아워 (상시 Q&A)"
+            },
+            {
+              "label": "해커톤·AI 활용 공모전"
+            },
+            {
+              "label": "기타"
+            }
+          ],
+          "allowsOtherText": true
+        },
+        {
+          "no": "Q16",
+          "id": "q13",
+          "type": "multi",
+          "answer": "multiple",
+          "required": true,
+          "title": "회사의 효과적인 AI Native/AX 전환을 위해 가장 필요한 지원은 무엇이라고 생각하시나요?",
+          "maxSelect": 3,
+          "options": [
+            {
+              "label": "유료 AI 도구·라이선스 지원 확대"
+            },
+            {
+              "label": "보안 기준을 충족하는 사내 AI 환경 구축"
+            },
+            {
+              "label": "명확한 AI 활용 가이드라인·정책 수립"
+            },
+            {
+              "label": "사내 업무 시스템·데이터와 AI 연동"
+            },
+            {
+              "label": "체계적인 단계별 교육 프로그램"
+            },
+            {
+              "label": "직무별 활용 사례·프롬프트 템플릿 제공"
+            },
+            {
+              "label": "AI 학습·실험을 위한 업무 시간 확보"
+            },
+            {
+              "label": "AI 활용 성과에 대한 인정·보상"
+            },
+            {
+              "label": "리더십의 명확한 AX 방향 제시와 솔선수범"
+            },
+            {
+              "label": "조직별 AX 챔피언·전담 지원 인력"
+            },
+            {
+              "label": "기타"
+            }
+          ],
+          "allowsOtherText": true
+        },
+        {
+          "no": "Q17",
+          "id": "q14",
+          "type": "single",
+          "answer": "single",
+          "required": true,
+          "title": "향후 AI/AX 관련 교육은 어느 정도 주기로 운영되는 것이 적절하다고 느끼시나요?",
+          "options": [
+            {
+              "label": "월 1회 이상"
+            },
+            {
+              "label": "분기 1회"
+            },
+            {
+              "label": "반기 1회"
+            },
+            {
+              "label": "연 1회"
+            },
+            {
+              "label": "정기 과정 없이 필요할 때 수시로 (상시 오픈 과정)"
+            }
+          ],
+          "allowsOtherText": false
+        }
+      ]
+    }
+  ]
+}

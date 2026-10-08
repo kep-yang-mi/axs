@@ -6,6 +6,8 @@
 
 [SSoT 실행 가이드 열기](https://kep-yang-mi.github.io/axs/ssot-guide.html) — 1-page·상세 가이드·Playbook·보고 준비안을 검토·통합한 단일 HTML입니다. 10단계 작성법, 인사·재무 PoC, 승인·검증, 복사·다운로드 가능한 템플릿과 공개용 출처 본문을 포함합니다. 원문 초안과 검토 제안을 구분합니다.
 
+[AI 활용·교육 니즈 설문 보기](https://kep-yang-mi.github.io/axs/survey/) — 논테크 직군 대상 AI 활용 현황·교육 니즈 설문(17문항)의 공유용 정적 사본입니다. 이 페이지에서는 응답이 저장되지 않으며, 실제 응답은 별도 설문 링크로 받습니다.
+
 ## 주요 내용
 
 - Business Loop 및 업무 아키텍처

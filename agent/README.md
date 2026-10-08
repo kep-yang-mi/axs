@@ -16,3 +16,4 @@
 | 리소스 | 에이전트용 | 인간용 |
 |---|---|---|
 | 경영 AX/자동화 프로젝트 칸반 | [kanban/README.md](kanban/README.md) · [kanban/data.json](kanban/data.json) | [../kanban/](../kanban/) |
+| AI 활용·교육 니즈 설문 (문항 정의) | [survey/README.md](survey/README.md) · [survey/data.json](survey/data.json) | [../survey/](../survey/) |
