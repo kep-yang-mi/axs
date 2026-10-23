@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AI 활용·교육 니즈 설문</title>
-<meta name="description" content="논테크 직군 대상 AI 활용 현황·교육 니즈 설문 문항 (공유용 정적 사본)">
+<meta name="description" content="비개발 업무 담당 구성원 대상 AI 활용 현황·교육 니즈 설문 문항 (공유용 정적 사본)">
 <link rel="alternate" type="application/json" href="../agent/survey/data.json" title="agent data">
 <link rel="alternate" type="text/markdown" href="../agent/survey/README.md" title="agent summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -389,12 +389,12 @@
 <body>
 <div class="wrap">
   <header class="mast">
-    <p class="eyebrow">카카오엔터프라이즈 · 논테크 직군 대상</p>
+    <p class="eyebrow">카카오엔터프라이즈 · 비개발 업무 담당 구성원 대상</p>
     <h1>AI 활용 현황 및 교육 니즈 설문</h1>
     <p class="lead">구성원 여러분의 AI 활용 수준과 업무 현장의 병목을 파악해, 직군에 맞는 AX 교육과 지원 방향을 설계하려 합니다. 솔직하게 답해 주실수록 실제 업무에 도움이 되는 교육을 만들 수 있습니다.</p>
     <ul class="facts">
-      <li>문항<b id="fact-count">17문항</b></li>
-      <li>소요 시간<b>약 5분</b></li>
+      <li>문항<b id="fact-count">16~17문항</b></li>
+      <li>소요 시간<b>약 5~7분 (서술 작성에 따라 다름)</b></li>
       <li>필수 문항<b><span class="req" style="margin:0">*</span> 표시</b></li>
     </ul>
   </header>
@@ -437,7 +437,20 @@
   /* ================= Survey definition ================= */
   const ETC = "기타";
   const TEXT_MAX = 1000;
-  const TRACKS_BS = ["Product Manager", "Design", "Business", "Staff", ETC];
+  const JOB_FAMILIES = {
+    Staff: ["HR", "Finance/Accounting", "GA", "GR", "Legal"],
+    Tech: ["Infra", "Security", "Programming", "Cloud"],
+    Business: ["Sales", "Business Development"],
+    "Product Manager": ["Product Manager"],
+    "Project Manager": ["Project Manager"],
+    Design: ["Design"],
+    [ETC]: [ETC]
+  };
+  const TEXT_TEMPLATE = "① 대상 업무와 현재의 어려움:\n\n\n② AI 활용 구상:\n\n\n③ 기대 산출물과 개선 효과:\n";
+  function textContentOnly(value) {
+    return String(value || "").replace(/① 대상 업무와 현재의 어려움[:：]?|② AI 활용 구상[:：]?|③ 기대 산출물과 개선 효과[:：]?/g, "").trim();
+  }
+  const exclusiveOptions = q => q.exclusive ? (Array.isArray(q.exclusive) ? q.exclusive : [q.exclusive]) : [];
 
   const SECTIONS = [
     {
@@ -457,6 +470,7 @@
         },
         {
           id: "q2", type: "multi", max: 3, required: true, cols: 2,
+          exclusive: ["현재 큰 어려움 없음", "판단하기 어려움"],
           title: "AI 활용 확산의 가장 큰 장애요인은 무엇이라고 생각하시나요?",
           options: [
             "AI를 어떻게 활용해야 할지 방법·노하우를 잘 모름",
@@ -469,6 +483,8 @@
             "사내 시스템·데이터와 연결해 쓰기 어려움",
             "사용 가능 범위 등 가이드라인이 불명확함",
             "아직 필요성을 크게 느끼지 못함",
+            "현재 큰 어려움 없음",
+            "판단하기 어려움",
             ETC
           ]
         }
@@ -476,22 +492,24 @@
     },
     {
       id: "s2", no: "SECTION 2", title: "조직 내 AI/AX 현황 진단",
-      desc: "본인이 속한 조직(팀·실 단위)의 AI 활용 수준과 확산 장애요인을 묻습니다.",
+      desc: "다음 질문은 현재 소속 팀을 기준으로 답해 주세요.",
       questions: [
         {
           id: "q3", type: "ladder", required: true,
-          title: "현재 본인 조직의 AI 활용 수준은 어느 단계에 가장 가깝다고 생각하시나요?",
+          title: "현재 소속 팀의 AI 활용 수준은 어느 단계에 가장 가깝다고 생각하시나요?",
           options: [
             ["미도입", "조직 차원의 AI 활용이 거의 없음"],
             ["개인 실험", "일부 구성원이 개인적으로 시도하는 수준"],
-            ["부분 적용", "일부 업무·팀 단위에서 AI를 활용"],
+            ["부분 적용", "팀 내 일부 업무에 AI를 활용"],
             ["확산", "조직 전반의 업무 프로세스에 AI가 표준처럼 적용됨"],
-            ["AI Native", "AI를 전제로 업무와 조직 운영이 재설계됨"]
+            ["AI Native", "AI를 전제로 업무와 조직 운영이 재설계됨"],
+            ["잘 모르겠음", "현재 소속 팀의 AI 활용 수준을 판단하기 어려움"]
           ]
         },
         {
           id: "q4", type: "multi", max: 3, required: true, cols: 2,
-          title: "현재 조직 내 AI 활용 확산의 가장 큰 장애요인은 무엇이라고 생각하시나요?",
+          exclusive: ["현재 큰 어려움 없음", "판단하기 어려움"],
+          title: "현재 소속 팀에서 AI 활용을 확대하는 데 가장 큰 장애요인은 무엇인가요?",
           options: [
             "리더·조직 차원의 AX 방향성과 우선순위가 불명확함",
             "조직 내 활용 사례·성공 경험 공유가 부족함",
@@ -503,6 +521,8 @@
             "AI 활용 성과에 대한 평가·인정 체계가 없음",
             "교육·학습 기회가 부족함",
             "변화에 대한 부담감·심리적 저항",
+            "현재 큰 어려움 없음",
+            "판단하기 어려움",
             ETC
           ]
         }
@@ -510,35 +530,26 @@
     },
     {
       id: "s3", no: "SECTION 3", title: "직군별 향후 교육 수요 조사",
-      desc: "선택한 직렬에 따라 이어지는 문항이 달라집니다.",
+      desc: "본인의 직군과 직렬을 선택하고, 현재 업무에서의 AI 활용 경험과 교육 수요를 알려주세요.",
       questions: [
         {
           id: "q5", type: "single", required: true, cols: 3,
-          title: "본인의 직렬을 선택해주세요.",
+          title: "본인의 직군을 선택해 주세요.",
           note: ["마이카카오 > 나의인사정보 > 직군/직렬", "에서 확인할 수 있습니다. (조직도에서도 확인 가능)"],
-          options: ["Tech", "Product Manager", "Design", "Business", "Staff", ETC]
-        }
-      ]
-    },
-    {
-      id: "s3c", no: "SECTION 3-C", title: "PM·Design·Business·Staff 직렬", scope: "Tech 외 직렬 응답",
-      desc: "현재 업무에서의 AI 활용 방식과, AI로 풀고 싶은 병목 업무를 묻습니다.",
-      branch: true,
-      questions: [
-        {
-          id: "bs_plan", type: "text",
-          title: "AI 도구가 지급된다면, 업무에 어떤 방식으로 활용하실 계획인가요?",
-          placeholder: "예: 주간 보고서 초안 작성과 회의록 요약에 매일 활용하고, 팀에서 함께 쓸 프롬프트를 만들어 공유"
+          options: ["Tech", "Product Manager", "Project Manager", "Design", "Business", "Staff", ETC]
         },
         {
-          id: "bs_task", type: "text",
-          title: "AI 도구를 활용해 해결하고 싶은 특정 업무가 있으신가요?",
-          placeholder: "예: 매월 여러 부서에서 받는 실적 데이터를 취합해 보고서로 정리하는 작업"
+          id: "job_family", type: "single", required: true, cols: 3,
+          title: "본인의 직렬을 선택해 주세요.",
+          note: ["마이카카오 > 나의인사정보 > 직군/직렬", "에서 확인해 주세요."],
+          options: [...new Set(Object.values(JOB_FAMILIES).flat())]
         },
         {
-          id: "bs_process", type: "text",
-          title: "AI 도구를 활용해 개편하고 싶은 업무 프로세스나 시스템이 있으신가요?",
-          placeholder: "예: 메일·메신저로 흩어져 들어오는 문의를 한곳에 모아 분류하고 답변 초안까지 만드는 흐름"
+          id: "bs_workflow", type: "text",
+          title: "AI를 활용해 해결하거나 개선하고 싶은 업무가 있다면, 어떤 방식으로 활용하고 무엇을 만들어 보고 싶은지 구체적으로 적어주세요. (선택 응답)",
+          placeholder: TEXT_TEMPLATE,
+          guide: "아래 양식에 따라 생각하신 범위까지 작성해 주세요. 아직 구상이 구체적이지 않다면 일부 항목만 작성하셔도 괜찮습니다. 구체적인 AI 도구나 구현 방법을 모르셔도 됩니다.",
+          example: "① 대상 업무와 현재의 어려움\n매월 여러 부서에서 받은 실적 파일을 취합해 보고서를 작성합니다. 파일마다 양식이 달라 데이터를 정리하고, 누락이나 수치 오류를 확인하는 데 시간이 많이 듭니다.\n\n② AI 활용 구상\nAI가 부서별 데이터를 공통 양식으로 정리하고, 누락되거나 이상한 수치를 표시해 주면 좋겠습니다. 전월 대비 주요 변동 내용을 요약하고 보고서 초안까지 작성하도록 해보고 싶습니다.\n\n③ 기대 산출물과 개선 효과\n통합 실적표와 월간 보고서 초안을 생성하는 기능을 만들고 싶습니다. 반복적인 데이터 정리와 문서 작성 시간을 줄이고, 담당자는 수치 검증과 원인 분석에 집중할 수 있기를 기대합니다."
         },
         {
           id: "q6", type: "scale", required: true, cols: 5,
@@ -566,7 +577,8 @@
         },
         {
           id: "q8", type: "multi", max: 3, required: true, cols: 2,
-          title: "현재 업무 수행에 가장 도움이 되고 있거나, 향후 활용 가치를 높게 평가하는 AI 도구는 무엇인가요?",
+          exclusive: "사용한 도구 없음",
+          title: "최근 4주 동안 실제 업무에 주로 사용한 AI 도구는 무엇인가요?",
           options: [
             "ChatGPT",
             "Claude",
@@ -579,6 +591,7 @@
             "Gamma 등 문서·슬라이드 생성 도구",
             "이미지·영상 생성 도구 (Midjourney 등)",
             "사내 AI 도구·서비스",
+            "사용한 도구 없음",
             ETC
           ]
         },
@@ -602,6 +615,8 @@
         },
         {
           id: "q10", type: "multi", max: 3, required: true, cols: 2, sameAs: "q9",
+          exclusive: "아직 정하기 어려움",
+          extraOptions: ["아직 정하기 어려움"],
           title: "위 업무 중 AI 적용 효과가 가장 클 것으로 생각되는 영역은 무엇인가요?"
         },
         {
@@ -618,6 +633,7 @@
             "나만의 AI 비서 만들기 (GPTs·Claude Projects 등)",
             "비개발자를 위한 Claude Code 등 에이전트 도구 활용",
             "AI 활용 시 보안·저작권·윤리 가이드",
+            "AI 결과물의 정확성 검증과 근거 확인",
             "직무별 AI 활용 우수 사례",
             ETC
           ]
@@ -671,6 +687,12 @@
             "연 1회",
             "정기 과정 없이 필요할 때 수시로 (상시 오픈 과정)"
           ]
+        },
+        {
+          id: "session_duration", type: "single", required: true, cols: 2,
+          title: "업무시간 중 1회 교육에 참여할 수 있는 시간은 어느 정도인가요?",
+          note: ["교육 내용과 일정이 적절하다는 가정하에 답해 주세요.", "하나만 선택해 주세요."],
+          options: ["1시간 이내", "2시간 정도", "반일", "1일", "일정에 따라 다름"]
         }
       ]
     }
@@ -679,7 +701,7 @@
   const ALL_Q = [];
   SECTIONS.forEach(s => s.questions.forEach(q => {
     q.section = s.id;
-    if (q.sameAs) q.options = SECTIONS.flatMap(x => x.questions).find(x => x.id === q.sameAs).options;
+    if (q.sameAs) q.options = [...SECTIONS.flatMap(x => x.questions).find(x => x.id === q.sameAs).options, ...(q.extraOptions || [])];
     ALL_Q.push(q);
   }));
   const Q_BY_ID = Object.fromEntries(ALL_Q.map(q => [q.id, q]));
@@ -688,8 +710,8 @@
   const hasEtc = q => (q.options || []).some(o => labelOf(o) === ETC);
 
   /* ================= State ================= */
-  const state = { answers: {}, etc: {} };
-  const DRAFT_KEY = "ax-survey-draft-v1";
+  const state = { schema: 2, answers: {}, etc: {} };
+  const DRAFT_KEY = "ax-survey-draft-v2";
   let db = null, uid = null, existing = null, downloads = null;
 
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -706,8 +728,9 @@
     return n;
   };
 
-  /* Sequential numbering that skips nothing: Q1…Q14 */
-  ALL_Q.forEach((q, i) => { q.no = "Q" + (i + 1); });
+  /* Main questions Q1…Q16; conditional job-family follow-up Q5-1. */
+  let questionNumber = 0;
+  ALL_Q.forEach(q => { q.no = q.id === "job_family" ? "Q5-1" : "Q" + (++questionNumber); });
 
   /* ================= Render form ================= */
   const form = $("#survey");
@@ -769,8 +792,10 @@
     }
 
     if (q.type === "text") {
+      if (q.guide) body.append(el("p", { class: "sec-desc", text: "💡 작성 안내: " + q.guide }));
+      if (q.example) body.append(el("details", { class: "etc" }, [el("summary", { text: "작성 예시 보기" }), el("p", { style: "white-space:pre-wrap", text: q.example })]));
       const ta = el("textarea", {
-        class: "text-input", id: q.id + "-text", rows: "4", maxlength: String(TEXT_MAX),
+        class: "text-input", id: q.id + "-text", rows: q.id === "bs_workflow" ? "9" : "4", maxlength: String(TEXT_MAX),
         placeholder: q.placeholder || "", "aria-labelledby": "t-" + q.id
       });
       ta.addEventListener("input", () => { state.answers[q.id] = ta.value; saveDraft(); });
@@ -778,6 +803,8 @@
       wrap.append(body);
       return wrap;
     }
+
+    if (q.id === "q5") body.append(el("p", { class: "sec-desc", id: "auto-job-family", role: "status", hidden: true }));
 
     const inputType = isMulti(q) ? "checkbox" : "radio";
     const list = el("div", {
@@ -789,7 +816,7 @@
       const input = el("input", { type: inputType, id, name: q.id, value: label });
       input.addEventListener("change", () => onPick(q, label, input.checked));
       const optKids = [input, el("span", { class: "mark", "aria-hidden": "true" })];
-      if (q.type === "ladder") {
+      if (q.type === "ladder" && Array.isArray(o) && i < 5) {
         const meter = el("span", { class: "lv-meter", "aria-hidden": "true" });
         for (let k = 1; k <= 5; k++) meter.append(el("i", { class: k <= i + 1 ? "f" : "" }));
         optKids.push(meter, el("span", { class: "lv-text" }, [
@@ -823,8 +850,8 @@
     if (isMulti(q)) {
       let cur = new Set(state.answers[q.id] || []);
       if (checked) {
-        if (q.exclusive && label === q.exclusive) cur = new Set([label]);
-        else { cur.delete(q.exclusive); cur.add(label); }
+        if (exclusiveOptions(q).includes(label)) cur = new Set([label]);
+        else { exclusiveOptions(q).forEach(x => cur.delete(x)); cur.add(label); }
         if (cur.size > q.max) cur.delete(label);
       } else cur.delete(label);
       state.answers[q.id] = [...cur];
@@ -832,7 +859,11 @@
       state.answers[q.id] = label;
     }
     syncQuestion(q);
-    if (q.id === "q5") applyBranch();
+    if (q.id === "q5") {
+      delete state.answers.job_family;
+      delete state.etc.job_family;
+      applyBranch();
+    }
     if (q.id === "q9") syncQuestion(Q_BY_ID.q10);
     clearError(q);
     saveDraft();
@@ -844,7 +875,7 @@
     if (!root) return;
     if (q.type === "text") {
       const ta = $("#" + q.id + "-text");
-      const v = state.answers[q.id] || "";
+      const v = state.answers[q.id] || (q.id === "bs_workflow" ? TEXT_TEMPLATE : "");
       if (ta.value !== v) ta.value = v;
       return;
     }
@@ -857,7 +888,7 @@
       const on = sel.has(label);
       input.checked = on;
       opt.classList.toggle("on", on);
-      const dim = full && !on;
+      const dim = full && !on && !exclusiveOptions(q).includes(label);
       opt.classList.toggle("dim", dim);
       input.disabled = dim;
     });
@@ -878,31 +909,32 @@
     }
   }
 
-  function branchOpen() {
-    const t = state.answers.q5;
-    return TRACKS_BS.includes(t);
-  }
-
   function applyBranch() {
-    const t = state.answers.q5;
-    const open = branchOpen();
-    const body = $("#body-s3c");
-    const note = $("#skip-s3c");
-    body.hidden = !open;
-    note.hidden = open;
-    if (!t) note.textContent = "Q5에서 직렬을 선택하면 해당 직렬의 문항이 표시됩니다.";
-    else if (!open) note.textContent = `${t} 직렬은 이 섹션(PM·Design·Business·Staff 직렬 문항) 대상이 아닙니다. 아래 SECTION 4로 바로 이어서 응답해 주세요.`;
-    $("#jump-s3c").classList.toggle("off", !open);
-    const total = ALL_Q.length, base = ALL_Q.filter(q => q.section !== "s3c").length;
-    $("#fact-count").textContent = open ? `${total}문항` : (t ? `${base}문항` : `${base}~${total}문항`);
+    const track = state.answers.q5;
+    const families = JOB_FAMILIES[track] || [];
+    const auto = families.length === 1;
+    const autoNote = $("#auto-job-family");
+    autoNote.hidden = !(auto && families[0] !== ETC);
+    autoNote.textContent = auto ? `직렬: ${families[0]} (자동 반영)` : "";
+    const q = Q_BY_ID.job_family;
+    if (auto) state.answers.job_family = families[0];
+    else if (!families.includes(state.answers.job_family)) delete state.answers.job_family;
+    const root = $("#q-job_family");
+    root.hidden = !track || (auto && families[0] !== ETC);
+    root.querySelectorAll(".opt").forEach(opt => { opt.hidden = !families.includes(opt.dataset.label); });
+    syncQuestion(q);
+    const count = activeQuestions().length;
+    $("#fact-count").textContent = track ? `${count}문항` : "16~17문항";
   }
 
   function activeQuestions() {
-    return ALL_Q.filter(q => !(Q_BY_ID[q.id].section === "s3c" && !branchOpen()));
+    const families = JOB_FAMILIES[state.answers.q5] || [];
+    return ALL_Q.filter(q => q.id !== "job_family" || (families.length > 0 && !(families.length === 1 && families[0] !== ETC)));
   }
 
   function isAnswered(q) {
     const v = state.answers[q.id];
+    if (q.type === "text") return !!textContentOnly(v);
     const has = isMulti(q) ? Array.isArray(v) && v.length > 0 : !!v;
     if (!has) return false;
     const picked = isMulti(q) ? v : [v];
@@ -974,10 +1006,20 @@
         continue;
       }
       const allowed = new Set(q.options.map(labelOf));
-      if (isMulti(q) && Array.isArray(v)) state.answers[q.id] = v.filter(x => allowed.has(x)).slice(0, q.max);
+      if (isMulti(q) && Array.isArray(v)) {
+        const valid = [...new Set(v.filter(x => allowed.has(x)))];
+        const exclusive = valid.find(x => exclusiveOptions(q).includes(x));
+        state.answers[q.id] = exclusive ? [exclusive] : valid.slice(0, q.max);
+      }
       else if (!isMulti(q) && typeof v === "string" && allowed.has(v)) state.answers[q.id] = v;
       const e = src.etc?.[q.id];
       if (typeof e === "string") state.etc[q.id] = e.slice(0, 200);
+    }
+    // Older answers about future tool value do not establish recent actual usage.
+    if (src.schema !== 2) delete state.answers.q8;
+    if (!state.answers.bs_workflow && src.schema !== 2) {
+      const old = [src.answers?.bs_plan, src.answers?.bs_task, src.answers?.bs_process].filter(x => typeof x === "string" && x.trim());
+      if (old.length) state.answers.bs_workflow = old.join("\n\n").slice(0, TEXT_MAX);
     }
     ALL_Q.forEach(syncQuestion);
     applyBranch();
@@ -998,16 +1040,21 @@
       if (v == null || (Array.isArray(v) && !v.length)) continue;
       if (q.type === "text") {
         const t = String(v).trim().slice(0, TEXT_MAX);
-        if (t) answers[q.id] = t;
+        if (textContentOnly(t)) answers[q.id] = t;
         continue;
       }
       answers[q.id] = v;
       const picked = isMulti(q) ? v : [v];
       if (picked.includes(ETC) && (state.etc[q.id] || "").trim()) etc[q.id] = state.etc[q.id].trim();
     }
+    if (state.answers.job_family) answers.job_family = state.answers.job_family;
+    for (const key of ["bs_plan", "bs_task", "bs_process"]) {
+      if (typeof existing?.answers?.[key] === "string") answers[key] = existing.answers[key];
+    }
     const now = new Date().toISOString();
     return {
-      schema: 1,
+      schema: 2,
+      jobFamily: state.answers.job_family === ETC ? (state.etc.job_family || "").trim() : (state.answers.job_family || null),
       track: answers.q5 || null,
       answers,
       etc,
@@ -1086,18 +1133,18 @@
     view.textContent = "";
     $("#tab-count").textContent = String(responses.length);
 
-    const tracks = ["Business", "Staff", "Tech", "Product Manager", "Design", ETC];
+    const tracks = ["Business", "Staff", "Tech", "Product Manager", "Project Manager", "Design", ETC];
     const byTrack = Object.fromEntries(tracks.map(t => [t, responses.filter(r => r.track === t).length]));
     const latest = responses.reduce((m, r) => (r.updatedAt && r.updatedAt > m ? r.updatedAt : m), "");
-    const bsCount = TRACKS_BS.reduce((sum, t) => sum + byTrack[t], 0);
+    const bsCount = responses.filter(r => r.schema === 2).length;
 
     const kpis = el("div", { class: "kpis" }, [
       el("div", { class: "kpi" }, [el("span", { text: "총 응답자" }), el("b", { text: `${responses.length}명` })]),
-      el("div", { class: "kpi" }, [el("span", { text: "3-C 응답 (Tech 외 직렬)" }), el("b", { text: `${bsCount}명` })]),
+      el("div", { class: "kpi" }, [el("span", { text: "수정 설문 응답" }), el("b", { text: `${bsCount}명` })]),
       el("div", { class: "kpi" }, [el("span", { text: "최근 응답" }), el("b", { style: "font-size:17px", text: latest ? fmtDate(latest) : "-" })])
     ]);
 
-    const filters = el("div", { class: "filters", role: "group", "aria-label": "직렬 필터" });
+    const filters = el("div", { class: "filters", role: "group", "aria-label": "직군 필터" });
     ["전체", ...tracks].forEach(t => {
       const n = t === "전체" ? responses.length : byTrack[t];
       if (t !== "전체" && !n) return;
@@ -1124,6 +1171,7 @@
       const sec = el("div", { class: "res-sec" }, [el("h3", { text: `${s.no} · ${s.title}` })]);
       for (const q of s.questions) {
         const answered = rows.filter(r => {
+          if (q.id === "q8" && r.schema !== 2) return false;
           const v = r.answers?.[q.id];
           return Array.isArray(v) ? v.length > 0 : !!v;
         });
@@ -1186,7 +1234,7 @@
 
   async function exportCsv() {
     const st = $("#csv-status");
-    const header = ["No", "제출일시", "수정일시"];
+    const header = ["No", "제출일시", "수정일시", "설문 버전", "직렬", "기존 활용 계획", "기존 해결 업무", "기존 개선 프로세스"];
     ALL_Q.forEach(q => {
       header.push(`${q.no}. ${q.title}`);
       if (hasEtc(q)) header.push(`${q.no} 기타 내용`);
@@ -1194,7 +1242,7 @@
     const lines = [header.map(csvCell).join(",")];
     const sorted = [...responses].sort((a, b) => String(a.submittedAt).localeCompare(String(b.submittedAt)));
     sorted.forEach((r, i) => {
-      const row = [i + 1, fmtDate(r.submittedAt), fmtDate(r.updatedAt)];
+      const row = [i + 1, fmtDate(r.submittedAt), fmtDate(r.updatedAt), r.schema || 1, r.jobFamily || "", r.answers?.bs_plan || "", r.answers?.bs_task || "", r.answers?.bs_process || ""];
       ALL_Q.forEach(q => {
         const v = r.answers?.[q.id];
         row.push(Array.isArray(v) ? v.join("; ") : (v || ""));
@@ -1281,3 +1329,4 @@
 </script>
 </body>
 </html>
+
