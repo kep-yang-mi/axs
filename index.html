@@ -182,6 +182,36 @@
     .report-card pre { white-space: pre-wrap; margin: 0; font: inherit; color: #253747; font-size: .88rem; line-height: 1.65; }
     .copy-btn { border: 0; border-radius: 11px; background: var(--ink); color: white; padding: 10px 14px; font-weight: 750; font-size: .82rem; white-space: nowrap; }
     .copy-btn:hover { background: #17364c; }
+    .r1117-note { margin: -8px 0 16px; color: var(--muted); font-size: .84rem; }
+    .r1117-table table { min-width: 640px; }
+    .r1117-table td:first-child { white-space: nowrap; font-weight: 750; }
+    .r1117-sub { margin: 26px 0 12px; font-size: 1.05rem; letter-spacing: -.02em; }
+    .r1117-examples { margin: 12px 0 0; color: #354b5e; font-size: .84rem; }
+    .r1117-tight div { line-height: 1.2; }
+    .r1117-wide table { min-width: 860px; }
+    .r1117-wide td strong { display: block; margin-bottom: 3px; }
+    .r1117-key td { background: #eaf6f5; }
+    .r1117-appx { margin-top: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+    .r1117-appx summary { cursor: pointer; padding: 14px 18px; font-weight: 750; list-style: none; display: flex; align-items: center; gap: 10px; }
+    .r1117-appx summary::-webkit-details-marker { display: none; }
+    .r1117-appx summary::after { content: "+"; margin-left: auto; color: var(--muted); font-size: 1.1rem; }
+    .r1117-appx[open] summary::after { content: "−"; }
+    .r1117-appx summary b { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: var(--teal-soft); color: var(--teal); font-size: .8rem; flex: none; }
+    .r1117-appx-body { padding: 0 18px 18px; }
+    .r1117-summary { margin-top: 48px; padding-top: 28px; border-top: 2px solid var(--ink); scroll-margin-top: 20px; }
+    .r1117-h4 { margin: 18px 0 8px; font-size: .92rem; }
+    .r1117-doc { padding: 24px 26px; }
+    .r1117-doc h3 { margin: 22px 0 10px; font-size: 1.05rem; letter-spacing: -.02em; }
+    .r1117-doc h3:first-child { margin-top: 0; }
+    .r1117-bullets { margin: 0; padding-left: 1.1em; line-height: 1.55; }
+    .r1117-bullets li + li { margin-top: 4px; }
+    .r1117-rows { display: grid; grid-template-columns: 7.2em 1fr; gap: 8px 14px; margin: 0; line-height: 1.5; }
+    .r1117-rows dt { font-weight: 750; color: var(--teal); white-space: nowrap; }
+    .r1117-rows dd { margin: 0; }
+    .r1117-rows dt.r1117-ask { color: var(--amber); }
+    @media (max-width: 560px) { .r1117-rows { grid-template-columns: 1fr; gap: 2px; } .r1117-rows dd { margin-bottom: 8px; } .r1117-doc { padding: 18px; } }
+    .r1117-table td small { display: block; margin-top: 2px; color: var(--muted); font-weight: 600; font-size: .74rem; }
+    .decision-list b { color: var(--teal); margin-right: 6px; }
     .footer { margin-top: 34px; color: var(--muted); font-size: .76rem; text-align: right; }
     .hidden { display: none; }
     @media (max-width: 1050px) {
@@ -223,6 +253,7 @@
       </div>
       <nav aria-label="주요 섹션">
         <a class="active" href="#overview">개요</a>
+        <a href="#report-1117">11/17 보고</a>
         <a href="#business-loop">Business Loop</a>
         <a href="#architecture">업무 아키텍처</a>
         <a href="#workloads">후보 과제 19건</a>
@@ -236,7 +267,7 @@
         <a href="./ssot-guide.html">SSoT 실행 가이드 ↗</a>
         <a href="./survey/">AI 활용·교육 니즈 설문 ↗</a>
       </nav>
-      <div class="sidebar-note"><strong>공개용 자료 · 개인정보 제외</strong>9/22 보고 초안 · 과제 목록은 원본 Sheet의 후보 제안이며, 확정된 실행 상태가 아닙니다.</div>
+      <div class="sidebar-note"><strong>공개용 자료 · 개인정보 제외</strong>11/17 보고는 현재 구상안 · 9/22 보고 초안 · 과제 목록은 원본 Sheet의 후보 제안이며, 확정된 실행 상태가 아닙니다.</div>
     </aside>
 
     <main>
@@ -246,7 +277,7 @@
           <h1>Business Loop를 실행하는<br />업무 아키텍처</h1>
           <p>9월 22일 실장 보고 · 업무의 형상부터 데이터와 연결, 에이전트 실행까지 한 단계 깊게 설계합니다.</p>
         </div>
-        <span class="version">9/22 보고 초안 · 교육 로드맵 반영</span>
+        <span class="version">11/17 보고 추가 · 9/22 보고 초안</span>
       </header>
 
       <div class="report-banner"><strong>이번 보고의 핵심 제안</strong><p>Business Loop를 실제 업무에 적용하기 위해, 담당자가 보는 자료·판단 기준·작업 도구·결과 확인 위치를 하나의 업무 명세로 연결합니다. 첫 과제는 현행 결과와 비교할 수 있는 작은 구간으로 선정하고, 품질과 담당자 부담을 확인한 후 적용 범위를 넓힙니다.</p><a class="source-link reading-link" href="./9월22일_실장보고_본문_검토안.md" download>실장 보고 본문 검토안 내려받기 ↓</a></div>
@@ -257,6 +288,202 @@
         <article class="card metric"><span>우선 산출물</span><b>업무 형상</b><small>신호·규칙·책임·완료조건</small></article>
         <article class="card metric"><span>첫 대화</span><b>AXS TF 공감대</b><small>TF 구성원 6명 · 추진 방향 공통 이해</small></article>
       </div>
+
+      <section id="report-1117">
+        <div class="section-head"><div><p class="eyebrow">CEO Brief · Nov 17</p><h2>AI 개인 역량 강화 교육 추진계획 및 협조 요청</h2></div><span class="status review">구상안 · 설문 결과로 보완</span></div>
+        <p class="r1117-note">2026-11-16 기준 구상안 · 공개본에서는 구성원 이름·인원수·예산 수치를 뺐습니다 · 상세는 <a class="source-link" href="#report-1117-summary">정리본 · 종합 요약</a></p>
+
+        <article class="card r1117-doc">
+          <h3>1. 추진 방향</h3>
+          <ul class="r1117-bullets">
+            <li>테크·논테크 교육 과정 구분, 논테크(경영지원실, 재무기획실, 클라우드사업실) 우선 운영</li>
+            <li><a class="source-link" href="https://docs.google.com/forms/d/1QdptCh7z4fqeZvW_oKphDE6xveKVgOX8qdiLv0vcfU0/preview" target="_blank" rel="noopener">논테크 교육 수요 설문 ↗</a> 기반 직무별 니즈 파악 및 기존 커리큘럼 보완</li>
+          </ul>
+
+          <h3>2. 추진 계획(안)</h3>
+          <ul class="r1117-bullets">
+            <li><a class="source-link" href="https://docs.google.com/spreadsheets/d/1Gcf3xedM1v2AzLlkQT-63WmD3v3Wh4Vlo2vOIaCCUVE/edit?gid=327784542#gid=327784542" target="_blank" rel="noopener">KEP 개발자 AI 인재상·역량·교육계획 (2026-2027) ↗</a></li>
+            <li><a class="source-link" href="https://docs.google.com/spreadsheets/d/1KBJHsban1x-Cg_hQywdI3xwCPI53SnXZZ0s9YTF_dI0/edit?gid=100#gid=100" target="_blank" rel="noopener">KEP 비개발 직군 AI 인재상·역량·교육계획 (2026-2027) ↗</a></li>
+          </ul>
+
+          <h3>3. 역할 분담 및 요청 사항</h3>
+          <dl class="r1117-rows">
+            <dt>교육파트</dt><dd>직무별 교육과 실습 과제 기획, 예산안 및 일정 수립</dd>
+            <dt>AXS TF</dt><dd>참여자 모집, 교육 운영, 현업 과제 적용 및 결과 취합</dd>
+            <dt class="r1117-ask">협조 요청</dt><dd>커리큘럼 개발을 위한 교육파트 담당 인력 배정</dd>
+            <dt class="r1117-ask">추가 검토</dt><dd>대학 AI 교육사업의 교육파트 협력 추진</dd>
+          </dl>
+
+          <h3>4. 세부 일정안</h3>
+          <dl class="r1117-rows">
+            <dt>2026년 12월</dt><dd>논테크 설문 실시 및 결과 분석, 커리큘럼 보완, 교육 예산안·일정 수립, OpenAI·Anthropic SA 섭외</dd>
+            <dt>2027년 1월</dt><dd>논테크 교육 운영, OpenAI·Anthropic SA 초청 실습 세션, 카카오·카카오엔터테인먼트와 사내 배포 시스템 협업 논의, PI 연계 Quick Win 과제 발굴 및 실행</dd>
+          </dl>
+        </article>
+
+        <h3 class="r1117-sub">교육 추진을 위한 역할</h3>
+        <article class="card table-wrap r1117-table">
+          <table>
+            <thead><tr><th>역할</th><th>주요 업무</th><th>시기</th></tr></thead>
+            <tbody>
+              <tr><td>프로그램 기획·총괄</td><td>4단계 프로그램 운영, 의무·권장·자율 기준 관리, 마일스톤 관리 (킥오프 12월, 중간 점검 '27. 3월, 제출·공유회 '27. 4월), 2기 운영안</td><td>전 기간</td></tr>
+              <tr><td>모집·진단 운영</td><td>희망자·팀 추천자 모집, 진입 진단 30분, 선도 그룹·반(A~E) 확정</td><td>12월</td></tr>
+              <tr><td>교육 설계·진행</td><td>공통 기초 8h, 트랙 실무 12h (Staff·Business와 PM 2개 트랙), 튜터 추천과 섭외</td><td>12월~'27. 1월</td></tr>
+              <tr><td>확산·자산화</td><td>우수 사례 발굴, AI Hub 등록 지원, 성과 공유회, 사례집, 코치 양성</td><td>'27. 4월</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <h3 class="r1117-sub">협업이 필요한 부서</h3>
+        <article class="card table-wrap r1117-table">
+          <table>
+            <thead><tr><th>부서</th><th>협업 내용</th><th>시기</th></tr></thead>
+            <tbody>
+              <tr><td>정보보안실</td><td>AI 활용 정책, 데이터 등급 확정, Agent 권한 정책</td><td>12월, '27. 1월</td></tr>
+              <tr><td>워크플랫폼파트</td><td>도구·환경 지원</td><td>상시</td></tr>
+              <tr><td>인사팀</td><td>Best Practice 크루 또는 팀에 Recognition 진행</td><td>'27. 4월 전</td></tr>
+              <tr><td>각 팀장·실 책임자</td><td>PoC 스폰서, 과제 선정, KPI</td><td>'27. 1월</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <div id="report-1117-summary" class="r1117-summary">
+        <div class="section-head"><div><p class="eyebrow">11/17 보고 · 정리본</p><h2>AI 역량 강화 교육 종합 요약 · 개발자 · 비개발 직군</h2></div><span class="status review">검토용 초안</span></div>
+        <p class="r1117-note">개발자·비개발 직군 교육계획 시트의 종합 요약(2026-11-16)을 공개용으로 옮겼습니다. 인원수·목표 비율·예산 수치는 뺐고, 수치 기준은 진입 진단과 1기 운영 데이터로 보정합니다. 제목을 누르면 펼쳐집니다.</p>
+
+        <details class="r1117-appx" id="appx-a">
+          <summary><b>A</b>논테크(비개발) 트랙 — AI를 업무 에이전트로</summary>
+          <div class="r1117-appx-body">
+            <div class="report-banner"><strong>AI를 보는 관점 · 업무 에이전트</strong><p>MS Office처럼 매일 쓰는 업무 도구로, 문서·자료 조사·데이터 정리를 맡기는 동료. 주요 도구: Claude 앱 · ChatGPT · Cowork 연습 폴더 (Gemini·NotebookLM 확인 필요)</p></div>
+            <p class="r1117-examples" style="margin:0 0 12px"><strong>인재상 · AI 네이티브 크루</strong> — AI를 동료로 삼아 자기 업무를 다시 설계하고, 그 결과를 팀이 함께 쓰는 자산으로 남기는 크루. 행동 원칙: ① 명확히 맡긴다 ② 결과에 책임진다 ③ 측정해 증명한다 ④ 자산으로 나눈다 ⑤ 협업 먼저, 전문가 승인</p>
+            <p class="r1117-examples" style="margin:0 0 12px"><strong>트랙</strong> — Staff·Business (인사·총무·재무·법무·구매·영업·사업개발 등): 문서·리서치·데이터 정리 자동화형 · PM (기획·디자인): 기획 산출물 검증·협업 Workflow형 · 리더 (팀장·파트장): 리더 코호트</p>
+            <article class="card table-wrap r1117-table">
+              <table>
+                <thead><tr><th>수준</th><th>기대행동</th><th>확인 산출물</th><th>연계 과정</th></tr></thead>
+                <tbody>
+                  <tr><td>L1 AI Ready<small>의무 · Stage 1</small></td><td>지급 AI 도구로 본인 과업을 처리하고 결과를 검증한다</td><td>AI 활용 기록 10건 · 프롬프트 5개 · 보안 확인</td><td>진입 진단 · 공통 기초</td></tr>
+                  <tr><td>L2 AI Literacy<small>권장 · Stage 2</small></td><td>반복 업무를 Skill·템플릿으로 표준화해 4주 운영한다</td><td>Skill·템플릿 1건 · 4주 운영 기록 · Before/After 표</td><td>트랙 실무 (Staff·Business / PM)</td></tr>
+                  <tr><td>L3 AI Advanced<small>선도 그룹 · Stage 3</small></td><td>팀이 함께 쓰는 Skill·Agent·자동화 흐름을 만들고 품질을 관리한다</td><td>팀 공용 Skill·Agent · 평가셋 통과율 90%+ · 사용자 3명+</td><td>업무 PoC</td></tr>
+                  <tr><td>L4 AI Pro<small>리더 · Stage 4</small></td><td>팀 업무 구조를 AI 기준으로 다시 설계하고 성과를 관리한다</td><td>팀 워크 재설계안 · 팀 KPI 주간 보드</td><td>리더 코호트</td></tr>
+                </tbody>
+              </table>
+            </article>
+            <p class="r1117-examples"><strong>전원 공통 의무 산출물</strong> — 업무 개선 사례 1건 (Skill·Agent가 아니어도 인정)</p>
+            <p class="r1117-examples"><strong>과정 8종</strong> — 진입 진단 · 공통 기초 · 트랙 실무(Staff·Business) · 트랙 실무(PM) · 업무 PoC(선도 그룹) · 리더 코호트 · 공급사 핸즈온 세션 · 성과 공유회</p>
+            <p class="r1117-examples"><strong>직무별 산출물 예시</strong> (팀 확인 후 확정) — 인사: 직무기술서 작성 Skill · 경영관리: 월간 보고 취합(파일 여러 개 → 표 1개) · 법무: 계약서 버전 비교 · 재무: 예산 대비 실적 분석 · 사업: 제안요청서 요구사항 추출 · PM: PRD·QA 체크리스트</p>
+            <h4 class="r1117-h4">일정 (안)</h4>
+            <article class="card table-wrap r1117-table">
+              <table>
+                <thead><tr><th>시기</th><th>내용</th></tr></thead>
+                <tbody>
+                  <tr><td>2026.12</td><td>1기 킥오프 12/3 · 진단·반 확정 12/9 · 공통 기초 12/14~24</td></tr>
+                  <tr><td>2027.1~3</td><td>트랙 실무 1월 · 리더 코호트 1/11·25 · 업무 PoC 2~3월</td></tr>
+                  <tr><td>2027.4~6</td><td>1기 검증 (포트폴리오 4/9) · 성과 공유회 4/28 · 2기 진단·공통 기초</td></tr>
+                  <tr><td>2027.7~9</td><td>2기 트랙 실무·업무 PoC</td></tr>
+                  <tr><td>2027.10~12</td><td>2기 검증·공유회 · 연간 판정 · Stage 5·6 과정 편성</td></tr>
+                </tbody>
+              </table>
+            </article>
+            <p class="r1117-examples">1기: 경영지원실 · 재무기획실 · 클라우드사업실 / 2기(제안): 서비스개발실 기획·디자인 · 데이터센터사업실 · 전략기획실 등</p>
+          </div>
+        </details>
+
+        <details class="r1117-appx" id="appx-b">
+          <summary><b>B</b>테크(개발자) 트랙 — AI를 코딩 에이전트로</summary>
+          <div class="r1117-appx-body">
+            <div class="report-banner"><strong>AI를 보는 관점 · 코딩 에이전트</strong><p>명세를 주고 코드 작성·테스트·리뷰를 맡기는 개발 동료. 주요 도구: Claude Code · Codex · LLM API · MCP</p></div>
+            <p class="r1117-examples" style="margin:0 0 12px"><strong>인재상 · AI 네이티브 개발자</strong> — AI를 동료로 삼아 카카오클라우드를 더 빠르고 안정적으로 만드는 개발자. 행동 원칙: ① 명확히 맡긴다 (코드보다 명세와 컨텍스트를 먼저) ② 검증하고 책임진다 (테스트·리뷰·보안 기준, 최종 책임은 사람) ③ 측정해 증명한다 (절감 공수·리드타임·결함률) ④ 자산으로 나눈다 (프롬프트·스킬·에이전트를 팀 자산으로) ⑤ 계속 실험한다</p>
+            <p class="r1117-examples" style="margin:0 0 12px"><strong>트랙</strong> — 단일 트랙 (IaaS·PaaS·서비스·인프라·보안)</p>
+            <article class="card table-wrap r1117-table">
+              <table>
+                <thead><tr><th>수준</th><th>기대행동</th><th>확인 산출물</th><th>연계 과정</th></tr></thead>
+                <tbody>
+                  <tr><td>L1 AI Ready</td><td>AI 도구로 개인 개발 업무의 속도를 높인다 (코드 설명·로그 요약·단위 테스트)</td><td>AI 활용 기록 · 개인 프롬프트 모음</td><td>진입 진단·AI 온보딩</td></tr>
+                  <tr><td>L2 AI Literacy</td><td>코딩 에이전트와 LLM API로 기능 단위 개발을 수행한다</td><td>명세 기반 PR · 팀 저장소 등록 스킬 · LLM API·MCP 연동 PoC</td><td>AI Basic / AI Basic-Blended</td></tr>
+                  <tr><td>L3 AI Advanced</td><td>서비스·플랫폼에 AI 기능을 적용하고 품질·비용·안정성을 관리한다</td><td>AI 기능 설계서·평가 리포트 · 팀 공용 에이전트·MCP 서버</td><td>AI Advanced · AI Intensive (원토픽 PBL)</td></tr>
+                  <tr><td>L4 AI Pro</td><td>팀·조직의 AI 네이티브 개발 체계와 AI 기능 아키텍처를 설계하고 확산한다</td><td>팀 AI 네이티브 개발 표준 · 아키텍처·평가 기준 문서</td><td>AI Pro 코호트 (8주 프로젝트)</td></tr>
+                </tbody>
+              </table>
+            </article>
+            <p class="r1117-examples"><strong>과정 7종</strong> — 진입 진단·AI 온보딩 · AI Basic(3일) · AI Basic-Blended(온라인 4주 + 워크숍) · AI Advanced(3일) · AI Intensive 원토픽 PBL · AI Pro 코호트 · 분기 트렌드 세미나</p>
+            <p class="r1117-examples"><strong>함께 정할 것</strong> — 코드 생성부터 배포(CI/CD)까지 개발 워크플로우의 AI 시스템화는 기술 의사결정 구조와 함께 정리</p>
+            <h4 class="r1117-h4">일정 (안)</h4>
+            <article class="card table-wrap r1117-table">
+              <table>
+                <thead><tr><th>시기</th><th>내용</th></tr></thead>
+                <tbody>
+                  <tr><td>2026.12</td><td>역량·판정 기준 확정 · 진입 진단 · 2027 예산·과정 확정</td></tr>
+                  <tr><td>2027.1~3</td><td>AI Basic·Blended 개강 · 팀 저장소 오픈 · 3월 1차 수준 판정</td></tr>
+                  <tr><td>2027.4~6</td><td>AI Advanced 1차수 · 상반기 회고</td></tr>
+                  <tr><td>2027.7~9</td><td>AI Intensive · AI Pro 1기 수료 (9월)</td></tr>
+                  <tr><td>2027.10~12</td><td>AI Pro 2기 · 연간 판정</td></tr>
+                </tbody>
+              </table>
+            </article>
+          </div>
+        </details>
+
+        <details class="r1117-appx" id="appx-c">
+          <summary><b>C</b>공통 일정</summary>
+          <div class="r1117-appx-body">
+            <article class="card table-wrap r1117-table">
+              <table>
+                <thead><tr><th>시기</th><th>공통 과제</th></tr></thead>
+                <tbody>
+                  <tr><td>2026.11</td><td>11/17 보고 · 교육파트 리소스 요청 · AI 도구 지급 (11/9~)</td></tr>
+                  <tr><td>2026.12</td><td>논테크 설문 · 공급사 핸즈온 · 데이터 등급 가이드 12/11 · 도구 변경 접수 (12월 말)</td></tr>
+                  <tr><td>2027.1~3</td><td>Agent 권한 정책 1/29 · 사내 배포 시스템 협업 방식 결정 · PI 연계 Quick Win</td></tr>
+                  <tr><td>2027.4~6</td><td>판정 기준 수치 보정 (6월)</td></tr>
+                  <tr><td>2027.7~9</td><td>3분기 수준 판정·예산 점검</td></tr>
+                  <tr><td>2027.10~12</td><td>2028 예산·계획 수립</td></tr>
+                </tbody>
+              </table>
+            </article>
+          </div>
+        </details>
+
+        <details class="r1117-appx" id="appx-d">
+          <summary><b>D</b>결정 필요 사항 · 미결 리스크</summary>
+          <div class="r1117-appx-body">
+            <article class="card alignment">
+              <div class="decision-list r1117-tight">
+                <div><b>1</b>2027 교육 예산 확정 (두 직군) — 교육파트 예산안과 함께</div>
+                <div><b>2</b>수준 판정 기준과 평가 반영 방식 (필수 요건 / 가점) — 인사 협의</div>
+                <div><b>3</b>교육파트·AXS TF·인사 역할 분담</div>
+                <div><b>4</b>데이터 등급별 AI 사용 기준, Agent 권한 정책 — 정보보안실 확정, PoC 착수 전</div>
+                <div><b>5</b>선도 그룹 규모·선정 방식 — 희망자·팀 추천, 팀별 1~2명</div>
+                <div><b>6</b>Gemini·NotebookLM 사용 가능 여부 — 지급 정책과 정합</div>
+                <div><b>7</b>비개발 2기 대상 확정 (서비스개발실 기획·디자인 등)</div>
+              </div>
+              <div>
+                <h3>미결 리스크</h3>
+                <ul>
+                  <li>설문 응답률이 낮으면 커리큘럼 보완 근거가 약해짐 — 리더 명의 안내 필요</li>
+                  <li>개인 교육만 진행되면 업무 성과로 전환되지 않음 — 데이터·배포·도구 연결 병행 필요</li>
+                  <li>업무 데이터 공통화와 사내 배포 시스템 도입은 보안 협의가 먼저</li>
+                  <li>테크 트랙의 CI/CD AI 시스템화는 기술 의사결정 구조가 정해져야 착수 가능</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </details>
+
+        <details class="r1117-appx" id="appx-e">
+          <summary><b>E</b>용어</summary>
+          <div class="r1117-appx-body">
+            <dl class="r1117-rows">
+              <dt>L1~L4</dt><dd>AI 역량 수준 4단계. AI Ready · AI Literacy · AI Advanced · AI Pro</dd>
+              <dt>Growth Stage</dt><dd>사내 성장 단계 1~6 (Professional · Leader · Master). 수준과의 연계는 안</dd>
+              <dt>Skill</dt><dd>반복 업무를 규칙·양식·검수 기준으로 정리해 AI가 다시 쓰는 작업 단위 (SKILL.md)</dd>
+              <dt>Agent</dt><dd>도구를 호출해 여러 단계를 스스로 처리하는 AI. 권한·승인 지점 설계 필요</dd>
+              <dt>선도 그룹</dt><dd>희망자·팀 추천자로 꾸린 소규모 그룹. 업무 PoC를 먼저 수행하고 사례를 확산</dd>
+              <dt>AI Hub</dt><dd>검증된 Prompt·Skill·Template·Agent를 등록해 함께 쓰는 사내 자산 공간 (구축 예정)</dd>
+              <dt>SDD</dt><dd>명세 기반 개발. 코드보다 명세와 컨텍스트를 먼저 쓰고 AI 에이전트에 구현을 맡기는 방식</dd>
+            </dl>
+          </div>
+        </details>
+        </div>
+      </section>
 
       <section id="business-loop">
         <div class="section-head"><div><p class="eyebrow">Operating Model</p><h2>Business Loop</h2></div><p>입력에서 학습까지, 결과가 다시 다음 업무의 맥락이 됩니다.</p></div>
