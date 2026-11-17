@@ -202,6 +202,7 @@
     .tc-state { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: .74rem; font-weight: 750; white-space: nowrap; }
     .tc-state.open { background: var(--amber-soft); color: var(--amber); }
     .tc-state.done { background: var(--teal-soft); color: var(--teal); }
+    .tc-sub { color: var(--muted); font-size: .8rem; }
     .tc-rows { grid-template-columns: 9.5em 1fr; }
     .r1117-h4 { margin: 18px 0 8px; font-size: .92rem; }
     .r1117-doc { padding: 24px 26px; }
@@ -493,7 +494,7 @@
       <section id="tech-council">
         <div class="section-head"><div><p class="eyebrow">Tech Council</p><h2>기술협의체 논의 · 개발 조직 AI 역량 강화</h2></div><span class="status review">AXS TF 초안 · 결정 전</span></div>
         <p class="r1117-note">2026-11-17 AXS TF 초안 · 개발 조직 인터뷰 15건(2026년 6~7월)과 개발자 AI 역량·교육계획 기준 · 공개본에서는 팀명·인원수·금액·예산 수치·내부 시스템명을 뺐습니다.</p>
-        <div class="report-banner"><strong>한 줄 요약</strong><p>개발 조직은 이미 AI를 쓰고 있습니다. 막는 것은 의지가 아니라 <b>좌석·토큰, 코드의 외부 AI 사용 기준, 폐쇄망 환경</b>입니다. 교육은 "도입"이 아니라 <b>팀 표준과 편차 줄이기</b>로 가고, 그 전에 협의체가 7가지를 정해야 합니다.</p></div>
+        <div class="report-banner"><strong>한 줄 요약</strong><p>개발 조직은 이미 AI를 쓰고 있습니다. 토큰은 전사 지급으로 해소됐고, 남은 걸림돌은 <b>코드의 외부 AI 사용 기준과 폐쇄망 환경</b>입니다. 교육은 "도입"이 아니라 <b>팀 표준과 편차 줄이기</b>로 가고, 그 전에 협의체가 정할 안건이 6가지 남아 있습니다.</p></div>
 
         <h3 class="r1117-sub">1부. 기술 리더 공유 사항</h3>
         <h4 class="r1117-h4" style="margin-top:4px">1-1. 현장 진단 10가지</h4>
@@ -502,8 +503,8 @@
             <thead><tr><th>관찰</th><th>인터뷰에서 확인한 것</th><th>시사점</th></tr></thead>
             <tbody>
               <tr><td>이미 쓰고 있다</td><td>15건 중 AI 활용 '전무'는 0건 — 고도화 2 · 정착 4 · 실험~정착 4 · 실험 5</td><td>출발점은 도입이 아니라 팀 표준</td></tr>
-              <tr><td>개인 비용으로 쓴다</td><td>다수 팀에서 개인 결제로 사용, 도구 이중 결제 사례도 있음</td><td>교육보다 좌석·토큰이 먼저</td></tr>
-              <tr><td>토큰 한도가 첫 병목</td><td>기본 요금제는 큰 작업 1~2회에 한도 도달, 적극 사용자는 주 2~3일 만에 소진</td><td>고사용자 차등 지급, 토큰 효율 교육</td></tr>
+              <tr><td>개인 비용으로 쓴다</td><td>다수 팀에서 개인 결제로 사용, 도구 이중 결제 사례도 있음</td><td><span class="tc-state done">해소</span> 전사 토큰 지급으로 해소</td></tr>
+              <tr><td>토큰 한도가 첫 병목</td><td>기본 요금제는 큰 작업 1~2회에 한도 도달, 적극 사용자는 주 2~3일 만에 소진</td><td><span class="tc-state done">해소</span> 전사 토큰 지급으로 해소 · 토큰 효율 교육은 유지</td></tr>
               <tr><td>팀 안 편차가 크다</td><td>웹 채팅만 쓰는 사람부터 위키·Git·클라우드 연동까지, 시니어·주니어 격차</td><td>진입 진단 후 수준별 분반, 연동 세팅 실습</td></tr>
               <tr><td>앞선 팀은 '팀 규칙 파일'로 간다</td><td>규칙 파일(CLAUDE.md·AGENTS.md) Git 공유, 스킬·서브 에이전트, Claude+Codex 교차 리뷰</td><td>팀 공유 규칙 파일을 표준 산출물로</td></tr>
               <tr><td>MCP·에이전트 실사례가 있다</td><td>모니터링 런북, 보안 점검 자동화, 네트워크 정책 자동화, 리소스 조회 MCP 등</td><td>사내 사례를 교재로, 소급 PoC로 등록</td></tr>
@@ -532,8 +533,8 @@
         <h4 class="r1117-h4">1-3. 운영 원칙 (인터뷰에서 새로 추가)</h4>
         <article class="card r1117-doc">
           <dl class="r1117-rows tc-rows">
-            <dt>챔피언이 가르친다</dt><dd>실습은 사내 고사용자가 자기 저장소·규칙 파일로 이끈다. 외부 강사는 심화 주제만</dd>
-            <dt>좌석·토큰이 먼저</dt><dd>개강 전에 회사 계정을 확인한다. 개인 결제로 실습하지 않는다</dd>
+            <dt>챔피언이 가르친다</dt><dd>실습은 사내 고사용자가 자기 저장소·규칙 파일로 이끈다. 외부 강사는 심화 주제만 <span class="tc-state open">안건 · D6</span><br><small class="tc-sub">회사 리소스(챔피언의 업무 시간)를 쓰는 방식이라 실효성 여부를 협의체에서 함께 판단</small></dd>
+            <dt>회사 계정으로</dt><dd>전사 지급 토큰과 회사 계정으로 실습한다. 개인 결제로 실습하지 않는다</dd>
             <dt>평가와 분리</dt><dd>판정·지표는 개인 평가가 아니라 팀 병목을 찾는 데 쓴다 (샌드박스)</dd>
             <dt>폐쇄망은 따로</dt><dd>운영·장애 실습은 스테이지·오피스망 데이터로, 폐쇄망 과제는 내부 AI 일정에 맞춘다</dd>
           </dl>
@@ -547,7 +548,6 @@
             <li>팀 안 고사용자·챔피언 1~2명 추천 (사내 강사 후보)</li>
             <li>이미 만든 AI 결과물을 소급 PoC로 등록 — 보안 자동화 에이전트, 모니터링 런북 MCP, 업무 리포트 CLI, 100% AI 개발 서비스 등 6건</li>
             <li>개선하려는 업무 1~2개의 Before 수치(리드타임·처리 시간) 기록 시작</li>
-            <li>팀원 개인 결제 현황을 파악해 TF에 공유 → 좌석 배정 근거</li>
           </ul>
           <p class="r1117-examples"><strong>신규 PoC 후보 8건</strong> — 헬프데스크 AI 네이티브 리뉴얼 · 이슈 → AI PR과 AI 코드 리뷰·보안 스캐닝 · 테스트 케이스 자동 생성 · API 명세-코드 정합성 에이전트 · 업무 요청 자동응답 에이전트 · 고객 리포트 자동화 · LLM 참조 문서 환경 · 폐쇄망 로그 분석·장애 예측 에이전트 (D3 선결)</p>
         </article>
@@ -557,13 +557,13 @@
           <table>
             <thead><tr><th>안건</th><th>AXS TF 제안</th><th>결정 주체</th><th>시기</th><th>상태</th></tr></thead>
             <tbody>
-              <tr><td>D1 좌석·토큰 지급 방식</td><td>팀별 고사용자 1~2명 상위 플랜부터 시작, 사용량 기준 분기 재배정. 교육 예산과 별도 항목 — 상위 플랜 상한·추가 승인 절차·개인 결제 중단 시점 함께 결정</td><td>기술협의체 + 재무</td><td>12월</td><td><span class="tc-state open">미결</span></td></tr>
+              <tr><td>D1 좌석·토큰 지급 방식</td><td>전사 토큰 지급으로 해소 — 사용량 편차는 운영 중 점검</td><td>기술협의체 + 재무</td><td>—</td><td><span class="tc-state done">해소</span></td></tr>
               <tr><td>D2 코드의 외부 AI 사용 기준</td><td>저장소 등급별 기준을 정보보안실이 정하고, 민감도 낮은 내부 도구 저장소부터 단계적으로 적용</td><td>정보보안실 + 기술협의체</td><td>'27. 1월</td><td><span class="tc-state open">미결</span></td></tr>
               <tr><td>D3 폐쇄망 환경의 AI 활용 방향</td><td>바로 방식을 고르지 않고 운영 팀 파일럿 그룹으로 요구사항(용도·데이터·보안 심사)을 먼저 정리, 상반기 결정 후 운영 과정 편성</td><td>기술협의체 + 인프라실</td><td>'27. 1월 방향, 상반기 결정</td><td><span class="tc-state open">미결</span></td></tr>
               <tr><td>D4 수준 판정과 인사 평가</td><td>1기는 평가에 반영하지 않고 성장 지원·좌석·과정 배정에만 사용. "PR 수·코드 라인·토큰 사용량은 개인 평가에 쓰지 않는다" 명문화, 하반기 재논의</td><td>기술협의체 + 인사</td><td>12월</td><td><span class="tc-state open">미결</span></td></tr>
               <tr><td>D5 팀 공통 개발 규칙 최소 기준</td><td>최소 항목(보안 금지 사항, 사람 리뷰 후 커밋, AI 사용 내역 기록)만 협의체가 승인하고 나머지는 팀이 채움. 저장소 템플릿에 반영, 유지보수 담당 팀 지정</td><td>기술협의체</td><td>'27. 1월</td><td><span class="tc-state open">미결</span></td></tr>
-              <tr><td>D6 소급 PoC 인정·챔피언 지정</td><td>운영 중인 결과물 6건을 소급 PoC로 등록·효과 역분석, 챔피언 공식 지정과 사내 강사 활동 인정 (챔피언 1인당 분기 2차수 이내)</td><td>기술협의체</td><td>12월</td><td><span class="tc-state open">미결</span></td></tr>
-              <tr><td>D7 2027 개발 교육 예산안</td><td>사내 강사(챔피언) 중심안 — 인터뷰의 사내 사례 선호와 일치. 좌석·토큰 비용(D1)은 별도 요청</td><td>기술협의체 → 경영진</td><td>12월</td><td><span class="tc-state open">미결</span></td></tr>
+              <tr><td>D6 소급 PoC 인정·챔피언 지정</td><td>운영 중인 결과물 6건을 소급 PoC로 등록·효과 역분석, 챔피언 공식 지정과 사내 강사 활동 인정 (챔피언 1인당 분기 2차수 이내) — <b>챔피언 운영은 회사 리소스(업무 시간)를 쓰므로 투입 대비 실효성도 함께 판단</b></td><td>기술협의체</td><td>12월</td><td><span class="tc-state open">미결</span></td></tr>
+              <tr><td>D7 2027 개발 교육 예산안</td><td>사내 강사(챔피언) 중심안 — 인터뷰의 사내 사례 선호와 일치</td><td>기술협의체 → 경영진</td><td>12월</td><td><span class="tc-state open">미결</span></td></tr>
             </tbody>
           </table>
         </article>
