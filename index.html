@@ -199,6 +199,10 @@
     .r1117-appx summary b { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: var(--teal-soft); color: var(--teal); font-size: .8rem; flex: none; }
     .r1117-appx-body { padding: 0 18px 18px; }
     .r1117-summary { margin-top: 48px; padding-top: 28px; border-top: 2px solid var(--ink); scroll-margin-top: 20px; }
+    .tc-state { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: .74rem; font-weight: 750; white-space: nowrap; }
+    .tc-state.open { background: var(--amber-soft); color: var(--amber); }
+    .tc-state.done { background: var(--teal-soft); color: var(--teal); }
+    .tc-rows { grid-template-columns: 9.5em 1fr; }
     .r1117-h4 { margin: 18px 0 8px; font-size: .92rem; }
     .r1117-doc { padding: 24px 26px; }
     .r1117-doc h3 { margin: 22px 0 10px; font-size: 1.05rem; letter-spacing: -.02em; }
@@ -254,6 +258,7 @@
       <nav aria-label="주요 섹션">
         <a class="active" href="#overview">개요</a>
         <a href="#report-1117">11/17 보고</a>
+        <a href="#tech-council">기술협의체 논의</a>
         <a href="#business-loop">Business Loop</a>
         <a href="#architecture">업무 아키텍처</a>
         <a href="#workloads">후보 과제 19건</a>
@@ -483,6 +488,156 @@
           </div>
         </details>
         </div>
+      </section>
+
+      <section id="tech-council">
+        <div class="section-head"><div><p class="eyebrow">Tech Council</p><h2>기술협의체 논의 · 개발 조직 AI 역량 강화</h2></div><span class="status review">AXS TF 초안 · 결정 전</span></div>
+        <p class="r1117-note">2026-11-17 AXS TF 초안 · 개발 조직 인터뷰 15건(2026년 6~7월)과 개발자 AI 역량·교육계획 기준 · 공개본에서는 팀명·인원수·금액·예산 수치·내부 시스템명을 뺐습니다.</p>
+        <div class="report-banner"><strong>한 줄 요약</strong><p>개발 조직은 이미 AI를 쓰고 있습니다. 막는 것은 의지가 아니라 <b>좌석·토큰, 코드의 외부 AI 사용 기준, 폐쇄망 환경</b>입니다. 교육은 "도입"이 아니라 <b>팀 표준과 편차 줄이기</b>로 가고, 그 전에 협의체가 7가지를 정해야 합니다.</p></div>
+
+        <h3 class="r1117-sub">1부. 기술 리더 공유 사항</h3>
+        <h4 class="r1117-h4" style="margin-top:4px">1-1. 현장 진단 10가지</h4>
+        <article class="card table-wrap r1117-table">
+          <table>
+            <thead><tr><th>관찰</th><th>인터뷰에서 확인한 것</th><th>시사점</th></tr></thead>
+            <tbody>
+              <tr><td>이미 쓰고 있다</td><td>15건 중 AI 활용 '전무'는 0건 — 고도화 2 · 정착 4 · 실험~정착 4 · 실험 5</td><td>출발점은 도입이 아니라 팀 표준</td></tr>
+              <tr><td>개인 비용으로 쓴다</td><td>다수 팀에서 개인 결제로 사용, 도구 이중 결제 사례도 있음</td><td>교육보다 좌석·토큰이 먼저</td></tr>
+              <tr><td>토큰 한도가 첫 병목</td><td>기본 요금제는 큰 작업 1~2회에 한도 도달, 적극 사용자는 주 2~3일 만에 소진</td><td>고사용자 차등 지급, 토큰 효율 교육</td></tr>
+              <tr><td>팀 안 편차가 크다</td><td>웹 채팅만 쓰는 사람부터 위키·Git·클라우드 연동까지, 시니어·주니어 격차</td><td>진입 진단 후 수준별 분반, 연동 세팅 실습</td></tr>
+              <tr><td>앞선 팀은 '팀 규칙 파일'로 간다</td><td>규칙 파일(CLAUDE.md·AGENTS.md) Git 공유, 스킬·서브 에이전트, Claude+Codex 교차 리뷰</td><td>팀 공유 규칙 파일을 표준 산출물로</td></tr>
+              <tr><td>MCP·에이전트 실사례가 있다</td><td>모니터링 런북, 보안 점검 자동화, 네트워크 정책 자동화, 리소스 조회 MCP 등</td><td>사내 사례를 교재로, 소급 PoC로 등록</td></tr>
+              <tr><td>폐쇄망이 운영 업무를 막는다</td><td>운영·장애·로그 분석 업무에서 AI를 쓰지 못하는 팀이 있음</td><td>폐쇄망 AI 방향과 과정 편성을 묶음</td></tr>
+              <tr><td>외부 강의보다 사내 사례</td><td>"외부 강사는 경각심 수준", 교육 후 "어떻게 해야 할지 모르겠다", 자체 공유회 효과</td><td>챔피언이 이끄는 실습, 외부는 심화만</td></tr>
+              <tr><td>평가 연동을 경계한다</td><td>평가 분리·지원 중심, 보고 없는 샌드박스, 지표의 개인 평가 금지, 지표 어뷰징 우려</td><td>수준 판정은 성장 지원용</td></tr>
+              <tr><td>효과는 크지만 수치화가 어렵다</td><td>"3개월 일을 1개월", "1주 → 2~3일", 완성도 70% → 90~100%</td><td>리드타임·AI 최초 커밋 비율·결과물 역분석으로 측정</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <h4 class="r1117-h4">1-2. 2027 교육 과정과 일정</h4>
+        <article class="card table-wrap r1117-table">
+          <table>
+            <thead><tr><th>시기</th><th>과정</th><th>비고</th></tr></thead>
+            <tbody>
+              <tr><td>12월</td><td>진입 진단·AI 온보딩 (연동 세팅, 토큰 효율 포함)</td><td>수준 배정</td></tr>
+              <tr><td>'27. 1월~</td><td>AI Basic / Blended (L1 → L2)</td><td>팀 규칙 파일·교차 리뷰 실습</td></tr>
+              <tr><td>'27. 4~6월</td><td>AI Advanced (L2 → L3)</td><td>MCP·평가셋, 사내 사례 교재</td></tr>
+              <tr><td>'27. 7~9월</td><td>AI Intensive (주제별 PBL), AI Pro 1기 수료</td><td>운영(AIOps) 차수는 폐쇄망 AI 일정에 맞춤</td></tr>
+              <tr><td>분기별</td><td>트렌드 세미나·챔피언 사례 공유</td><td></td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <h4 class="r1117-h4">1-3. 운영 원칙 (인터뷰에서 새로 추가)</h4>
+        <article class="card r1117-doc">
+          <dl class="r1117-rows tc-rows">
+            <dt>챔피언이 가르친다</dt><dd>실습은 사내 고사용자가 자기 저장소·규칙 파일로 이끈다. 외부 강사는 심화 주제만</dd>
+            <dt>좌석·토큰이 먼저</dt><dd>개강 전에 회사 계정을 확인한다. 개인 결제로 실습하지 않는다</dd>
+            <dt>평가와 분리</dt><dd>판정·지표는 개인 평가가 아니라 팀 병목을 찾는 데 쓴다 (샌드박스)</dd>
+            <dt>폐쇄망은 따로</dt><dd>운영·장애 실습은 스테이지·오피스망 데이터로, 폐쇄망 과제는 내부 AI 일정에 맞춘다</dd>
+          </dl>
+        </article>
+
+        <h4 class="r1117-h4">1-4. 기술 리더에게 부탁하는 일 (팀에서 바로)</h4>
+        <article class="card r1117-doc">
+          <ul class="r1117-bullets tc-check">
+            <li>12월 진입 진단에 팀원 전원 참여 독려 (자가 진단 + 최근 산출물 링크)</li>
+            <li>팀 저장소에 팀 규칙 파일(CLAUDE.md·AGENTS.md)을 두고 Git으로 공유 시작 (개인 관리 → 팀 공유)</li>
+            <li>팀 안 고사용자·챔피언 1~2명 추천 (사내 강사 후보)</li>
+            <li>이미 만든 AI 결과물을 소급 PoC로 등록 — 보안 자동화 에이전트, 모니터링 런북 MCP, 업무 리포트 CLI, 100% AI 개발 서비스 등 6건</li>
+            <li>개선하려는 업무 1~2개의 Before 수치(리드타임·처리 시간) 기록 시작</li>
+            <li>팀원 개인 결제 현황을 파악해 TF에 공유 → 좌석 배정 근거</li>
+          </ul>
+          <p class="r1117-examples"><strong>신규 PoC 후보 8건</strong> — 헬프데스크 AI 네이티브 리뉴얼 · 이슈 → AI PR과 AI 코드 리뷰·보안 스캐닝 · 테스트 케이스 자동 생성 · API 명세-코드 정합성 에이전트 · 업무 요청 자동응답 에이전트 · 고객 리포트 자동화 · LLM 참조 문서 환경 · 폐쇄망 로그 분석·장애 예측 에이전트 (D3 선결)</p>
+        </article>
+
+        <h3 class="r1117-sub">2부. 의사결정 요청 (D1~D7)</h3>
+        <article class="card table-wrap r1117-table r1117-wide">
+          <table>
+            <thead><tr><th>안건</th><th>AXS TF 제안</th><th>결정 주체</th><th>시기</th><th>상태</th></tr></thead>
+            <tbody>
+              <tr><td>D1 좌석·토큰 지급 방식</td><td>팀별 고사용자 1~2명 상위 플랜부터 시작, 사용량 기준 분기 재배정. 교육 예산과 별도 항목 — 상위 플랜 상한·추가 승인 절차·개인 결제 중단 시점 함께 결정</td><td>기술협의체 + 재무</td><td>12월</td><td><span class="tc-state open">미결</span></td></tr>
+              <tr><td>D2 코드의 외부 AI 사용 기준</td><td>저장소 등급별 기준을 정보보안실이 정하고, 민감도 낮은 내부 도구 저장소부터 단계적으로 적용</td><td>정보보안실 + 기술협의체</td><td>'27. 1월</td><td><span class="tc-state open">미결</span></td></tr>
+              <tr><td>D3 폐쇄망 환경의 AI 활용 방향</td><td>바로 방식을 고르지 않고 운영 팀 파일럿 그룹으로 요구사항(용도·데이터·보안 심사)을 먼저 정리, 상반기 결정 후 운영 과정 편성</td><td>기술협의체 + 인프라실</td><td>'27. 1월 방향, 상반기 결정</td><td><span class="tc-state open">미결</span></td></tr>
+              <tr><td>D4 수준 판정과 인사 평가</td><td>1기는 평가에 반영하지 않고 성장 지원·좌석·과정 배정에만 사용. "PR 수·코드 라인·토큰 사용량은 개인 평가에 쓰지 않는다" 명문화, 하반기 재논의</td><td>기술협의체 + 인사</td><td>12월</td><td><span class="tc-state open">미결</span></td></tr>
+              <tr><td>D5 팀 공통 개발 규칙 최소 기준</td><td>최소 항목(보안 금지 사항, 사람 리뷰 후 커밋, AI 사용 내역 기록)만 협의체가 승인하고 나머지는 팀이 채움. 저장소 템플릿에 반영, 유지보수 담당 팀 지정</td><td>기술협의체</td><td>'27. 1월</td><td><span class="tc-state open">미결</span></td></tr>
+              <tr><td>D6 소급 PoC 인정·챔피언 지정</td><td>운영 중인 결과물 6건을 소급 PoC로 등록·효과 역분석, 챔피언 공식 지정과 사내 강사 활동 인정 (챔피언 1인당 분기 2차수 이내)</td><td>기술협의체</td><td>12월</td><td><span class="tc-state open">미결</span></td></tr>
+              <tr><td>D7 2027 개발 교육 예산안</td><td>사내 강사(챔피언) 중심안 — 인터뷰의 사내 사례 선호와 일치. 좌석·토큰 비용(D1)은 별도 요청</td><td>기술협의체 → 경영진</td><td>12월</td><td><span class="tc-state open">미결</span></td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <h3 class="r1117-sub">참고 · 산출물 매트릭스 연계 기준</h3>
+        <p class="r1117-note" style="margin:-4px 0 10px">AI 활용 역량 산출물 매트릭스에서 함께 정할 항목입니다. 제목을 누르면 펼쳐집니다.</p>
+
+        <details class="r1117-appx">
+          <summary><b>A</b>인재상 · AI를 보는 방식 · 수준 4단계</summary>
+          <div class="r1117-appx-body">
+            <div class="report-banner"><strong>AI 네이티브 개발자 · AI를 코딩 에이전트로</strong><p>AI를 동료로 삼아 카카오클라우드를 더 빠르고 안정적으로 만드는 개발자. 이슈 → 코드 변경 → PR을 맡기고 테스트·CI·리뷰로 확인합니다. 비개발 직군은 오피스 업무 에이전트로 쓰며 교육도 따로 갑니다.</p></div>
+            <p class="r1117-examples" style="margin:0 0 12px"><strong>역량 9개 영역</strong> — AI 기본 이해 · AI 네이티브 개발 · 프롬프트·컨텍스트 · LLM API·RAG · 에이전트·MCP · 평가·품질 · AI 인프라·LLMOps · AI 기반 운영·장애 대응 · 책임 있는 AI·보안</p>
+            <article class="card table-wrap r1117-table">
+              <table>
+                <thead><tr><th>수준</th><th>기대 행동</th><th>확인 산출물</th></tr></thead>
+                <tbody>
+                  <tr><td>L1 AI Ready</td><td>위키·Git·이슈 관리를 연동한 코딩 에이전트로 개인 개발 속도를 높이고 결과를 직접 검증</td><td>활용 기록 10건+, 보안 확인</td></tr>
+                  <tr><td>L2 AI Literacy</td><td>작업 명세로 기능 구현을 위임하고, 팀 규칙 파일과 스킬을 Git으로 공유, 교차 리뷰 → 사람 리뷰</td><td>명세 기반 PR 5건+, 공유 스킬 1건</td></tr>
+                  <tr><td>L3 AI Advanced</td><td>서비스에 RAG·에이전트·MCP를 넣고 평가셋으로 품질·비용·안정성 관리</td><td>AI 기능 1건 운영, 평가셋 통과율 90%+</td></tr>
+                  <tr><td>L4 AI Pro</td><td>팀의 AI 네이티브 개발 표준을 설계하고 확산</td><td>팀 표준안, 리드타임·결함률 개선 측정</td></tr>
+                </tbody>
+              </table>
+            </article>
+          </div>
+        </details>
+
+        <details class="r1117-appx">
+          <summary><b>B</b>데이터·보안 기준 (D2와 연계)</summary>
+          <div class="r1117-appx-body">
+            <article class="card table-wrap r1117-table">
+              <table>
+                <thead><tr><th>안건</th><th>내용</th><th>상태</th></tr></thead>
+                <tbody>
+                  <tr><td>데이터 등급별 AI 사용 기준</td><td>공개(승인된 외부 LLM) · 일반 사내(지급 계정) · 기밀(별도 보안 검토 환경) · 고위험(원칙적 입력 제한) 4등급 제안 모델을 사내 정보보호 분류 기준과 맞춤 — 확정: 정보보안실</td><td><span class="tc-state open">미결</span></td></tr>
+                  <tr><td>Skill·Agent 차등 관리</td><td>외부 LLM 연결 통제, 업무 시스템 조회 범위, 데이터 변경 시 승인·로그 — Skill은 간소화, Agent는 권한별 위험 평가</td><td><span class="tc-state open">미결</span></td></tr>
+                  <tr><td>심사 방식</td><td>표준 기능·승인된 연결 도구 안에서는 자율 개발, 새 데이터 연결이나 고위험 실행 기능 추가 시에만 심사</td><td><span class="tc-state open">미결</span></td></tr>
+                  <tr><td>1기 실행 환경 범위</td><td>1기 Agent 실습은 연습 폴더·공개 웹 중심 — 사내 시스템 연결 허용 범위를 1기 동안 유지할지, 넓힐지</td><td><span class="tc-state open">미결</span></td></tr>
+                  <tr><td>Gemini·NotebookLM 사용</td><td>비개발 Staff·Business 트랙 도구 후보 — 지급 정책과 맞는지 확인</td><td><span class="tc-state open">미결</span></td></tr>
+                  <tr><td>신규 지원 항목 소관</td><td>도구·환경 지원, AI Hub 등 새 지원 항목의 소관 조직 지정</td><td><span class="tc-state open">미결</span></td></tr>
+                </tbody>
+              </table>
+            </article>
+          </div>
+        </details>
+
+        <details class="r1117-appx">
+          <summary><b>C</b>선행 과제 5건</summary>
+          <div class="r1117-appx-body">
+            <article class="card table-wrap r1117-table">
+              <table>
+                <thead><tr><th>과제</th><th>내용</th><th>주관</th><th>시기</th></tr></thead>
+                <tbody>
+                  <tr><td>AI 활용 정책 수립</td><td>데이터 등급별 AI 사용 가이드라인</td><td>정보보안</td><td>12월</td></tr>
+                  <tr><td>승인된 AI 환경 제공</td><td>지급 계정 운영 기준, 기업용 LLM·사내 AI 플랫폼 검토 (플랫폼은 중장기)</td><td>IT·AI 플랫폼</td><td>12월~</td></tr>
+                  <tr><td>Agent 권한 정책</td><td>조회·변경·실행 권한 기준 — PoC 착수 전 확정</td><td>IT · 정보보안</td><td>'27. 1월</td></tr>
+                  <tr><td>안전한 개발 교육</td><td>AI 보안 교육, 표준 템플릿 — PoC 착수 워크숍에서 진행</td><td>AXS TF</td><td>'27. 2월</td></tr>
+                  <tr><td>Agent 운영 관리</td><td>위험도별 검증·배포·모니터링 정책 — 공식 배포 전 확정</td><td>AXS TF · IT · 정보보안</td><td>'27. 3월</td></tr>
+                </tbody>
+              </table>
+            </article>
+            <p class="r1117-examples">주관 조직은 장표 표기 그대로이며, 사내 R/R(정보보안실·워크플랫폼파트 등)은 협의체에서 확인합니다.</p>
+          </div>
+        </details>
+
+        <details class="r1117-appx">
+          <summary><b>D</b>검증·배포 원칙</summary>
+          <div class="r1117-appx-body">
+            <ul class="r1117-bullets">
+              <li>공식 Agent 배포는 검증 필수 — 업무 적합성 · 재사용성 · 정확성 · 보안 적합성 · 생산성 효과 5개 기준을 AI Hub 우수 사례 선정과 함께 사용</li>
+              <li>AXS TF의 역할은 개별 산출물 심사가 아니라 발굴·자산화</li>
+              <li>단계별 가드레일 — Skill 보안 기준(Stage 2) → Agent 권한 정책·로컬 실습 환경(Stage 3) → 공식 Agent 배포 검증·조직 간 데이터 전달 기준(Stage 5) → 책임 체계·감사 증적 보완(Stage 6)</li>
+            </ul>
+          </div>
+        </details>
       </section>
 
       <section id="business-loop">
